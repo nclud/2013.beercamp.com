@@ -101,12 +101,6 @@
 
 	Missile.prototype.reload = function() {
 
-		this.state.private.x = -this.height;
-
-    if (this.ship) {
-      this.state.private.y = this.ship.state.private.y;
-    }
-
     // reload missile
 		this.state.private.isLive = false;
 
@@ -156,15 +150,15 @@
       }
 
       // always snap
-      this.state.private.x = core.lerp(prev.state.x, x, time.delta * core.smoothing);
+      this.state.private.x = x;
     }
 
     // reload if offscreen
-		if(this.state.private.y < (0 - this.height)) {
+		if(!this.state.public.isLive || this.state.private.y < (0 - this.height)) {
 			this.reload();
 		}
 
-    // only draw once x interpolates
+    // only draw once x snaps
     if (this.state.private.x === this.state.public.x && typeof callback === 'function') callback();
   };
 

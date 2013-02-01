@@ -12,7 +12,11 @@
     37: 'left',
     39: 'right',
     65: 'left',
-    68: 'right'
+    68: 'right',
+    87: 'up',
+    83: 'down',
+    38: 'up',
+    40: 'down'
   };
 
   var keyInteraction = function(event) {

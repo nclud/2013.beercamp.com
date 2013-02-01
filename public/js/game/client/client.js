@@ -178,7 +178,11 @@
                     }
 
                     if (_.isBoolean(serverMissile.state.isLive)) {
-                      clientMissile.state.private.isLive = clientMissile.state.public.isLive = serverMissile.state.isLive;
+                      clientMissile.state.public.isLive = serverMissile.state.isLive;
+
+                      if (clientMissile.state.public.isLive) {
+                        clientMissile.state.private.isLive = clientMissile.state.public.isLive;
+                      }
                     } else {
                       serverMissile.state.isLive = clientMissile.state.public.isLive;
                     }
@@ -347,12 +351,12 @@
           return missile.uuid === uuid;
         });
 
-        if (missile && missile.state.public.isLive) {
+        if (missile && missile.state.private.isLive) {
           if (interpolate) {
             missile.interpolate(function() {
               missile.draw(client);
             });
-          } else {
+          } else  {
             missile.move();
             missile.draw(client);
           }

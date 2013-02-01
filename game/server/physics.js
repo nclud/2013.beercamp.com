@@ -82,6 +82,8 @@
           player.ship.processInput(player.ship.queue.input.shift());
         }
 
+        player.ship.move();
+
         // notify async.forEach that function has completed
         if (typeof callback === 'function') callback();
       }

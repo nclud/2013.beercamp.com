@@ -63,10 +63,10 @@
       if (input[value]) {
         switch(value) {
           case 'up':
-            dy++;
+            dy--
             break;
           case 'down':
-            dy--;
+            dy++
             break;
           case 'right':
             dx++;

@@ -56,9 +56,12 @@
       y: 380,
       vx: 0,
       vy: 0,
+      ax: 0,
+      ay: 0,
       speed: 300,
       rotation: 0,
-      scale: 1
+      scale: 1,
+      gravity: 9.8
     };
 
     this.set(properties);
@@ -67,10 +70,24 @@
 	Ship.prototype.respondToInput = function(pressed, callback) {
 
     var vector = core.getVelocity(pressed);
+
     var fireButtonChanged = false;
     var input;
 
-    this.state.private.vx = parseInt(this.state.private.speed * time.delta * vector.dx);
+    var delta = false;
+
+    var vx = parseInt(this.state.private.speed * time.delta * vector.dx);
+    var vy = parseInt(this.state.private.speed * time.delta * vector.dy);
+
+    if (vx !== this.state.private.vx) {
+      this.state.private.vx = vx;
+      delta = true;
+    }
+
+    if (vy !== this.state.private.vy) {
+      this.state.private.vy = vy;
+      delta = true;
+    }
 
 		if(pressed.spacebar) {
 			this.fire();
@@ -82,7 +99,7 @@
 			this.fireButtonReleased = true;
 		}
 
-    if (this.state.private.vx || pressed.spacebar || fireButtonChanged) {
+    if (delta || pressed.spacebar || fireButtonChanged) {
       // create input object
       input = {
         time: Date.now(),
@@ -108,11 +125,8 @@
       // calculate delta time vector
       var vector = core.getVelocity(move.input);
 
-      var vx = parseInt(this.state.private.speed * time.delta * vector.dx);
-      var vy = parseInt(this.state.private.speed * time.delta * vector.dy);
-
-      this.state.private.x += vx;
-      this.state.private.y += vy;
+      this.state.private.vx = parseInt(this.state.private.speed * time.delta * vector.dx);
+      this.state.private.vy = parseInt(this.state.private.speed * time.delta * vector.dy);
 
       if(move.input.spacebar) {
         this.fire();
@@ -130,7 +144,9 @@
 
 	Ship.prototype.move = function() {
 
+    // update position
     this.state.private.x += this.state.private.vx;
+    this.state.private.y += this.state.private.vy;
 
 	};
 
