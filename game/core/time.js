@@ -8,8 +8,6 @@
   }
 })(this, function() {
 
-  var then = Date.now();
-
   var setDelta = function() {
     this.now = Date.now();
     this.delta = (this.now - this.then) / 1000; // seconds since last frame
@@ -17,7 +15,7 @@
   };
 
   return {
-    then: then,
+    then: Date.now(),
     setDelta: setDelta
   };
 

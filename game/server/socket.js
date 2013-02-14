@@ -3,9 +3,8 @@
     // Node.js
     module.exports = factory(
       require('./update'),
-      require('./players'),
-      require('./npcs'),
-      require('../core/types/Player'),
+      require('./entities'),
+      require('../core/types/Rectangle'),
       require('async'),
       require('redis'),
       require('socket.io'),
@@ -13,15 +12,15 @@
       require('../../config')
     );
   }
-})(this, function(update, players, npcs, Player, async, redis, sio, uuid, config) {
+})(this, function(update, entities, Rectangle, async, redis, sio, uuid, config) {
 
-  var init = function(app, channel) {
+  var init = function(app, channel, worker) {
     var io = sio.listen(app);
 
     // turn off websocket debug spam
     io.set('log level', 1);
 
-    listen(io);
+    listen(io, worker);
 
     return {
       io: io
@@ -29,40 +28,71 @@
 
   };
 
-  var listen = function(io) {
+  var listen = function(io, worker) {
 
     // socket.io client event listeners
     io.sockets.on('connection', function(socket) {
 
       // switch from socket.id to Connect sessions?
-      var player = new Player();
+      // TODO: move player init to socket.js
+      var player = new Rectangle({
+        type: 'dynamic',
+        x: Math.random() * 20,
+        y: Math.random() * 10,
+        angle: 0,
+        width: 2,
+        height: 2,
+        fixed: true,
+        skin: false,
+        animate: false
+      });
       
       // set uuid and send to client
-      player.uuid = uuid.v4();
       socket.emit('uuid', player.uuid);
 
-      addPlayer(socket, player);
+      addPlayer(socket, worker, player);
 
     });
 
   };
 
-  var addPlayer = function(socket, player) {
+  var addPlayer = function(socket, worker, player) {
+
+    var data = {};
 
     // add player to server object
-    players.global[player.uuid] = player;
-    players.local.push(player.uuid);
+    entities.global[player.uuid] = player;
+    entities.local.push(player.uuid);
+
+    // passing full object throws DOM exception, can't pass canvas to worker
+    // TODO: replace with getState method
+    data[player.uuid] = {
+      type: player.state.private.type,
+      x: player.state.private.x,
+      y: player.state.private.y,
+      angle: player.state.private.angle,
+      width: player.state.private.width,
+      height: player.state.private.height,
+      fixed: player.state.private.fixed
+    };
+
+    worker.send({
+      'cmd': 'add',
+      'msg': data
+    });
 
     // TODO: trigger full state update
 
     socket.on('command:send', function(command) {
+      console.log(command);
+
       // add to server physics queue instead of immeadiately publishing
-      players.global[player.uuid].ship.queue.input.push(command);
+      entities.global[player.uuid].queue.input.push(command);
     });
 
     socket.on('disconnect', function() {
       // remove player from server
-      players.remove(players, player.uuid);
+      entities.remove(entities, player.uuid);
     });
 
   };

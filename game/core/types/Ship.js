@@ -119,9 +119,46 @@
 
 	};
 
-	Ship.prototype.processInput = function(move) {
+	Ship.prototype.processInput = function(move, worker) {
 
     process.nextTick((function() {
+      if (move.input['left']) {
+        worker.send({
+          'cmd': 'impulse',
+          'uuid': worker.uuid,
+          'degrees': 180,
+          'power': 100
+        });
+      } else if (!move.input['right']) {
+        worker.send({
+          'cmd': 'setZero',
+          'uuid': worker.uuid
+        });
+      }
+
+      if (move.input['right']) {
+        worker.send({
+          'cmd': 'impulse',
+          'uuid': worker.uuid,
+          'degrees': 0,
+          'power': 100
+        });
+      } else if (!move.input['left']) {
+        worker.send({
+          'cmd': 'setZero',
+          'uuid': worker.uuid
+        });
+      }
+
+      if (move.input['up']) {
+        worker.send({
+          'cmd': 'impulse',
+          'uuid': worker.uuid,
+          'degrees': 270,
+          'power': 100
+        });
+      }
+
       // calculate delta time vector
       var vector = core.getVelocity(move.input);
 

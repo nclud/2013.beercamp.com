@@ -2,6 +2,7 @@
   if (typeof exports === 'object') {
     // Node.js
     module.exports = factory(
+      require('./entities'),
       require('./players'),
       require('./npcs'),
       require('./levels'),
@@ -10,7 +11,7 @@
       require('underscore')
     );
   }
-})(this, function(players, npcs, levels, async, redis, _) {
+})(this, function(entities, players, npcs, levels, async, redis, _) {
 
   var init = function(socket) {
 
@@ -33,9 +34,11 @@
     var data = {};
     data.players = {};
     data.npcs = {};
+    data.entities = {};
 
     // get full state, emit to clients
     async.parallel([
+      function(callback) { entities.state(data, callback); },
       function(callback) { players.state(data, callback); },
       function(callback) { npcs.state(data, callback); }
     ], function() {
@@ -50,9 +53,11 @@
     var data = {};
     data.players = {};
     data.npcs = {};
+    data.entities = {};
 
     // get delta update, emit to clients
     async.parallel([
+      function(callback) { entities.delta(data, callback); },
       function(callback) { players.delta(data, callback); },
       function(callback) { npcs.delta(data, callback); }
     ], function() {

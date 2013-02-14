@@ -1,10 +1,11 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD
-    define(['../core/core', '../core/time', './input', '../core/types/Player', '../core/types/Enemy'], factory);
+    define(['../core/core', '../core/time', './input', '../core/types/Rectangle'], factory);
   }
-})(this, function(core, time, input, Player, Enemy) {
+})(this, function(core, time, input, Rectangle) {
 
+  var entities = {};
   var players = {};
   var npcs = {};
 
@@ -14,8 +15,7 @@
     // TODO: decouple this asynchronously?
     this.actions = [
       this.clearCanvas,
-      this.updatePlayers,
-      this.updateNPCs
+      this.updateEntities
     ];
 
     // socket.io client connection
@@ -28,47 +28,34 @@
 
     // listen for full state updates
     socket.on('state:full', function(data) {
-
       var uuid;
 
-      // TODO: DRY this up?
-      var players = _.union(Object.keys(client.players), Object.keys(data.players));
-      var player;
+      var entities = _.union(Object.keys(client.entities), Object.keys(data.entities));
+      var entity;
 
       // iterate over union of client and server players
-      for (var i = 0; i < players.length; i++) {
-        uuid = players[i];
-        player = data.players[uuid];
+      for (var i = 0; i < entities.length; i++) {
+        uuid = entities[i];
+        entity = data.entities[uuid];
 
-        if (player && client.players[uuid]) {
+        if (entity && client.entities[uuid]) {
           // TODO: if defined on server and client, update state
-        } else if (player) {
-          // if defined on server but not on client, create new Player on client
-          client.players[uuid] = new Player(player);
-        } else {
-          delete client.players[uuid];
-        }
-      }
-
-      // TODO: DRY this up?
-      var npcs = _.union(Object.keys(client.npcs), Object.keys(data.npcs));
-      var npc;
-
-      // iterate over union of client and server players
-      for (var j = 0; j < npcs.length; j++) {
-        uuid = npcs[j];
-        npc = data.npcs[uuid];
-
-        if (npc && client.npcs[uuid]) {
-          // TODO: if defined on server and client, update state
-        } else if (npc) {
-          // if defined on server but not on client, create new NPC on client
-          client.npcs[uuid] = new Enemy(parseInt(npc.state.x), parseInt(npc.state.y), parseInt(npc.state.direction), uuid);
+          var state = entity.state;
+          client.entities[uuid].setPublic(state);
+          client.entities[uuid].queue.server.push(entity);
+        } else if (entity) {
+          // if defined on server but not on client, create new Entity on client
+          client.entities[uuid] = new Rectangle({
+            uuid: uuid,
+            x: entity.state.x,
+            y: entity.state.y,
+            width: entity.state.width,
+            height: entity.state.height
+          });
         } else {
           delete client.npcs[uuid];
         }
       }
-
     });
 
     // listen for delta updates
@@ -77,200 +64,65 @@
       time.server = data.time;
       time.client = time.server - core.offset;
 
-      // update players
-      var players = Object.keys(data.players);
-      var length = players.length;
+      // update entities
+      var entities = Object.keys(data.entities);
+      var length_entities = entities.length;
 
       var uuid;
-      var player;
-      var client_player;
+      var entity;
+      var client_entity;
 
       // update server state, interpolate foreign entities
-      if (length) {
+      if (length_entities) {
 
-        for (var i = 0; i < length; i++) {
-          uuid = players[i];
-          player = data.players[uuid];
-
-          // authoritatively set internal state if player exists on client
-          client_player = client.players[uuid];
-
-          // update last acknowledged input
-          if (player.state && player.state.ack) {
-            client_player.ship.ack = player.state.ack;
-          }
-
-          // TODO: clean this up
-          if (client_player && player) {
-            client_player.uuid = uuid;
-
-            if (player.ship) {
-
-              if (player.ship.state) {
-
-                // set server state
-                if (player.ship.state.x) {
-                  client_player.ship.state.public.x = parseInt(player.ship.state.x);
-                } else {
-                  player.ship.state.x = client_player.ship.state.public.x;
-                }
-
-                if (player.ship.state.y) {
-                  client_player.ship.state.public.y = parseInt(player.ship.state.y);
-                } else {
-                  player.ship.state.y = client_player.ship.state.public.y;
-                }
-
-                if (uuid === client.uuid) {
-                  // reconcile client prediction with server
-                  client_player.ship.reconcile(client, player);
-                } else {
-                  // set timestamp for interpolation
-                  player.ship.time = Date.now();
-
-                  // queue reconciled position for entity interpolation
-                  client_player.ship.queue.server.push(player.ship);
-                  
-                  // remove all updates older than one second from interpolation queue
-                  client_player.ship.queue.server = client_player.ship.queue.server.filter(function(el, index, array) {
-                    return el.time > (Date.now() - 1000);
-                  });
-
-                }
-
-              }
-
-              if (Object.keys(client_player.ship.missiles) && player.ship.missiles) {
-
-                // update missiles
-                var missiles = player.ship.missiles;
-                var keys = Object.keys(missiles);
-
-                var key;
-                var missile;
-                var clientMissile;
-
-                // all values passed from redis as strings
-                // must be converted to correct type
-                for (var j = 0; j < keys.length; j++) {
-                  key = keys[j];
-                  
-                  // set serverMissile to get state
-                  serverMissile = missiles[key];
-
-                  // find clientMissile in array
-                  clientMissile = _.find(client_player.ship.missiles, function(missile) {
-                    return missile.uuid === key;
-                  });
-
-                  // TODO: cleanup
-                  if (clientMissile) {
-                    if (_.isNumber(serverMissile.state.x)) {
-                      clientMissile.state.public.x = parseInt(serverMissile.state.x);
-                    } else {
-                      serverMissile.state.x = clientMissile.state.public.x;
-                    }
-
-                    if (_.isNumber(serverMissile.state.y)) {
-                      clientMissile.state.public.y = parseInt(serverMissile.state.y);
-                    } else {
-                      serverMissile.state.y = clientMissile.state.public.y;
-                    }
-
-                    if (_.isBoolean(serverMissile.state.isLive)) {
-                      clientMissile.state.public.isLive = serverMissile.state.isLive;
-
-                      if (clientMissile.state.public.isLive) {
-                        clientMissile.state.private.isLive = clientMissile.state.public.isLive;
-                      }
-                    } else {
-                      serverMissile.state.isLive = clientMissile.state.public.isLive;
-                    }
-
-                    // set timestamp for interpolation
-                    serverMissile.time = Date.now();
-
-                    if (client_player.uuid === client.uuid) {
-                      // reconcile client prediction with server
-                      clientMissile.reconcile(serverMissile);
-                    } else {
-                      clientMissile.queue.server.push(serverMissile);
-
-                      // remove all updates older than one second from interpolation queue
-                      clientMissile.queue.server = clientMissile.queue.server.filter(function(el, index, array) {
-                        return el.time > (Date.now() - 1000);
-                      });
-                    }
-                  }
-                }
-
-              }
-
-            }
-          }
-
-        }
-      }
-
-      // update npcs
-      var npcs = Object.keys(data.npcs);
-      var length_npc = npcs.length;
-
-      var uuid;
-      var npc;
-      var client_npc;
-
-      // update server state, interpolate foreign entities
-      if (length_npc) {
-
-        for (var i = 0; i < length_npc; i++) {
-          uuid = npcs[i];
-          npc = data.npcs[uuid];
+        for (var i = 0; i < length_entities; i++) {
+          uuid = entities[i];
+          entity = data.entities[uuid];
 
           // authoritatively set internal state if player exists on client
-          client_npc = client.npcs[uuid];
+          client_entity = client.entities[uuid];
 
-          if (client_npc) {
+          if (client_entity) {
 
             // interpolate destroy animation?
-            if (npc.state.isHit) {
-              client_npc.state.public.isHit = parseInt(npc.state.isHit);
+            if (entity.state.isHit) {
+              client_entity.state.public.isHit = parseInt(entity.state.isHit);
             } else {
-              npc.state.isHit = client_npc.state.public.isHit;
+              entity.state.isHit = client_entity.state.public.isHit;
             }
 
-            if (npc.state.y) {
-              client_npc.state.public.y = parseInt(npc.state.y);
+            if (entity.state.y) {
+              client_entity.state.public.y = parseInt(entity.state.y);
             } else {
-              npc.state.y = client_npc.state.public.y;
+              entity.state.y = client_entity.state.public.y;
             }
 
-            if (npc.state.x) {
-              client_npc.state.public.x = parseInt(npc.state.x);
+            if (entity.state.x) {
+              client_entity.state.public.x = parseInt(entity.state.x);
             } else {
-              npc.state.x = client_npc.state.public.x;
+              entity.state.x = client_entity.state.public.x;
             }
 
-            if (npc.state.rotation) {
-              client_npc.state.public.rotation = parseInt(npc.state.rotation);
+            if (entity.state.rotation) {
+              client_entity.state.public.rotation = parseInt(entity.state.rotation);
             } else {
-              npc.state.rotation = client_npc.state.public.rotation;
+              entity.state.rotation = client_entity.state.public.rotation;
             }
 
-            if (npc.state.rotation) {
-              client_npc.state.public.rotation = parseInt(npc.state.rotation);
+            if (entity.state.rotation) {
+              client_entity.state.public.rotation = parseInt(entity.state.rotation);
             } else {
-              npc.state.rotation = client_npc.state.public.rotation;
+              entity.state.rotation = client_entity.state.public.rotation;
             }
 
             // set timestamp for interpolation
-            npc.time = time.client;
+            entity.time = time.client;
 
             // queue server updates for entity interpolation
-            client_npc.queue.server.push(npc);
+            client_entity.queue.server.push(entity);
             
             // remove all updates older than one second from interpolation queue
-            client_npc.queue.server = client_npc.queue.server.filter(function(el, index, array) {
+            client_entity.queue.server = client_entity.queue.server.filter(function(el, index, array) {
               return el.time > (Date.now() - 1000);
             });
           }
@@ -278,12 +130,6 @@
       }
 
     });
-
-    // pause on blur doesnt make sense in multiplayer
-    /*
-    window.addEventListener('blur', client.pause, false);
-    window.addEventListener('focus', client.play, false);
-    */
   };
 
   var loop = function(client) {
@@ -324,91 +170,64 @@
     client.ctx.clearRect(0, 0, client.canvas.width, client.canvas.height);
   };
 
-  var createCanvas = function(width, height) {
+  var createCanvas = function() {
     this.canvas = document.createElement('canvas');
     this.ctx = this.canvas.getContext('2d');
-    this.canvas.width = width;
-    this.canvas.height = height;
-    document.getElementById('canvas-wrapper').appendChild(this.canvas);
+    this.setScale(window.innerWidth, window.innerHeight);
+
+    // make scale and canvas dynamic based on screen size
+    window.addEventListener('resize', (function(event) {
+      this.setScale(window.innerWidth, window.innerHeight);
+    }).bind(this));
+
+    document.getElementById('main').appendChild(this.canvas);
   };
 
-  var updatePlayers = function(client) {
-    var players = Object.keys(client.players);
-    var length = players.length;
+  var setScale = function(width, height) {
+    this.canvas.width = width;
+    this.canvas.height = height;
+    this.canvas.scale = width / 48;
+  };
+
+  var updateEntities = function(client) {
+    var entities = Object.keys(client.entities);
+    var length = entities.length;
     var uuid;
-    var player;
-    var interpolate;
+    var entity;
 
-    var updateMissiles = function(missiles, interpolate) {
-      var length = missiles.length;
-      var uuid;
-      var missile;
-
-      for (var i = 0; i < length; i++) {
-        uuid = missiles[i].uuid;
-
-        missile = _.find(missiles, function(missile) {
-          return missile.uuid === uuid;
-        });
-
-        if (missile && missile.state.private.isLive) {
-          if (interpolate) {
-            missile.interpolate(function() {
-              missile.draw(client);
-            });
-          } else  {
-            missile.move();
-            missile.draw(client);
-          }
-        }
-      }
-    };
-
+    // TODO: is this loop syntax faster?
     for (var i = 0; i < length; i++) {
-      uuid = players[i];
-      player = client.players[uuid];
+      uuid = entities[i];
+      entity = client.entities[uuid];
+
+      // TODO: switch to array of player-originated entities
       interpolate = (uuid !== client.uuid);
 
       if (interpolate) {
 
         // interpolate position of other players
-        player.ship.interpolate();
+        entity.interpolate();
 
       } else {
 
+        entity.interpolate();
+
+        /*
         // client prediction only for active player
-        player.ship.respondToInput(input.pressed, function(input) {
+        entity.respondToInput(input.pressed, function(input) {
+          console.log(input);
           client.socket.emit('command:send', input);
         });
-
-        // console.log(player.ship.state.private);
-        player.ship.move();
+        */
 
       }
 
-      updateMissiles(player.ship.missiles, interpolate);
-
-      player.ship.draw(client);
-    }
-  };
-
-  var updateNPCs = function(client) {
-    var npcs = Object.keys(client.npcs);
-    var length = npcs.length;
-    var uuid;
-    var npc;
-
-    // TODO: is this loop syntax faster?
-    for (var i = 0; i < length; i++) {
-      uuid = npcs[i];
-      npc = client.npcs[uuid];
-
-      npc.interpolate();
-      npc.draw(client);
+      entity.draw(client);
     }
   };
 
   return {
+    entities: entities,
     players: players,
     npcs: npcs,
     init: init,
@@ -418,8 +237,8 @@
     runFrameActions: runFrameActions,
     clearCanvas: clearCanvas,
     createCanvas: createCanvas,
-    updatePlayers: updatePlayers,
-    updateNPCs: updateNPCs
+    setScale: setScale,
+    updateEntities: updateEntities
   };
 
 });

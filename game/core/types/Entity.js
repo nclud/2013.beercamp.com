@@ -1,18 +1,33 @@
 (function(root, factory) {
   if (typeof exports === 'object') {
     // Node.js
-    module.exports = factory();
+    module.exports = factory(
+      require('../core'),
+      require('../time'),
+      require('node-uuid')
+    );
   } else if (typeof define === 'function' && define.amd) {
     // AMD
-    define(factory);
+    define(['../core', '../time'], factory);
   }
-})(this, function() {
+})(this, function(core, time, uuid) {
 
 	var Entity = function(properties) {
+    this.uuid = properties && properties.uuid ? properties.uuid : (uuid && uuid.v4 ? uuid.v4() : false);
+
+    this.state = {};
+
     // https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Reserved_Words#Reserved_word_usage
+    this.state.private = {};
+    this.state.public = {};
+
 		if(properties) {
 			this.set(properties);
 		}
+
+    // interpolation queue
+    this.queue = {};
+    this.queue.server = [];
 	};
 
 	Entity.prototype.set = function(properties) {
@@ -22,27 +37,144 @@
 		}
 	};
 
-	Entity.prototype.draw = function(client) {
+	Entity.prototype.setPublic = function(properties) {
+		for(var property in properties) {
+			this.state.public[property] = properties[property];
+		}
+	};
 
-    client.ctx.save();
+  Entity.prototype.getState = function() {
+    // only return state.private with keys
+    // this.state.private initialized as {} in Entity
+    if (Object.keys(this.state.public).length) {
+      return {
+        uuid: this.uuid,
+        state: this.state.public,
+        time: Date.now()
+      }
+    }
+  };
+
+  Entity.prototype.getDelta = function(async, _) {
+
+    // save reference to old values and update state
+    // WARN: clone produces shallow copy
+    var prev = this.state.private;
+    var next = this.state.private = _.clone(this.state.public);
+
+    // init delta array for changed keys
+    var deltaKeys = [];
+
+    // iterate over new values and compare to old
+    var keys = Object.keys(next);
+    var length = keys.length;
+    var key;
+
+    for (var i = 0; i < length; i++) {
+      key = keys[i];
+
+      // check for changed values and push key to delta array
+      if (prev[key] !== next[key]) {
+        deltaKeys.push(key);
+      }
+    }
+
+    // set changed values in data object
+    if (deltaKeys.length) {
+      return {
+        uuid: this.uuid,
+        state: _.pick(next, deltaKeys),
+        time: Date.now()
+      };
+    }
+
+  };
+
+  Entity.prototype.interpolate = function() {
+    // entity interpolation
+    var dx = Math.abs(this.state.public.x - this.state.private.x);
+    var dy = Math.abs(this.state.public.y - this.state.private.y);
+
+    var difference = Math.max(dx, dy);
+
+    // return if no server updates to process
+    if (!this.queue.server.length || difference < 0.0001) return;
+
+    var x;
+    var y;
+
+    var count = this.queue.server.length - 1;
+
+    var prev;
+    var next;
+
+    for(var i = 0; i < count; i++) {
+      prev = this.queue.server[i];
+      next = this.queue.server[i + 1];
+
+      // if client offset time is between points, break
+      if(time.client > prev.time && time.client < next.time) break;
+    }
+
+    if (prev) {
+      // calculate client time percentage between points
+      var timePoint = 0;
+      var difference = prev.time - time.client;
+      var spread = prev.time - time.server;
+      timePoint = difference / spread;
+
+      // interpolated position
+      x = core.lerp(prev.state.x, this.state.public.x, timePoint);
+      y = core.lerp(prev.state.y, this.state.public.y, timePoint);
+
+      if (dx < 100) {
+        // apply smoothing
+        this.state.private.x = core.lerp(this.state.private.x, x, time.delta * core.smoothing);
+      } else {
+        // apply smooth snap
+        this.state.private.x = core.lerp(prev.state.x, x, time.delta * core.smoothing);
+      }
+
+      if (dy < 100) {
+        // apply smoothing
+        this.state.private.y = core.lerp(this.state.private.y, y, time.delta * core.smoothing);
+      } else {
+        // apply smooth snap
+        this.state.private.y = core.lerp(prev.state.y, y, time.delta * core.smoothing);
+      }
+    }
+  };
+
+	Entity.prototype.draw = function(client) {
+    var ctx = client.ctx;
+    var SCALE = client.canvas.scale;
+
+    ctx.save();
 
     // round to whole pixel
     // interpolated x and y coords
+    // TODO: dont round until AFTER scale
     var x = (this.state.private.x + 0.5) | 0;
     var y = (this.state.private.y + 0.5) | 0;
 
     // apply transformations (scale and rotate from center)
     // snapped rotation and scale
-    client.ctx.translate(x + this.width / 2, y + this.height / 2);
-    client.ctx.rotate(this.state.public.rotation);
-    client.ctx.scale(this.state.public.scale, this.state.public.scale);
-    client.ctx.translate(-this.width/2, -this.height/2);
+    ctx.translate(x + this.width / 2, y + this.height / 2);
+    ctx.rotate(this.state.public.rotation);
+    ctx.scale(this.state.public.scale, this.state.public.scale);
+    ctx.translate(-this.width/2, -this.height/2);
 
     // Call extended Entity Type's draw method
     this.drawType && this.drawType(client);
 
-    client.ctx.restore();
+    // draw small dot at Entity center
+    ctx.fillStyle = 'cyan';
+    ctx.beginPath();
+    ctx.arc(this.state.private.x * SCALE, this.state.private.y * SCALE, 2, 0, Math.PI * 2, true);
+    ctx.closePath();
+    ctx.fill();
 
+    ctx.restore();
 	};
 
   return Entity;

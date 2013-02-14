@@ -1,7 +1,20 @@
+html, body {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+html, body, #main > canvas {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
+  background-image: url('../images/background.jpg');
+  background-size: cover;
+  -webkit-transition: top 0.1s ease;
 	-webkit-font-smoothing: antialiased;
-	background: #2d2d2d;
-	color: #f99157;
 	font-family: sans-serif;
 	font-weight: bold;
 	text-align: center;
@@ -11,17 +24,7 @@ a {
 	color: #66cccc;
 }
 
-#canvas-wrapper {
-	overflow: hidden;
-	position: relative;
-	border-radius: 5px;
-	width: 800px;
-	height: 450px;
-	margin: auto;
-	margin-top: 20px;
-}
-
-#canvas-wrapper:after {
+#main:after {
 	background: rgba(255, 255, 255, 0.18);
 	content: '';
 	display: block;
@@ -38,8 +41,8 @@ a {
 	transform: rotate(-20deg);
 }
 
-canvas {
-	background: #ceebce;
-	border-radius: 5px;
-	position: relative;
+#stats {
+  position: absolute;
+  top: 0;
+  left: 0;
 }

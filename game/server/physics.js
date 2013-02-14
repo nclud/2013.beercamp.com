@@ -11,10 +11,10 @@
   }
 })(this, function(core, time, players, npcs, async) {
 
-  var init = function() {
+  var init = function(worker) {
     // init physics loop, fixed time step in milliseconds
     setInterval((function() {
-      loop();
+      loop(worker);
     }), 15);
 
     return this;
@@ -70,7 +70,7 @@
     );
   };
 
-  var updatePlayers = function() {
+  var updatePlayers = function(worker) {
     async.forEach(
       Object.keys(players.global),
       function(uuid, callback) {
@@ -79,7 +79,7 @@
         updateMissiles(player.ship.missiles);
 
         if (player.ship.queue.input.length) {
-          player.ship.processInput(player.ship.queue.input.shift());
+          player.ship.processInput(player.ship.queue.input.shift(), worker);
         }
 
         player.ship.move();
@@ -90,14 +90,14 @@
     );
   };
 
-  var loop = function() {
+  var loop = function(worker) {
     time.now = Date.now();
     time.delta = (time.now - time.then) / 1000;
     time.then = time.now;
 
     // update npc and player positions
     updateNPCs();
-    updatePlayers();
+    updatePlayers(worker);
   }
 
   return {

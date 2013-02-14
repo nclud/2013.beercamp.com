@@ -5,21 +5,18 @@
       require('../core'),
       require('./Entity'),
       require('./Missile'),
-      require('./Ship')
+      require('./Ship'),
+      require('./Actor')
     );
   } else if (typeof define === 'function' && define.amd) {
     // AMD
-    define(['../core', './Entity', './Missile', './Ship'], factory);
+    define(['../core', './Entity', './Missile', './Ship', './Actor'], factory);
   }
 })(this, function(core, Entity, Missile, Ship) {
 
   // constructor
 	var Player = function(player) {
-
-    // WARN: state must be initialized on entity, NOT prototype chain
-    this.state = {};
-    this.state.private = {};
-    this.state.public = {};
+    Entity.call(this);
 
 		this.ship = new Ship();
 
@@ -55,10 +52,16 @@
     // input queue
     this.queue = [];
 
+    /*
+    this.actor = skin ? new Actor(this, skin, halfWidth, halfHeight, animate, SCALE) : false;
+    */
+
     return this;
 	};
 
 	Player.prototype = new Entity();
+
+  Player.prototype.constructor = Player;
 
 	Player.prototype.getState = function() {
     return {
@@ -184,6 +187,31 @@
 
     return delta;
   };
+
+  /*
+  Player.prototype.draw = function(ctx) {
+    // translate box2d positions to pixels
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    ctx.translate(-(this.x), -(this.y));
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'cyan';
+    ctx.strokeRect(
+      (this.x - this.halfWidth) * SCALE,
+      (this.y - this.halfHeight) * SCALE,
+      (this.halfWidth * 2) * SCALE,
+      (this.halfHeight * 2) * SCALE
+    );
+    ctx.restore();
+
+    if (this.actor) {
+      this.actor.draw(ctx, (this.x - this.halfWidth) * SCALE, (this.y - this.halfHeight) * SCALE);
+    }
+
+    Entity.prototype.draw.call(this, ctx);
+  }
+  */
 
   return Player;
 

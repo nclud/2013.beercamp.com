@@ -5,10 +5,13 @@
   }
 })(this, function(core, input, client) {
 
+  var stats = new Stats();
+  document.body.appendChild(stats.domElement);
+
   // game.debug = true;
   core.initGlobalVariables();
   input.init();
-  client.createCanvas(800, 450);
+  client.createCanvas();
   client.init(client);
   client.play();
 
