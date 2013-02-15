@@ -45,13 +45,7 @@
           client.entities[uuid].queue.server.push(entity);
         } else if (entity) {
           // if defined on server but not on client, create new Entity on client
-          client.entities[uuid] = new Rectangle({
-            uuid: uuid,
-            x: entity.state.x,
-            y: entity.state.y,
-            width: entity.state.width,
-            height: entity.state.height
-          });
+          client.entities[uuid] = new Rectangle(entity.state);
         } else {
           delete client.npcs[uuid];
         }
@@ -82,6 +76,7 @@
           // authoritatively set internal state if player exists on client
           client_entity = client.entities[uuid];
 
+          // TODO: CLEAN THIS UP
           if (client_entity) {
 
             // interpolate destroy animation?
@@ -212,13 +207,10 @@
 
         entity.interpolate();
 
-        /*
         // client prediction only for active player
         entity.respondToInput(input.pressed, function(input) {
-          console.log(input);
           client.socket.emit('command:send', input);
         });
-        */
 
       }
 

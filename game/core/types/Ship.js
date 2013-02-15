@@ -327,7 +327,6 @@
 	},
 
 	Ship.prototype.die = function() {
-		console.log('die!');
 	};
 
 	Ship.prototype.getState = function() {

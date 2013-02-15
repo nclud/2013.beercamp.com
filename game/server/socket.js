@@ -44,7 +44,8 @@
         height: 2,
         fixed: true,
         skin: false,
-        animate: false
+        animate: false,
+        speed: 1000
       });
       
       // set uuid and send to client
@@ -73,7 +74,8 @@
       angle: player.state.private.angle,
       width: player.state.private.width,
       height: player.state.private.height,
-      fixed: player.state.private.fixed
+      fixed: player.state.private.fixed,
+      speed: player.state.private.speed
     };
 
     worker.send({
@@ -84,8 +86,6 @@
     // TODO: trigger full state update
 
     socket.on('command:send', function(command) {
-      console.log(command);
-
       // add to server physics queue instead of immeadiately publishing
       entities.global[player.uuid].queue.input.push(command);
     });

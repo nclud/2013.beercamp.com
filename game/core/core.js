@@ -39,12 +39,20 @@
   // TODO: replace with physics logic (using dependency injection pattern?)
   // TODO: pass in game object/player (with defined acceleration) instead of just deltas?
   // TODO: check for valid move or cheating (moving too quickly) here
-  var getVector = function(dx, dy) {
+  var getVector = function(vx, vy) {
     // TODO: set dx and dy to max value allowed
     return {
-      dx: dx,
-      dy: dy
+      vx: vx,
+      vy: vy
     };
+  };
+
+  var getAngle = function(dx, dy) {
+    // return angle in degrees, false if no angle
+    var vx = dx ? (dx * 90) + 90 : false;
+    var vy = dy ? (dy * 90) + 180 : false;
+
+    return this.getVector(vx, vy);
   };
 
   // takes an input object and returns a velocity vector
@@ -63,22 +71,22 @@
       if (input[value]) {
         switch(value) {
           case 'up':
-            dy--
-            break;
-          case 'down':
             dy++
             break;
+          case 'down':
+            dy--
+            break;
           case 'right':
-            dx++;
+            dx--;
             break;
           case 'left':
-            dx--;
+            dx++;
             break;
         }
       }
     }
 
-    return this.getVector(dx, dy);
+    return this.getAngle(dx, dy);
   };
 
   var getRandomNumber = function(min, max) {
@@ -121,6 +129,7 @@
   return {
     lerp: lerp,
     getVector: getVector,
+    getAngle: getAngle,
     getVelocity: getVelocity,
     getRandomNumber: getRandomNumber,
     initGlobalVariables: initGlobalVariables,

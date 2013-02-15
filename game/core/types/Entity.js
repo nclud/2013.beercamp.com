@@ -90,6 +90,90 @@
 
   };
 
+	Entity.prototype.respondToInput = function(pressed, callback) {
+
+    var vector = core.getVelocity(pressed);
+
+    var fireButtonChanged = false;
+    var input;
+
+    var delta = true;
+
+    var vx = parseInt(this.state.private.speed * time.delta * vector.dx);
+    var vy = parseInt(this.state.private.speed * time.delta * vector.dy);
+
+    if (vx !== this.state.private.vx) {
+      this.state.private.vx = vx;
+      delta = true;
+    }
+
+    if (vy !== this.state.private.vy) {
+      this.state.private.vy = vy;
+      delta = true;
+    }
+
+		if(pressed.spacebar) {
+			this.fire();
+		} else {
+      if (!this.fireButtonReleased) {
+        fireButtonChanged = true;
+      }
+
+			this.fireButtonReleased = true;
+		}
+
+    if (delta || pressed.spacebar || fireButtonChanged) {
+      // create input object
+      input = {
+        time: Date.now(),
+        seq: this.seq++,
+        input: pressed,
+        data: {
+          speed: this.state.private.speed,
+          vector: vector
+        }
+      };
+
+      // add input to queue, then send to server
+      this.queue.input.push(input);
+
+      if (typeof callback === 'function') callback(input);
+    }
+
+	};
+
+  Entity.prototype.reconcile = function(client, player) {
+
+    var x;
+    var y;
+
+    // server reconciliation
+    var dx = 0;
+    var dy = 0;
+
+    // bind this inside filter to Ship
+    // remove most recent processed move and all older moves from queue
+    var queue = this.queue.input = this.queue.input.filter((function(el, index, array) {
+      return el.seq > this.ack;
+    }).bind(this));
+
+    // update reconciled position with client prediction
+    // server position plus delta of unprocessed input
+    for (var i = 0; i < queue.length; i++) {
+      dx += parseInt(queue[i].data.speed * queue[i].data.vector.dx * time.delta);
+      dy += parseInt(queue[i].data.speed * queue[i].data.vector.dy * time.delta);
+    }
+
+    // reconciled prediction
+    x = parseInt(player.ship.state.x) + dx;
+    y = parseInt(player.ship.state.y) + dy;
+
+    // set reconciled position
+    this.state.private.x = core.lerp(this.state.private.x, x, time.delta * core.smoothing);
+    this.state.private.y = core.lerp(this.state.private.y, y, time.delta * core.smoothing);
+
+  };
+
   Entity.prototype.interpolate = function() {
     // entity interpolation
     var dx = Math.abs(this.state.public.x - this.state.private.x);
@@ -127,7 +211,7 @@
       x = core.lerp(prev.state.x, this.state.public.x, timePoint);
       y = core.lerp(prev.state.y, this.state.public.y, timePoint);
 
-      if (dx < 100) {
+      if (dx < 10) {
         // apply smoothing
         this.state.private.x = core.lerp(this.state.private.x, x, time.delta * core.smoothing);
       } else {
@@ -135,7 +219,7 @@
         this.state.private.x = core.lerp(prev.state.x, x, time.delta * core.smoothing);
       }
 
-      if (dy < 100) {
+      if (dy < 10) {
         // apply smoothing
         this.state.private.y = core.lerp(this.state.private.y, y, time.delta * core.smoothing);
       } else {
