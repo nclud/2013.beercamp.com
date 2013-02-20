@@ -25,9 +25,12 @@
 			this.set(properties);
 		}
 
-    // interpolation queue
     this.queue = {};
+
+    // interpolation queue
     this.queue.server = [];
+
+    return this;
 	};
 
 	Entity.prototype.set = function(properties) {
@@ -83,94 +86,9 @@
     if (deltaKeys.length) {
       return {
         uuid: this.uuid,
-        state: _.pick(next, deltaKeys),
-        time: Date.now()
+        state: _.pick(next, deltaKeys)
       };
     }
-
-  };
-
-	Entity.prototype.respondToInput = function(pressed, callback) {
-
-    var vector = core.getVelocity(pressed);
-
-    var fireButtonChanged = false;
-    var input;
-
-    var delta = true;
-
-    var vx = parseInt(this.state.private.speed * time.delta * vector.dx);
-    var vy = parseInt(this.state.private.speed * time.delta * vector.dy);
-
-    if (vx !== this.state.private.vx) {
-      this.state.private.vx = vx;
-      delta = true;
-    }
-
-    if (vy !== this.state.private.vy) {
-      this.state.private.vy = vy;
-      delta = true;
-    }
-
-		if(pressed.spacebar) {
-			this.fire();
-		} else {
-      if (!this.fireButtonReleased) {
-        fireButtonChanged = true;
-      }
-
-			this.fireButtonReleased = true;
-		}
-
-    if (delta || pressed.spacebar || fireButtonChanged) {
-      // create input object
-      input = {
-        time: Date.now(),
-        seq: this.seq++,
-        input: pressed,
-        data: {
-          speed: this.state.private.speed,
-          vector: vector
-        }
-      };
-
-      // add input to queue, then send to server
-      this.queue.input.push(input);
-
-      if (typeof callback === 'function') callback(input);
-    }
-
-	};
-
-  Entity.prototype.reconcile = function(client, player) {
-
-    var x;
-    var y;
-
-    // server reconciliation
-    var dx = 0;
-    var dy = 0;
-
-    // bind this inside filter to Ship
-    // remove most recent processed move and all older moves from queue
-    var queue = this.queue.input = this.queue.input.filter((function(el, index, array) {
-      return el.seq > this.ack;
-    }).bind(this));
-
-    // update reconciled position with client prediction
-    // server position plus delta of unprocessed input
-    for (var i = 0; i < queue.length; i++) {
-      dx += parseInt(queue[i].data.speed * queue[i].data.vector.dx * time.delta);
-      dy += parseInt(queue[i].data.speed * queue[i].data.vector.dy * time.delta);
-    }
-
-    // reconciled prediction
-    x = parseInt(player.ship.state.x) + dx;
-    y = parseInt(player.ship.state.y) + dy;
-
-    // set reconciled position
-    this.state.private.x = core.lerp(this.state.private.x, x, time.delta * core.smoothing);
-    this.state.private.y = core.lerp(this.state.private.y, y, time.delta * core.smoothing);
 
   };
 
@@ -182,7 +100,7 @@
     var difference = Math.max(dx, dy);
 
     // return if no server updates to process
-    if (!this.queue.server.length || difference < 0.0001) return;
+    if (!this.queue.server.length || difference < 0.1) return;
 
     var x;
     var y;
@@ -226,6 +144,9 @@
         // apply smooth snap
         this.state.private.y = core.lerp(prev.state.y, y, time.delta * core.smoothing);
       }
+    } else {
+      this.state.private.x = this.state.public.x;
+      this.state.private.y = this.state.public.y;
     }
   };
 
@@ -238,15 +159,18 @@
     // round to whole pixel
     // interpolated x and y coords
     // TODO: dont round until AFTER scale
-    var x = (this.state.private.x + 0.5) | 0;
-    var y = (this.state.private.y + 0.5) | 0;
+    var x = (this.state.private.x * SCALE + 0.5) | 0;
+    var y = (this.state.private.y * SCALE + 0.5) | 0;
+
+    var halfWidth = ((this.state.private.width * SCALE / 2) + 0.5) | 0;
+    var halfHeight = ((this.state.private.height * SCALE / 2) + 0.5) | 0;
 
     // apply transformations (scale and rotate from center)
     // snapped rotation and scale
-    ctx.translate(x + this.width / 2, y + this.height / 2);
+    ctx.translate(x, y);
     ctx.rotate(this.state.public.rotation);
     ctx.scale(this.state.public.scale, this.state.public.scale);
-    ctx.translate(-this.width/2, -this.height/2);
+    ctx.translate(-x, -y);
 
     // Call extended Entity Type's draw method
     this.drawType && this.drawType(client);
@@ -254,7 +178,7 @@
     // draw small dot at Entity center
     ctx.fillStyle = 'cyan';
     ctx.beginPath();
-    ctx.arc(this.state.private.x * SCALE, this.state.private.y * SCALE, 2, 0, Math.PI * 2, true);
+    ctx.arc(x, y, 2, 0, Math.PI * 2, true);
     ctx.closePath();
     ctx.fill();
 

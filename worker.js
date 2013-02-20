@@ -31,11 +31,7 @@ require({
 );
 */
 
-if (typeof importScripts !== 'undefined') {
-  importScripts('Box2dWeb-2.1.a.3.min.js');
-} else {
-  var Box2D = require('box2dweb-commonjs').Box2D;
-}
+var Box2D = require('box2dweb-commonjs').Box2D;
 
 var b2Vec2 = Box2D.Common.Math.b2Vec2;
 var b2BodyDef = Box2D.Dynamics.b2BodyDef;
@@ -60,31 +56,14 @@ function bTest(intervalRate, adaptive) {
   );
 
   this.bodies = {};
-
-  // TODO: refactor to only use scale in render loop
-  var SCALE = 30;
+  this.deadBodies = [];
 
   this.fixDef = new b2FixtureDef;
-  this.fixDef.density = 0.5;
+  this.fixDef.density = 0.25;
   this.fixDef.friction = 0;
   this.fixDef.restitution = 0;
 
   this.bodyDef = new b2BodyDef;
-
-  /*
-  //create ground
-  this.bodyDef.type = b2Body.b2_staticBody;
-
-  // positions the center of the object (not upper left!)
-  this.bodyDef.position.x = 640 / 2 / SCALE;
-  this.bodyDef.position.y = 480 / SCALE;
-
-  this.fixDef.shape = new b2PolygonShape;
-
-  // half width, half height. eg actual height here is 1 unit
-  this.fixDef.shape.SetAsBox((600 / SCALE) / 2, (10/SCALE) / 2);
-  this.world.CreateBody(this.bodyDef).CreateFixture(this.fixDef);
-  */
 }
 
 bTest.prototype.update = function() {
@@ -97,6 +76,20 @@ bTest.prototype.update = function() {
     8, // velocity iterations
     3 // position iterations
   );
+
+  // iterate over bodies to destroy
+  var body;
+  var uuid;
+  var length = this.deadBodies.length;
+
+  for (var i = 0; i < length; i++) {
+    uuid = this.deadBodies[i];
+    body = this.bodies[uuid];
+    this.world.DestroyBody(body);
+  }
+
+  // clear destroyed bodies from array
+  this.deadBodies = [];
 
   // wraparound world
   for (var b = this.world.GetBodyList(); b; b = b.GetNext()) {
@@ -168,6 +161,11 @@ bTest.prototype.setBodies = function(bodyEntities) {
   this.ready = true;
 }
 
+bTest.prototype.removeBody = function(uuid) {
+  // add to queue to clean up after time step completes
+  this.deadBodies.push(uuid);
+}
+
 bTest.prototype.impulse = function(uuid, degrees, power) {
   var body = this.bodies[uuid];
 
@@ -193,10 +191,14 @@ var loop = function() {
 
 setInterval(loop, 15);
 
+// self.addEventListener('message', function(event) {});
 process.on('message', function(data) {
   switch (data.cmd) {
     case 'add':
       box.setBodies(data.msg);
+      break;
+    case 'remove':
+      box.removeBody(data.uuid);
       break;
     case 'impulse':
       box.impulse(data.uuid, data.degrees, data.power);
@@ -206,20 +208,3 @@ process.on('message', function(data) {
       break;
   }
 });
-
-/*
-self.addEventListener('message', function(event) {
-  var data = event.data;
-  switch (data.cmd) {
-    case 'add':
-      box.setBodies(data.msg);
-      break;
-    case 'impulse':
-      box.impulse(data.id, data.degrees, data.power);
-      break;
-    case 'setZero':
-      box.setZero(data.id);
-      break;
-  }
-});
-*/

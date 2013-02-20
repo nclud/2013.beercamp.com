@@ -4,7 +4,7 @@
     module.exports = factory(
       require('./update'),
       require('./entities'),
-      require('../core/types/Rectangle'),
+      require('../core/types/Player'),
       require('async'),
       require('redis'),
       require('socket.io'),
@@ -12,7 +12,7 @@
       require('../../config')
     );
   }
-})(this, function(update, entities, Rectangle, async, redis, sio, uuid, config) {
+})(this, function(update, entities, Player, async, redis, sio, uuid, config) {
 
   var init = function(app, channel, worker) {
     var io = sio.listen(app);
@@ -35,17 +35,17 @@
 
       // switch from socket.id to Connect sessions?
       // TODO: move player init to socket.js
-      var player = new Rectangle({
+      var player = new Player({
         type: 'dynamic',
         x: Math.random() * 20,
         y: Math.random() * 10,
         angle: 0,
-        width: 2,
-        height: 2,
+        width: 4,
+        height: 4,
         fixed: true,
         skin: false,
         animate: false,
-        speed: 1000
+        speed: 200
       });
       
       // set uuid and send to client
@@ -66,17 +66,7 @@
     entities.local.push(player.uuid);
 
     // passing full object throws DOM exception, can't pass canvas to worker
-    // TODO: replace with getState method
-    data[player.uuid] = {
-      type: player.state.private.type,
-      x: player.state.private.x,
-      y: player.state.private.y,
-      angle: player.state.private.angle,
-      width: player.state.private.width,
-      height: player.state.private.height,
-      fixed: player.state.private.fixed,
-      speed: player.state.private.speed
-    };
+    data[player.uuid] = player.state.private;
 
     worker.send({
       'cmd': 'add',
@@ -93,6 +83,11 @@
     socket.on('disconnect', function() {
       // remove player from server
       entities.remove(entities, player.uuid);
+
+      worker.send({
+        'cmd': 'remove',
+        'uuid': player.uuid
+      });
     });
 
   };

@@ -25,7 +25,7 @@
       function(uuid, callback) {
         var player = entities.global[uuid];
 
-        if (player.queue.input.length) {
+        if (player.queue.input && player.queue.input.length) {
           player.processInput(player.queue.input.shift(), worker);
         }
 

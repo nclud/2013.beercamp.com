@@ -1,15 +1,30 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD
-    define(['../core/core', '../core/time', './input', '../core/types/Rectangle'], factory);
+    define(['../core/core', '../core/time', './input', '../core/types/Player'], factory);
   }
-})(this, function(core, time, input, Rectangle) {
+})(this, function(core, time, input, Player) {
 
   var entities = {};
-  var players = {};
-  var npcs = {};
 
   var init = function(client) {
+
+    // init physics worker
+    var worker = new Worker('js/game/core/worker.js');
+
+    // update predicted state from worker
+    worker.onmessage = function(event) {
+      debugger;
+      var data = event.data;
+
+      for (var id in data) {
+        var entity = entities[id];
+
+        if (entity) {
+          entity.update(data[id]);
+        }
+      }
+    };
 
     // set methods to run every frame
     // TODO: decouple this asynchronously?
@@ -28,10 +43,17 @@
 
     // listen for full state updates
     socket.on('state:full', function(data) {
+      // update server time (used for entity interpolation)
+      time.server = data.time;
+      time.client = time.server - core.offset;
+
       var uuid;
 
       var entities = _.union(Object.keys(client.entities), Object.keys(data.entities));
       var entity;
+      var state;
+
+      var msg = {};
 
       // iterate over union of client and server players
       for (var i = 0; i < entities.length; i++) {
@@ -40,15 +62,25 @@
 
         if (entity && client.entities[uuid]) {
           // TODO: if defined on server and client, update state
-          var state = entity.state;
+          state = entity.state;
           client.entities[uuid].setPublic(state);
-          client.entities[uuid].queue.server.push(entity);
+          client.entities[uuid].queue.server.push(client.entities[uuid].getState());
         } else if (entity) {
           // if defined on server but not on client, create new Entity on client
-          client.entities[uuid] = new Rectangle(entity.state);
+          state = entity.state;
+          client.entities[uuid] = new Player(state);
+          msg[entity.uuid] = state;
         } else {
-          delete client.npcs[uuid];
+          delete client.entities[uuid];
         }
+      }
+
+      if (Object.keys(msg).length) {
+        // add entity to prediction worker
+        worker.postMessage({
+          'cmd': 'add',
+          'msg': msg
+        });
       }
     });
 
@@ -60,80 +92,53 @@
 
       // update entities
       var entities = Object.keys(data.entities);
-      var length_entities = entities.length;
+      var length = entities.length;
 
       var uuid;
       var entity;
-      var client_entity;
+      var state;
 
       // update server state, interpolate foreign entities
-      if (length_entities) {
+      for (var i = 0; i < length; i++) {
+        uuid = entities[i];
+        entity = data.entities[uuid];
 
-        for (var i = 0; i < length_entities; i++) {
-          uuid = entities[i];
-          entity = data.entities[uuid];
+        if (client.entities[uuid]) {
 
           // authoritatively set internal state if player exists on client
-          client_entity = client.entities[uuid];
+          client.entities[uuid].setPublic(entity.state);
 
-          // TODO: CLEAN THIS UP
-          if (client_entity) {
+          // get full snapshot for interpolation
+          // queue server updates for entity interpolation
+          client.entities[uuid].queue.server.push(client.entities[uuid].getState());
 
-            // interpolate destroy animation?
-            if (entity.state.isHit) {
-              client_entity.state.public.isHit = parseInt(entity.state.isHit);
-            } else {
-              entity.state.isHit = client_entity.state.public.isHit;
-            }
+          // remove all updates older than one second from interpolation queue
+          client.entities[uuid].queue.server = client.entities[uuid].queue.server.filter(core.filterQueue);
 
-            if (entity.state.y) {
-              client_entity.state.public.y = parseInt(entity.state.y);
-            } else {
-              entity.state.y = client_entity.state.public.y;
-            }
-
-            if (entity.state.x) {
-              client_entity.state.public.x = parseInt(entity.state.x);
-            } else {
-              entity.state.x = client_entity.state.public.x;
-            }
-
-            if (entity.state.rotation) {
-              client_entity.state.public.rotation = parseInt(entity.state.rotation);
-            } else {
-              entity.state.rotation = client_entity.state.public.rotation;
-            }
-
-            if (entity.state.rotation) {
-              client_entity.state.public.rotation = parseInt(entity.state.rotation);
-            } else {
-              entity.state.rotation = client_entity.state.public.rotation;
-            }
-
-            // set timestamp for interpolation
-            entity.time = time.client;
-
-            // queue server updates for entity interpolation
-            client_entity.queue.server.push(entity);
-            
-            // remove all updates older than one second from interpolation queue
-            client_entity.queue.server = client_entity.queue.server.filter(function(el, index, array) {
-              return el.time > (Date.now() - 1000);
-            });
-          }
         }
       }
 
     });
   };
 
+  var frame = function() {
+    loop(this);
+
+    // TODO: why does this occaisionally spike from 0.016 to 0.4?
+    // doesn't seem to coincide with garbage collection steps
+    // could possibly be some long blocking operation?
+    /*
+    if (time.delta > 0.2) {
+      console.log(time.delta);
+    }
+    */
+  };
+
   var loop = function(client) {
-    client = client || this;
+    var client = client || this;
 
     // this bind necessary because of scope change on successive calls
-    client.animationFrame = window.requestAnimationFrame((function() {
-      loop(client);
-    }).bind(client));
+    client.animationFrame = window.requestAnimationFrame(frame.bind(client));
 
     time.setDelta();
     runFrameActions(client);
@@ -218,10 +223,19 @@
     }
   };
 
+  var followPlayer = function(client) {
+    // follow player with camera
+    // TODO: parallax background
+    var player = client.entities[client.uuid];
+
+    if (player) {
+      var value = (window.innerHeight / 2) - player.state.private.y * client.canvas.scale;
+      client.canvas.setAttribute('style', 'top:' + value.toString() + 'px');
+    }
+  };
+
   return {
     entities: entities,
-    players: players,
-    npcs: npcs,
     init: init,
     loop: loop,
     pause: pause,
@@ -230,7 +244,8 @@
     clearCanvas: clearCanvas,
     createCanvas: createCanvas,
     setScale: setScale,
-    updateEntities: updateEntities
+    updateEntities: updateEntities,
+    followPlayer: followPlayer
   };
 
 });

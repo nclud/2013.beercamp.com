@@ -3,189 +3,156 @@
     // Node.js
     module.exports = factory(
       require('../core'),
+      require('../time'),
       require('./Entity'),
-      require('./Missile'),
-      require('./Ship'),
+      require('./Rectangle'),
       require('./Actor')
     );
   } else if (typeof define === 'function' && define.amd) {
     // AMD
-    define(['../core', './Entity', './Missile', './Ship', './Actor'], factory);
+    define(['../core', '../time', './Entity', './Rectangle', './Actor'], factory);
   }
-})(this, function(core, Entity, Missile, Ship) {
+})(this, function(core, time, Entity, Rectangle, Actor) {
 
   // constructor
-	var Player = function(player) {
-    Entity.call(this);
-
-		this.ship = new Ship();
-
-    // init from existing state
-    if (player && player.ship && player.ship.state) {
-      var keys = Object.keys(player.ship.state);
-      var length = keys.length;
-      var key;
-
-      for (var i = 0; i < length; i++) {
-        key = keys[i];
-
-        // TODO: not all state may be ints, fix this
-        // watch out for server passing redis state as strings
-        // canvas will only draw Numbers
-        this.ship[key] = parseInt(player.ship.state[key]);
-      }
-
-      // init missiles
-      this.ship.missiles = [];
-      keys = Object.keys(player.ship.missiles);
-      length = keys.length;
-
-      var missile;
-
-      for (var j = 0; j < length; j++) {
-        key = keys[j];
-        missile = player.ship.missiles[key];
-        this.ship.missiles.push(new Missile(this.ship, missile));
-      }
-    }
-
-    // input queue
-    this.queue = [];
+	var Player = function(properties) {
+    Rectangle.call(this, properties);
 
     /*
-    this.actor = skin ? new Actor(this, skin, halfWidth, halfHeight, animate, SCALE) : false;
+    this.actor = this.skin ? new Actor(this, skin, width, height) : false;
     */
+
+    // input sequence id
+    this.seq = 0;
+
+    // input queue
+    this.queue.input = [];
 
     return this;
 	};
 
-	Player.prototype = new Entity();
-
+	Player.prototype = new Rectangle();
   Player.prototype.constructor = Player;
 
-	Player.prototype.getState = function() {
-    return {
-      state: this.state.private,
-      ship: this.ship.getState()
-    };
+	Player.prototype.respondToInput = function(pressed, callback) {
+
+    var vector = core.getVelocity(pressed);
+
+    var fireButtonChanged = false;
+    var input;
+
+    var delta = false;
+    var power;
+
+    for (var vertex in vector) {
+      // false if no magnitude
+      if (typeof vector[vertex] === 'number') {
+        if (this.state.private[vertex] !== this.state.private.speed) {
+          this.state.private[vertex] = this.state.private.speed;
+          delta = true;
+        }
+      } else if (this.state.private[vertex] !== 0) {
+        this.state.private[vertex] = 0;
+        delta = true;
+      }
+    }
+
+		if(pressed.spacebar) {
+			this.fire();
+		} else {
+      if (!this.fireButtonReleased) {
+        fireButtonChanged = true;
+      }
+
+			this.fireButtonReleased = true;
+		}
+
+    if (delta || pressed.spacebar || fireButtonChanged) {
+      // create input object
+      input = {
+        seq: this.seq++,
+        input: pressed
+      };
+
+      // add input to queue, then send to server
+      this.queue.input.push(input);
+
+      if (typeof callback === 'function') callback(input);
+    }
+
+	};
+
+	Player.prototype.processInput = function(move, worker) {
+    process.nextTick((function() {
+
+      // calculate delta time vector
+      var vector = core.getVelocity(move.input);
+      var power;
+
+      // TODO: static impulse instead of movement over time?
+      for (var vertex in vector) {
+        // false if no magnitude
+        if (typeof vector[vertex] === 'number') {
+          power = this.state.private[vertex] = this.state.private.speed;
+        
+          worker.send({
+            'cmd': 'impulse',
+            'uuid': this.uuid,
+            'degrees': vector[vertex],
+            'power': power
+          });
+        } else if (this.state.private[vertex] !== 0) {
+          worker.send({
+            'cmd': 'setZero',
+            'uuid': this.uuid
+          });
+        }
+      }
+
+      if(move.input.spacebar) {
+        this.fire();
+      } else {
+        this.fireButtonReleased = true;
+      }
+
+      // if queue empty, stop looping
+      if (!this.queue.input.length) return;
+
+      this.processInput(this.queue.input.shift(), worker);
+    }).bind(this));
+
   };
 
-  Player.prototype.getDelta = function(async, _) {
+  Player.prototype.reconcile = function(client, player) {
 
-    var delta = {};
+    var x;
+    var y;
 
-    // PLAYER
-    // save reference to old values and update state
-    // WARN: clone produces shallow copy
-    var prev = this.state.public;
-    var next = this.state.public = _.clone(this.state.private);
+    // server reconciliation
+    var dx = 0;
+    var dy = 0;
 
-    // init delta array for changed keys
-    var deltaKeys = [];
+    // bind this inside filter to Ship
+    // remove most recent processed move and all older moves from queue
+    var queue = this.queue.input = this.queue.input.filter((function(el, index, array) {
+      return el.seq > this.ack;
+    }).bind(this));
 
-    // iterate over new values and compare to old
-    var keys = Object.keys(next);
-    var length = keys.length;
-    var key;
-
-    for (var i = 0; i < length; i++) {
-      key = keys[i];
-
-      // check for changed values and push key to deltaKeys array
-      if (prev[key] !== next[key]) {
-        deltaKeys.push(key);
-      }
+    // update reconciled position with client prediction
+    // server position plus delta of unprocessed input
+    for (var i = 0; i < queue.length; i++) {
+      dx += parseInt(queue[i].data.speed * queue[i].data.vector.dx * time.delta);
+      dy += parseInt(queue[i].data.speed * queue[i].data.vector.dy * time.delta);
     }
 
-    // set changed values in data object
-    if (deltaKeys.length > 0) {
-      delta.state = _.pick(next, deltaKeys);
-    }
+    // reconciled prediction
+    x = parseInt(player.ship.state.x) + dx;
+    y = parseInt(player.ship.state.y) + dy;
 
-    // SHIP
-    // save reference to old values and update state
-    // WARN: clone produces shallow copy
-    prev = this.ship.state.public;
-    next = this.ship.state.public = _.clone(this.ship.state.private);
+    // set reconciled position
+    this.state.private.x = core.lerp(this.state.private.x, x, time.delta * core.smoothing);
+    this.state.private.y = core.lerp(this.state.private.y, y, time.delta * core.smoothing);
 
-    // init delta array for changed keys
-    deltaKeys = [];
-
-    // iterate over new values and compare to old
-    keys = Object.keys(next);
-    length = keys.length;
-    key;
-
-    for (var j = 0; j < length; j++) {
-      key = keys[j];
-
-      // check for changed values and push key to deltaKeys array
-      if (prev[key] !== next[key]) {
-        deltaKeys.push(key);
-      }
-    }
-
-    // set changed values in data object
-    if (deltaKeys.length) {
-      delta.ship = {};
-      delta.ship.state = _.pick(next, deltaKeys);
-    }
-
-    // MISSILES
-    // init missiles
-    var missiles = {};
-
-    // iterate over missiles
-    async.forEach(
-      this.ship.missiles,
-      function(missile, callback) {
-        // save reference to old values and update state
-        // WARN: clone produces shallow copy
-        var prev = missile.state.public;
-        var next = missile.state.public = _.clone(missile.state.private);
-
-        // init delta array for changed keys
-        var deltaKeys = [];
-
-        // iterate over new values and compare to old
-        var keys = Object.keys(next);
-        var length = keys.length;
-        var key;
-
-        for (var k = 0; k < length; k++) {
-          key = keys[k];
-
-          // check for changed values and push key to deltaKeys array
-          if (prev[key] !== next[key]) {
-            deltaKeys.push(key);
-          }
-        }
-
-        // set changed values in data object
-        if (deltaKeys.length) {
-          var deltaMissile = {};
-          deltaMissile.state = _.pick(next, deltaKeys);
-          missiles[missile.uuid] = deltaMissile;
-        }
-
-        // notify async.forEach that iterator has completed
-        if (typeof callback === 'function') callback();
-      },
-      function() {
-        if (Object.keys(missiles).length) {
-          delta.ship = delta.ship || {};
-          delta.ship.missiles = missiles;
-        }
-
-        // set changed values in data object
-        if (Object.keys(delta).length) {
-          delta.uuid = this.uuid;
-          delta.time = Date.now();
-        }
-      }
-    );
-
-    return delta;
   };
 
   /*

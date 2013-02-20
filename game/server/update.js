@@ -32,35 +32,23 @@
   var state = function(socket) {
 
     var data = {};
-    data.players = {};
-    data.npcs = {};
     data.entities = {};
 
     // get full state, emit to clients
-    async.parallel([
-      function(callback) { entities.state(data, callback); },
-      function(callback) { players.state(data, callback); },
-      function(callback) { npcs.state(data, callback); }
-    ], function() {
+    entities.state(data, function() {
       data.time = Date.now();
       socket.io.sockets.volatile.emit('state:full', data);
-    });
+    }); 
 
   };
 
   var delta = function(socket) {
 
     var data = {};
-    data.players = {};
-    data.npcs = {};
     data.entities = {};
 
     // get delta update, emit to clients
-    async.parallel([
-      function(callback) { entities.delta(data, callback); },
-      function(callback) { players.delta(data, callback); },
-      function(callback) { npcs.delta(data, callback); }
-    ], function() {
+    entities.delta(data, function() {
       data.time = Date.now();
       socket.io.sockets.volatile.emit('state:delta', data);
     });

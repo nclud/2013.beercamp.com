@@ -126,6 +126,10 @@
     */
   };
 
+  var filterQueue = function(el, index, array) {
+    return el.time > (Date.now() - 1000);
+  };
+
   return {
     lerp: lerp,
     getVector: getVector,
@@ -134,7 +138,8 @@
     getRandomNumber: getRandomNumber,
     initGlobalVariables: initGlobalVariables,
     isCollision: isCollision,
-    loadScene: loadScene
+    loadScene: loadScene,
+    filterQueue: filterQueue
   };
 
 });
