@@ -12,14 +12,14 @@ var app = {
   "user": "mikemorris",
   "name": "beercamp",
   "repository": {
-   "type": "git",
-   "url": "https://github.com/mikemorris/beercamp.git"
+    "type": "local",
+    "directory": "/Users/mikemorris/Dropbox/Projects/beercamp"
   },
   "scripts": {
-   "start": "server.js"
+    "start": "server.js"
   },
   "engine": {
-   "node": "0.8.x"
+    "node": "0.8.x"
   },
   "dependencies": {
     "socket.io": "0.9.x",
