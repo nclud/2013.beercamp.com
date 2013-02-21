@@ -43,7 +43,7 @@
         width: 4,
         height: 4,
         fixed: true,
-        skin: false,
+        skin: 'images/char1.png',
         animate: false,
         speed: 200
       });

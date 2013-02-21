@@ -1,42 +1,70 @@
 (function(root, factory) {
   if (typeof exports === 'object') {
     // Node.js
-    module.exports = factory();
+    module.exports = factory(
+      require('./Entity')
+    );
   } else if (typeof define === 'function' && define.amd) {
     // AMD
-    define(factory);
+    define(['./Entity'], factory);
   }
-})(this, function() {
+})(this, function(Entity) {
 
-	var Actor = function(properties) {
-		if(properties) {
-			this.set(properties);
+	var Actor = function(properties, entity, client) {
+    this.entity = entity;
+    this.animate = properties.animate;
 
-      var cached = this.renderToCanvas(properties.skin);
+    // prepare Actor canvas
+    this.skin = document.createElement('canvas');
 
-      var skin = this.skin = document.createElement('canvas');
-      var ctx = skin.getContext('2d');
+    // throttle to only change after resizing complete
+    var resizeTimer;
 
-      skin.width = entity.halfWidth * 2 * SCALE;
-      skin.height = entity.halfHeight * 2 * SCALE;
+    // resize Actor skin on window resize
+    window.addEventListener('resize', (function(event) {
+      var resize = (function() {
+        clearTimeout(resizeTimer);
+        this.updateCache(properties, client.canvas);
+      }).bind(this);
 
-      /*
-      // DEBUG: render full skin
-      skin.width = cached.width;
-      skin.height = cached.height;
-      */
+      resizeTimer = setTimeout(resize, 100);
+    }).bind(this));
 
-      if (animate) {
-        this.sprite = cached;
-        this.frame = 0;
-        this.step = 8;
-      }
+    this.updateCache(properties, client.canvas);
 
-      ctx.drawImage(cached, 0, 0, cached.width / 2, cached.height / 2);
-		}
+    /*
+    if (animate) {
+      this.sprite = cached;
+      this.frame = 0;
+      this.step = 8;
+    }
+    */
+
+    return this;
 	};
 
-  Actor.prototype.renderToCanvas = function (skin) {
+  Actor.prototype.constructor = Actor;
+
+  Actor.prototype.updateCache = function(properties, canvas) {
+    var ctx = this.skin.getContext('2d');
+    var SCALE = canvas.scale;
+
+    this.skin.width = properties.width * SCALE;
+    this.skin.height = properties.height * SCALE;
+
+    // render to offscreen canvas
+    var cached = this.renderToCanvas(properties.skin, SCALE);
+
+    /*
+    // DEBUG: render full skin
+    this.skin.width = cached.width;
+    this.skin.height = cached.height;
+    */
+
+    ctx.drawImage(cached, 0, 0, cached.width / 2, cached.height / 2);
+  };
+
+  Actor.prototype.renderToCanvas = function(skin, SCALE) {
     var buffer = document.createElement('canvas');
     var ctx = buffer.getContext('2d');
 

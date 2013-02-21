@@ -15,12 +15,17 @@
 })(this, function(core, time, Entity, Rectangle, Actor) {
 
   // constructor
-	var Player = function(properties) {
+	var Player = function(properties, uuid, client) {
     Rectangle.call(this, properties);
 
-    /*
-    this.actor = this.skin ? new Actor(this, skin, width, height) : false;
-    */
+    if (uuid) {
+      this.uuid = uuid;
+    }
+
+    // function in Chrome and Firefox, object in Safari
+    if (typeof Image !== 'undefined') {
+      this.actor = properties.skin ? new Actor(properties, this, client) : false;
+    }
 
     // input sequence id
     this.seq = 0;
@@ -84,6 +89,8 @@
 
 	Player.prototype.processInput = function(move, worker) {
     process.nextTick((function() {
+
+      // console.log(move, worker.process.pid, worker.state);
 
       // calculate delta time vector
       var vector = core.getVelocity(move.input);
@@ -155,30 +162,33 @@
 
   };
 
-  /*
-  Player.prototype.draw = function(ctx) {
-    // translate box2d positions to pixels
+  Player.prototype.drawType = function(client) {
+    Rectangle.prototype.drawType.call(this, client);
+
+    var ctx = client.ctx;
+    var SCALE = client.canvas.scale;
+
+    // round to whole pixel
+    // interpolated x and y coords
+    var x = (this.state.private.x * SCALE + 0.5) | 0;
+    var y = (this.state.private.y * SCALE + 0.5) | 0;
+
+    var width = ((this.state.private.width * SCALE) + 0.5) | 0;
+    var height = ((this.state.private.height * SCALE) + 0.5) | 0;
+
+    var halfWidth = ((this.state.private.width * SCALE / 2) + 0.5) | 0;
+    var halfHeight = ((this.state.private.height * SCALE / 2) + 0.5) | 0;
+
     ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(this.angle);
-    ctx.translate(-(this.x), -(this.y));
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = 'cyan';
-    ctx.strokeRect(
-      (this.x - this.halfWidth) * SCALE,
-      (this.y - this.halfHeight) * SCALE,
-      (this.halfWidth * 2) * SCALE,
-      (this.halfHeight * 2) * SCALE
-    );
-    ctx.restore();
 
     if (this.actor) {
-      this.actor.draw(ctx, (this.x - this.halfWidth) * SCALE, (this.y - this.halfHeight) * SCALE);
+      this.actor.draw(ctx, x - halfWidth, y - halfHeight);
     }
 
-    Entity.prototype.draw.call(this, ctx);
+    ctx.restore();
+
+    // Entity.prototype.draw.call(this, client);
   }
-  */
 
   return Player;
 

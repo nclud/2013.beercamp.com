@@ -178,7 +178,7 @@ setInterval(loop, 15);
 
 // self.addEventListener('message', function(event) {});
 process.on('message', function(data) {
-  console.log(data);
+  // console.log(data);
   switch (data.cmd) {
     case 'add':
       box.setBodies(data.msg);

@@ -43,6 +43,7 @@
 
     // listen for full state updates
     socket.on('state:full', function(data) {
+
       // update server time (used for entity interpolation)
       time.server = data.time;
       time.client = time.server - core.offset;
@@ -51,28 +52,46 @@
 
       var entities = _.union(Object.keys(client.entities), Object.keys(data.entities));
       var entity;
+
       var state;
+      var skin;
 
       var msg = {};
 
       // iterate over union of client and server players
       for (var i = 0; i < entities.length; i++) {
-        uuid = entities[i];
-        entity = data.entities[uuid];
+        (function(uuid) {
+          entity = data.entities[uuid];
 
-        if (entity && client.entities[uuid]) {
-          // TODO: if defined on server and client, update state
-          state = entity.state;
-          client.entities[uuid].setPublic(state);
-          client.entities[uuid].queue.server.push(client.entities[uuid].getState());
-        } else if (entity) {
-          // if defined on server but not on client, create new Entity on client
-          state = entity.state;
-          client.entities[uuid] = new Player(state);
-          msg[entity.uuid] = state;
-        } else {
-          delete client.entities[uuid];
-        }
+          if (entity && client.entities[uuid]) {
+            // TODO: if defined on server and client, update state
+            state = entity.state;
+            client.entities[uuid].setPublic(state);
+            client.entities[uuid].queue.server.push(client.entities[uuid].getState());
+          } else if (entity) {
+            // if defined on server but not on client, create new Entity on client
+            state = entity.state;
+            skin = state.skin;
+
+            // TODO: create correct entity type
+            if (skin) {
+              var img = new Image();
+
+              img.addEventListener('load', function() {
+                state.skin = this;
+                client.entities[uuid] = new Player(state, uuid, client);
+              });
+
+              img.src = skin;
+            } else {
+              client.entities[uuid] = new Player(state, uuid);
+            }
+
+            msg[entity.uuid] = state;
+          } else {
+            delete client.entities[uuid];
+          }
+        })(entities[i]);
       }
 
       if (Object.keys(msg).length) {
@@ -86,6 +105,7 @@
 
     // listen for delta updates
     socket.on('state:delta', function(data) {
+
       // update server time (used for entity interpolation)
       time.server = data.time;
       time.client = time.server - core.offset;

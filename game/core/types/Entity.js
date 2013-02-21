@@ -13,7 +13,9 @@
 })(this, function(core, time, uuid) {
 
 	var Entity = function(properties) {
-    this.uuid = properties && properties.uuid ? properties.uuid : (uuid && uuid.v4 ? uuid.v4() : false);
+    if (uuid) {
+      this.uuid = uuid.v4 ? uuid.v4() : false;
+    }
 
     this.state = {};
 
