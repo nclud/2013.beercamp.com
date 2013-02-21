@@ -10,9 +10,8 @@
   }
 })(this, function(Entity) {
 
-	var Actor = function(properties, entity, client) {
+	var Actor = function(properties, entity, client, sprite) {
     this.entity = entity;
-    this.animate = properties.animate;
 
     // prepare Actor canvas
     this.skin = document.createElement('canvas');
@@ -32,13 +31,16 @@
 
     this.updateCache(properties, client.canvas);
 
-    /*
-    if (animate) {
-      this.sprite = cached;
+    // sprite config
+    if (sprite) {
+      this.xMax = sprite.x;
+      this.yMax = sprite.y;
+      this.step = sprite.step;
       this.frame = 0;
-      this.step = 8;
+
+      this.map = sprite.map;
+      this.animation = this.map[entity.animation]; 
     }
-    */
 
     return this;
 	};
@@ -53,7 +55,7 @@
     this.skin.height = properties.height * SCALE;
 
     // render to offscreen canvas
-    var cached = this.renderToCanvas(properties.skin, SCALE);
+    var cached = this.cached = this.renderToCanvas(properties.skin, SCALE);
 
     /*
     // DEBUG: render full skin
@@ -78,37 +80,50 @@
     return buffer;
   };
 
-  Actor.prototype.update = function() {
+  Actor.prototype.update = function(SCALE) {
     var skin = this.skin;
-    var sprite = this.sprite;
+    var cached = this.cached;
 
     var ctx = skin.getContext('2d');
 
     // animate character
-    var frame = this.frame;
     var step = this.step;
     var shift;
 
+    var animation = this.entity.animation;
+    var end;
+
     // TODO: alter animation based on state
-    if (this.entity.isMoving) {
+    if (animation) {
+      this.animation = this.map[animation];
+      end = this.animation.xStart + (this.frame / step) >= this.animation.xEnd + 1 ? true : false;
+
       // TODO: get values from jumping/moving state, change to be LAST_FRAME
-      frame / step === 3 ? this.frame = 1 : this.frame++;
+      if (this.animation.repeat && end) {
+        this.frame = 0;
+      } else if (end) {
+        this.frame = 0;
+        this.entity.animation = 0;
+      }
 
       // if at step, advance to next frame in animation
-      if (frame % step === 0) {
-        shift = (frame/step) * SCALE * 4;
+      if (this.frame % step === 0) {
+        shift = (this.animation.xStart + (this.frame/step)) * SCALE * 4;
 
         ctx.clearRect(0, 0, skin.width, skin.height);
-        ctx.drawImage(sprite, -shift, 0, sprite.width / 2, sprite.height / 2);
+        ctx.drawImage(cached, -shift, 0, cached.width / 2, cached.height / 2);
       }
+
+      this.frame++;
     } else {
       ctx.clearRect(0, 0, skin.width, skin.height);
-      ctx.drawImage(sprite, 0, 0, sprite.width / 2, sprite.height / 2);
+      ctx.drawImage(cached, 0, 0, cached.width / 2, cached.height / 2);
     }
   };
 
-  Actor.prototype.draw = function(ctx, x, y) {
-    if (this.animate) this.update();
+  Actor.prototype.draw = function(ctx, x, y, SCALE) {
+    // TODO: this will animate even when standing still
+    if (typeof this.entity.animation === 'number') this.update(SCALE);
     ctx.drawImage(this.skin, x, y);
   };
 

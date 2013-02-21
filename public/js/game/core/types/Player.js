@@ -24,7 +24,59 @@
 
     // function in Chrome and Firefox, object in Safari
     if (typeof Image !== 'undefined') {
-      this.actor = properties.skin ? new Actor(properties, this, client) : false;
+
+      // pass xMax, yMax, frameStep when creating Actor
+      // pass xStart, xEnd, xRepeat, yStart when updating Actor
+
+      // this.drunk ranges from 0 to 4
+      // TODO: reverse canvas for moving in opposite direction
+      // TODO: sprite.x minus sprite.map.xStart to calculate mirror?
+
+      var sprite = {
+        // TODO: pass skin index from server, mapping to image path on client
+        src: properties.skin,
+        x: 9,
+        y: 5,
+        step: 9,
+        map: {
+          // default
+          0: {
+            xStart: 0,
+            xEnd: 0,
+            repeat: false
+          },
+
+          // move
+          1: {
+            xStart: 1,
+            xEnd: 3,
+            repeat: false
+          },
+
+          // jump
+          2: {
+            xStart: 4,
+            xEnd: 5,
+            repeat: false
+          },
+
+          // throw
+          3: {
+            xStart: 6,
+            xEnd: 7,
+            repeat: false
+          },
+
+          // hit
+          4: {
+            xStart: 8,
+            xEnd: 8,
+            repeat: false
+          }
+        }
+      }
+
+      this.actor = properties.skin ? new Actor(properties, this, client, sprite) : false;
     }
 
     // input sequence id
@@ -62,8 +114,18 @@
       }
     }
 
+    // set animation state for jumping or moving
+    if (vector['vy']) {
+      this.animation = 2;
+    } else if (vector['vx']) {
+      this.animation = 1;
+    }
+
 		if(pressed.spacebar) {
 			this.fire();
+
+      // play throw animation
+      this.animation = 3;
 		} else {
       if (!this.fireButtonReleased) {
         fireButtonChanged = true;
@@ -83,6 +145,10 @@
       this.queue.input.push(input);
 
       if (typeof callback === 'function') callback(input);
+    } else {
+      // reset to default animation if no input
+      // TODO: move this to update loop if no change?
+      // this.animation = 0;
     }
 
 	};
@@ -90,7 +156,7 @@
 	Player.prototype.processInput = function(move, worker) {
     process.nextTick((function() {
 
-      // console.log(move, worker.process.pid, worker.state);
+      // console.log(move, worker.pid, worker.connected);
 
       // calculate delta time vector
       var vector = core.getVelocity(move.input);
@@ -182,7 +248,7 @@
     ctx.save();
 
     if (this.actor) {
-      this.actor.draw(ctx, x - halfWidth, y - halfHeight);
+      this.actor.draw(ctx, x - halfWidth, y - halfHeight, SCALE);
     }
 
     ctx.restore();
