@@ -1,14 +1,15 @@
 var config = require('./config');
 
-// TODO: use cluster for physics calculations
-// to not block main thread?
+// use cluster for physics calculations
 var cluster = require('cluster');
 var numCPUs = require('os').cpus().length;
 
 if (cluster.isMaster) {
+  var worker;
+
   // cluster config
   cluster.setupMaster({
-    exec : "worker.js"
+    exec : "./worker.js"
   });
 
   cluster.on('online', function(worker, address) {
@@ -21,7 +22,7 @@ if (cluster.isMaster) {
 
   console.log('CPUs:', numCPUs);
   if (numCPUs > 1) {
-    var worker = cluster.fork();
+    worker = cluster.fork();
   }
 
   // server config

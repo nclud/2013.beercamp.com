@@ -1,10 +1,10 @@
 {
-  "name": "blockblaster",
+  "name": "beercamp",
   "subdomain": "nclud",
   "scripts": {
     "start": "server.js"
   },
-  "version": "1.0.0-96",
+  "version": "1.0.0-110",
   "engines": {
     "node": "0.8.x"
   },
@@ -14,7 +14,8 @@
     "underscore": "1.4.x",
     "async": "0.1.x",
     "redis": "0.8.x",
-    "node-uuid": "1.4.x"
+    "node-uuid": "1.4.x",
+    "box2dweb-commonjs": "2.1.x"
   },
   "analyze": true
 }

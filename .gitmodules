@@ -4,3 +4,6 @@
 [submodule "public/core/vendor/underscore"]
 	path = public/core/vendor/underscore
 	url = git://github.com/documentcloud/underscore.git
+[submodule "public/vendor/stats"]
+	path = public/vendor/stats
+	url = git://github.com/mrdoob/stats.js.git

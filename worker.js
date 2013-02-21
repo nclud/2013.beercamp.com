@@ -14,22 +14,7 @@
   limitations under the License.
 */
 
-// load Web Worker as an AMD module
-/*
-if (typeof importScripts !== 'undefined') importScripts('../require.js');
-
-require({
-    baseUrl: "./"
-  },
-  ["require", "simple", "anon/blue", "func", "anon/green"],
-  function(require, simple, blue, func, green) {
-    postMessage(simple.color);
-    postMessage(green.name);
-    postMessage(func());
-    postMessage(blue.name);
-  }
-);
-*/
+console.log('Worker fired up!');
 
 var Box2D = require('box2dweb-commonjs').Box2D;
 
@@ -193,6 +178,7 @@ setInterval(loop, 15);
 
 // self.addEventListener('message', function(event) {});
 process.on('message', function(data) {
+  console.log(data);
   switch (data.cmd) {
     case 'add':
       box.setBodies(data.msg);

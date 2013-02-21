@@ -85,6 +85,8 @@
 	Player.prototype.processInput = function(move, worker) {
     process.nextTick((function() {
 
+      console.log(move, worker.process.pid, worker.state);
+
       // calculate delta time vector
       var vector = core.getVelocity(move.input);
       var power;
