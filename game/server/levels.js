@@ -14,6 +14,7 @@
   var init = function(worker) {
     worker.on('message', function(data) {
       // console.log('master', data);
+
       async.forEach(
         Object.keys(data),
         function(uuid, callback) {

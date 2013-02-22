@@ -155,7 +155,6 @@
 
 	Player.prototype.processInput = function(move, worker) {
     process.nextTick((function() {
-
       // console.log(move, worker.pid, worker.connected);
 
       // calculate delta time vector

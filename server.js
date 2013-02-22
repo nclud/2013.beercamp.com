@@ -10,7 +10,8 @@ var worker;
 console.log('CPUs:', numCPUs);
 if (numCPUs > 1) {
   worker = child.fork('worker.js');
-  console.log('Worker ' + worker.pid + ' online');
+  console.log('Worker', worker.pid, worker.connected);
+  // console.log('worker.send', worker.send);
 
   worker.on('exit', function(worker, code, signal) {
     console.log('Worker ' + worker.process.pid + ' died');

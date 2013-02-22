@@ -14,7 +14,8 @@
   limitations under the License.
 */
 
-console.log('Worker fired up!');
+console.log('Worker', process.pid, 'fired up! Status:', process.connected);
+// console.log('process.send', process.send);
 
 var Box2D = require('box2dweb-commonjs').Box2D;
 
@@ -52,6 +53,8 @@ function bTest(intervalRate, adaptive) {
 }
 
 bTest.prototype.update = function() {
+  // console.log('update', Date.now());
+
   var now = Date.now();
   var stepRate = (this.adaptive) ? (now - this.lastTimestamp) / 1000 : this.intervalRate / 1000;
   this.lastTimestamp = now;
@@ -102,6 +105,8 @@ bTest.prototype.update = function() {
 
 // TODO: delta updates from worker to master
 bTest.prototype.sendUpdate = function() {
+  // console.log('sendUpdate', Date.now());
+
   var world = {};
   for (var b = this.world.GetBodyList(); b; b = b.m_next) {
     if (typeof b.GetUserData() !== 'undefined' && b.GetUserData() != null) {
@@ -111,6 +116,7 @@ bTest.prototype.sendUpdate = function() {
 
   // postMessage(world);
   process.send(world);
+  // console.log(world);
 }
 
 bTest.prototype.setBodies = function(bodyEntities) {
@@ -143,7 +149,7 @@ bTest.prototype.setBodies = function(bodyEntities) {
     var body = this.bodies[uuid] = this.world.CreateBody(this.bodyDef);
     body.CreateFixture(this.fixDef);
   }
-  this.ready = true;
+  // this.ready = true;
 }
 
 bTest.prototype.removeBody = function(uuid) {
@@ -171,7 +177,8 @@ bTest.prototype.setZero = function(uuid) {
 var box = new bTest(15, false);
 
 var loop = function() {
-  if (box.ready) box.update();
+  // console.log('Worker loop', Date.now(), 'Status:', process.connected);
+  box.update();
 }
 
 setInterval(loop, 15);
@@ -179,6 +186,7 @@ setInterval(loop, 15);
 // self.addEventListener('message', function(event) {});
 process.on('message', function(data) {
   // console.log('child', data);
+
   switch (data.cmd) {
     case 'add':
       box.setBodies(data.msg);
