@@ -36,7 +36,7 @@
       this.xMax = sprite.x;
       this.yMax = sprite.y;
       this.step = sprite.step;
-      this.frame = 0;
+      this.t = 0;
 
       this.map = sprite.map;
       this.animation = this.map[entity.animation]; 
@@ -55,7 +55,8 @@
     this.skin.height = properties.height * SCALE;
 
     // render to offscreen canvas
-    var cached = this.cached = this.renderToCanvas(properties.skin, SCALE);
+    var cached = this.cached = this.right = this.renderToCanvas(properties.skin, SCALE, false);
+    this.left = this.renderToCanvas(properties.skin, SCALE, true);
 
     /*
     // DEBUG: render full skin
@@ -66,18 +67,75 @@
     ctx.drawImage(cached, 0, 0, cached.width / 2, cached.height / 2);
   };
 
-  Actor.prototype.renderToCanvas = function(skin, SCALE) {
+  Actor.prototype.renderToCanvas = function(skin, SCALE, mirror) {
     var buffer = document.createElement('canvas');
     var ctx = buffer.getContext('2d');
 
     var ratio = skin.width / skin.height;
 
-    var width = buffer.width = SCALE * ratio * 40;
-    var height = buffer.height = SCALE * 40;
+    // TODO: where is this 10 value coming from? is ratio being used correctly?
+    var width = buffer.width = SCALE * this.entity.state.private.width * 10 * ratio;
+    var height = buffer.height = SCALE * this.entity.state.private.height * 10;
+
+    if (mirror) {
+      ctx.translate(width, 0);
+      ctx.scale(-1, 1);
+    }
 
     ctx.drawImage(skin, 0, 0, width, height);
 
     return buffer;
+  };
+
+  Actor.prototype.setFrame = function(frame, SCALE) {
+    this.frame = frame;
+
+    // TODO: restart on animation play, not here
+    this.t = 0;
+
+    var skin = this.skin;
+    var ctx = skin.getContext('2d');
+
+    var shift = this.frame * SCALE * this.entity.state.private.width;
+    var cached = this.cached;
+
+    ctx.clearRect(0, 0, skin.width, skin.height);
+    ctx.drawImage(cached, -shift, 0, cached.width / 2, cached.height / 2);
+  };
+
+  Actor.prototype.nextFrame = function(SCALE) {
+    var step = this.step;
+
+    var skin = this.skin;
+    var ctx = skin.getContext('2d');
+
+    var shift;
+    var cached = this.cached;
+
+    var start;
+    var delta;
+
+    // if at step, advance to next frame in animation
+    if (this.t % step === 0) {
+      ctx.clearRect(0, 0, skin.width, skin.height);
+
+      switch(this.entity.direction) {
+        case 'right':
+          start = this.animation.start;
+          delta = this.t / step;
+          break;
+        case 'left':
+          start = this.xMax - this.animation.end;
+          delta = -this.t / step;
+          break;
+      }
+
+      this.frame = start + delta;
+      shift = this.frame * SCALE * this.entity.state.private.width;
+      ctx.drawImage(cached, -shift, 0, cached.width / 2, cached.height / 2);
+    }
+
+    this.t++;
   };
 
   Actor.prototype.update = function(SCALE) {
@@ -88,42 +146,54 @@
 
     // animate character
     var step = this.step;
-    var shift;
+    var end = this.animation.start + (this.t / step) >= this.animation.end + 1 ? true : false;
 
-    var animation = this.entity.animation;
-    var end;
-
-    // TODO: alter animation based on state
-    if (animation) {
-      this.animation = this.map[animation];
-      end = this.animation.xStart + (this.frame / step) >= this.animation.xEnd + 1 ? true : false;
-
-      // TODO: get values from jumping/moving state, change to be LAST_FRAME
-      if (this.animation.repeat && end) {
-        this.frame = 0;
-      } else if (end) {
-        this.frame = 0;
-        this.entity.animation = 0;
-      }
-
-      // if at step, advance to next frame in animation
-      if (this.frame % step === 0) {
-        shift = (this.animation.xStart + (this.frame/step)) * SCALE * 4;
-
-        ctx.clearRect(0, 0, skin.width, skin.height);
-        ctx.drawImage(cached, -shift, 0, cached.width / 2, cached.height / 2);
-      }
-
-      this.frame++;
-    } else {
-      ctx.clearRect(0, 0, skin.width, skin.height);
-      ctx.drawImage(cached, 0, 0, cached.width / 2, cached.height / 2);
+    if (!end) {
+      this.nextFrame(SCALE);
+    } else if (this.animation.repeat) {
+      this.t = 0;
     }
   };
 
   Actor.prototype.draw = function(ctx, x, y, SCALE) {
-    // TODO: this will animate even when standing still
-    if (typeof this.entity.animation === 'number') this.update(SCALE);
+    // TODO: reset this.t when sprite changes
+    var animation = this.entity.animation;
+
+    if (animation.isThrowing) {
+      this.animation = this.map[3];
+    } else if (animation.isHit) {
+      this.animation = this.map[4];
+    } else if (animation.isJumping) {
+      this.animation = this.map[2];
+    } else if (animation.isMoving) {
+      this.animation = this.map[1];
+    } else {
+      this.animation = this.map[0];
+    }
+
+    switch(this.entity.direction) {
+      case 'right':
+        this.cached = this.right;
+
+        if (this.animation.start === this.animation.end && this.frame !== this.animation.start) {
+          this.setFrame(this.animation.start, SCALE);
+        } else if (this.animation.start !== this.animation.end) {
+          this.update(SCALE);
+        }
+
+        break;
+      case 'left':
+        this.cached = this.left;
+
+        if (this.animation.start === this.animation.end && this.frame !== (this.xMax - this.animation.start - 1)) {
+          this.setFrame(this.xMax - this.animation.start - 1, SCALE);
+        } else if (this.animation.start !== this.animation.end) {
+          this.update(SCALE);
+        }
+
+        break;
+    }
+
     ctx.drawImage(this.skin, x, y);
   };
 

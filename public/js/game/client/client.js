@@ -5,6 +5,10 @@
   }
 })(this, function(core, time, input, Player) {
 
+  // init stats
+  var stats = new Stats();
+  document.body.appendChild(stats.domElement);
+
   var entities = {};
 
   var init = function(client) {
@@ -162,6 +166,7 @@
 
     time.setDelta();
     runFrameActions(client);
+    stats.update();
   };
 
   var pause = function() {

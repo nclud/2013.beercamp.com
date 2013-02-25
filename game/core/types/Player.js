@@ -33,48 +33,52 @@
       // TODO: sprite.x minus sprite.map.xStart to calculate mirror?
 
       var sprite = {
-        // TODO: pass skin index from server, mapping to image path on client
-        src: properties.skin,
+        src: this,
         x: 9,
         y: 5,
-        step: 9,
+        step: 8,
         map: {
           // default
           0: {
-            xStart: 0,
-            xEnd: 0,
+            start: 0,
+            end: 0,
             repeat: false
           },
 
           // move
           1: {
-            xStart: 1,
-            xEnd: 3,
-            repeat: false
+            start: 1,
+            end: 3,
+            repeat: true
           },
 
           // jump
           2: {
-            xStart: 4,
-            xEnd: 5,
+            start: 4,
+            end: 5,
             repeat: false
           },
 
           // throw
           3: {
-            xStart: 6,
-            xEnd: 7,
+            start: 6,
+            end: 7,
             repeat: false
           },
 
           // hit
           4: {
-            xStart: 8,
-            xEnd: 8,
+            start: 8,
+            end: 8,
             repeat: false
           }
         }
-      }
+      };
+
+      this.animation = {};
+
+      // TODO: move this into state to update other clients
+      this.direction = 'right';
 
       this.actor = properties.skin ? new Actor(properties, this, client, sprite) : false;
     }
@@ -115,10 +119,20 @@
     }
 
     // set animation state for jumping or moving
-    if (vector['vy']) {
-      this.animation = 2;
-    } else if (vector['vx']) {
-      this.animation = 1;
+    if (typeof vector['vy'] === "number") {
+      this.animation.isJumping = true;
+    } else {
+      this.animation.isJumping = false;
+    }
+    
+    if (vector['vx'] === 0) {
+      this.animation.isMoving = true;
+      this.direction = 'right';
+    } else if (vector['vx'] === 180) {
+      this.animation.isMoving = true;
+      this.direction = 'left';
+    } else {
+      this.animation.isMoving = false;
     }
 
 		if(pressed.spacebar) {

@@ -5,9 +5,6 @@
   }
 })(this, function(core, input, client) {
 
-  var stats = new Stats();
-  document.body.appendChild(stats.domElement);
-
   // game.debug = true;
   core.initGlobalVariables();
   input.init();
