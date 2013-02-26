@@ -55,6 +55,7 @@
     this.skin.height = properties.height * SCALE;
 
     // render to offscreen canvas
+    // reverse canvas for moving in opposite direction
     var cached = this.cached = this.right = this.renderToCanvas(properties.skin, SCALE, false);
     this.left = this.renderToCanvas(properties.skin, SCALE, true);
 
@@ -119,7 +120,7 @@
     if (this.t % step === 0) {
       ctx.clearRect(0, 0, skin.width, skin.height);
 
-      switch(this.entity.direction) {
+      switch(this.entity.state.public.direction) {
         case 'right':
           start = this.animation.start;
           delta = this.t / step;
@@ -153,25 +154,27 @@
     } else if (this.animation.repeat) {
       this.t = 0;
     }
+    
+    // TODO: redraw if this.entity.direction changes
   };
 
   Actor.prototype.draw = function(ctx, x, y, SCALE) {
     // TODO: reset this.t when sprite changes
-    var animation = this.entity.animation;
+    var state = this.entity.state.public;
 
-    if (animation.isThrowing) {
+    if (state.isThrowing) {
       this.animation = this.map[3];
-    } else if (animation.isHit) {
+    } else if (state.isHit) {
       this.animation = this.map[4];
-    } else if (animation.isJumping) {
+    } else if (state.isJumping) {
       this.animation = this.map[2];
-    } else if (animation.isMoving) {
+    } else if (state.isMoving) {
       this.animation = this.map[1];
     } else {
       this.animation = this.map[0];
     }
 
-    switch(this.entity.direction) {
+    switch(this.entity.state.public.direction) {
       case 'right':
         this.cached = this.right;
 

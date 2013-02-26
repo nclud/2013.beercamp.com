@@ -38,6 +38,15 @@
     entities.state(data, function() {
       data.time = Date.now();
       socket.io.sockets.volatile.emit('state:full', data);
+      // console.log('full', data.entities);
+
+      /*
+      var entity;
+      for (var uuid in data.entities) {
+        entity = data.entities[uuid];
+        console.log(entity.state);
+      }
+      */
     }); 
 
   };
@@ -51,6 +60,7 @@
     entities.delta(data, function() {
       data.time = Date.now();
       socket.io.sockets.volatile.emit('state:delta', data);
+      // console.log('delta', data.entities);
     });
 
   };

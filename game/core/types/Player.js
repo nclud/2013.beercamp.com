@@ -29,8 +29,6 @@
       // pass xStart, xEnd, xRepeat, yStart when updating Actor
 
       // this.drunk ranges from 0 to 4
-      // TODO: reverse canvas for moving in opposite direction
-      // TODO: sprite.x minus sprite.map.xStart to calculate mirror?
 
       var sprite = {
         src: this,
@@ -75,10 +73,8 @@
         }
       };
 
-      this.animation = {};
-
       // TODO: move this into state to update other clients
-      this.direction = 'right';
+      this.state.public.direction = 'right';
 
       this.actor = properties.skin ? new Actor(properties, this, client, sprite) : false;
     }
@@ -119,20 +115,19 @@
     }
 
     // set animation state for jumping or moving
-    if (typeof vector['vy'] === "number") {
-      this.animation.isJumping = true;
-    } else {
-      this.animation.isJumping = false;
+    if (vector['vy'] === 270) {
+      // set back to false by server update
+      this.state.public.isJumping = true;
     }
     
     if (vector['vx'] === 0) {
-      this.animation.isMoving = true;
-      this.direction = 'right';
+      this.state.public.isMoving = true;
+      this.state.public.direction = 'right';
     } else if (vector['vx'] === 180) {
-      this.animation.isMoving = true;
-      this.direction = 'left';
+      this.state.public.isMoving = true;
+      this.state.public.direction = 'left';
     } else {
-      this.animation.isMoving = false;
+      this.state.public.isMoving = false;
     }
 
 		if(pressed.spacebar) {
@@ -173,13 +168,21 @@
 
       // calculate delta time vector
       var vector = core.getVelocity(move.input);
+
+      var delta = false;
       var power;
 
       // TODO: static impulse instead of movement over time?
+      // TODO: FIX THIS LOGIC
       for (var vertex in vector) {
         // false if no magnitude
         if (typeof vector[vertex] === 'number') {
           power = this.state.private[vertex] = this.state.private.speed;
+
+          worker.send({
+            'cmd': 'setZero',
+            'uuid': this.uuid
+          });
         
           worker.send({
             'cmd': 'impulse',
@@ -187,12 +190,28 @@
             'degrees': vector[vertex],
             'power': power
           });
+
+          delta = true;
         } else if (this.state.private[vertex] !== 0) {
-          worker.send({
-            'cmd': 'setZero',
-            'uuid': this.uuid
-          });
+          this.state.private[vertex] = 0;
         }
+      }
+
+      if (vector['vx'] === 0) {
+        this.state.public.isMoving = true;
+        this.state.public.direction = 'right';
+      } else if (vector['vx'] === 180) {
+        this.state.public.isMoving = true;
+        this.state.public.direction = 'left';
+      } else {
+        this.state.public.isMoving = false;
+      }
+
+      if (!delta) {
+        worker.send({
+          'cmd': 'setZero',
+          'uuid': this.uuid
+        });
       }
 
       if(move.input.spacebar) {

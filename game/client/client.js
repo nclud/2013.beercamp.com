@@ -235,6 +235,7 @@
 
       } else {
 
+        // TODO: switch this to reconcile
         entity.interpolate();
 
         // client prediction only for active player

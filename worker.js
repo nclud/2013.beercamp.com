@@ -42,14 +42,75 @@ function bTest(intervalRate, adaptive) {
   );
 
   this.bodies = {};
-  this.deadBodies = [];
+  this.graveyard = [];
 
   this.fixDef = new b2FixtureDef;
-  this.fixDef.density = 0.25;
+  this.fixDef.density = 1;
   this.fixDef.friction = 0;
   this.fixDef.restitution = 0;
 
   this.bodyDef = new b2BodyDef;
+}
+
+bTest.prototype.addContactListener = function(callbacks) {
+  var listener = new Box2D.Dynamics.b2ContactListener;
+
+  if (callbacks.BeginContact) listener.BeginContact = function(contact) {
+    var fixtures = [contact.GetFixtureA(), contact.GetFixtureB()];
+    var length = fixtures.length;
+    var fixture;
+
+    for (var i = 0; i < length; i++) {
+      fixture = fixtures[i];
+      if (fixture.GetUserData() === 'feet') {
+        callbacks.BeginContact(
+          fixture.GetBody().GetUserData()
+        );
+      }
+
+    }
+  }
+
+  if (callbacks.EndContact) listener.EndContact = function(contact) {
+    var fixtures = [contact.GetFixtureA(), contact.GetFixtureB()];
+    var length = fixtures.length;
+    var fixture;
+
+    for (var i = 0; i < length; i++) {
+      fixture = fixtures[i];
+
+      if (fixture.GetUserData() === 'feet') {
+        callbacks.EndContact(
+          fixture.GetBody().GetUserData()
+        );
+      }
+
+    }
+  }
+
+  if (callbacks.PostSolve) listener.PostSolve = function(contact, impulse) {
+    var fixtureA = contact.GetFixtureA();
+    var fixtureB = contact.GetFixtureB();
+
+    var fixtures = [fixtureA, fixtureB];
+    var length = fixtures.length;
+    var fixture;
+
+    for (var i = 0; i < length; i++) {
+      fixture = fixtures[i];
+
+      if (fixture.GetUserData() === 'feet') {
+        callbacks.PostSolve(
+          fixtureA.GetBody().GetUserData(),
+          fixtureB.GetBody().GetUserData(),
+          impulse.normalImpulses[0]
+        );
+      }
+
+    }
+  }
+
+  this.world.SetContactListener(listener);
 }
 
 bTest.prototype.update = function() {
@@ -68,16 +129,16 @@ bTest.prototype.update = function() {
   // iterate over bodies to destroy
   var body;
   var uuid;
-  var length = this.deadBodies.length;
+  var length = this.graveyard.length;
 
   for (var i = 0; i < length; i++) {
-    uuid = this.deadBodies[i];
+    uuid = this.graveyard[i];
     body = this.bodies[uuid];
     this.world.DestroyBody(body);
   }
 
   // clear destroyed bodies from array
-  this.deadBodies = [];
+  this.graveyard = [];
 
   // wraparound world
   for (var b = this.world.GetBodyList(); b; b = b.GetNext()) {
@@ -110,7 +171,12 @@ bTest.prototype.sendUpdate = function() {
   var world = {};
   for (var b = this.world.GetBodyList(); b; b = b.m_next) {
     if (typeof b.GetUserData() !== 'undefined' && b.GetUserData() != null) {
-      world[b.GetUserData()] = {x: b.GetPosition().x, y: b.GetPosition().y, angle: b.GetAngle()};
+      world[b.GetUserData()] = {
+        x: b.GetPosition().x,
+        y: b.GetPosition().y,
+        angle: b.GetAngle(),
+        isJumping: b.numFootContacts === 0
+      };
     }
   }
 
@@ -152,9 +218,42 @@ bTest.prototype.setBodies = function(bodyEntities) {
   // this.ready = true;
 }
 
+bTest.prototype.addPlayer = function(uuid, entity) {
+  this.bodyDef.type = b2Body.b2_dynamicBody;
+
+  // players never collide with each other
+  this.fixDef.filter.groupIndex = -1;
+
+  this.fixDef.shape = new b2PolygonShape;
+  this.fixDef.shape.SetAsBox(entity.width / 2, entity.height / 2);
+
+  this.bodyDef.position.x = entity.x;
+  this.bodyDef.position.y = entity.y;
+
+  this.bodyDef.fixedRotation = entity.fixed;
+
+  this.bodyDef.userData = uuid;
+
+  var body = this.bodies[uuid] = this.world.CreateBody(this.bodyDef);
+  body.CreateFixture(this.fixDef);
+  body.numFootContacts = 0;
+
+  // add foot sensor fixture
+  this.fixDef.isSensor = true;
+  this.fixDef.shape = new b2PolygonShape;
+  this.fixDef.shape.SetAsOrientedBox((entity.width / 2) * 0.9, 0.1, new b2Vec2(0, entity.height / 2), 0);
+  this.fixDef.userData = 'feet';
+  body.CreateFixture(this.fixDef);
+
+  // reset fixDef
+  this.fixDef.filter.groupIndex = 0;
+  this.fixDef.isSensor = false;
+  this.fixDef.userData = null;
+}
+
 bTest.prototype.removeBody = function(uuid) {
   // add to queue to clean up after time step completes
-  this.deadBodies.push(uuid);
+  this.graveyard.push(uuid);
 }
 
 bTest.prototype.impulse = function(uuid, degrees, power) {
@@ -171,10 +270,30 @@ bTest.prototype.impulse = function(uuid, degrees, power) {
 }
 
 bTest.prototype.setZero = function(uuid) {
-  this.bodies[uuid].GetLinearVelocity().SetZero();
+  // only set velocity.x to zero
+  // TODO: only call this while body in contact with ground?
+  var velocity = this.bodies[uuid].GetLinearVelocity();
+  this.bodies[uuid].SetLinearVelocity({x: 0, y: velocity.y}, 0);
 }
  
 var box = new bTest(15, false);
+
+box.addContactListener({
+  BeginContact: function(id) {
+    box.bodies[id].numFootContacts++;
+  },
+  EndContact: function(id) {
+    box.bodies[id].numFootContacts--;
+  },
+  PostSolve: function(idA, idB, impulse) {
+    // console.log(idA, idB, impulse);
+
+    if (impulse < 10) return; // playing with thresholds
+
+    var entityA = box.bodies[idA];
+    var entityB = box.bodies[idB];
+  }
+});
 
 var loop = function() {
   // console.log('Worker loop', Date.now(), 'Status:', process.connected);
@@ -190,6 +309,9 @@ process.on('message', function(data) {
   switch (data.cmd) {
     case 'add':
       box.setBodies(data.msg);
+      break;
+    case 'addPlayer':
+      box.addPlayer(data.uuid, data.state);
       break;
     case 'remove':
       box.removeBody(data.uuid);

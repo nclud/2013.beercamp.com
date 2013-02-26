@@ -44,8 +44,7 @@
         height: 4,
         fixed: true,
         skin: 'images/char1.png',
-        animation: 0,
-        speed: 200
+        speed: 500
       });
       
       // set uuid and send to client
@@ -59,18 +58,15 @@
 
   var addPlayer = function(socket, worker, player) {
 
-    var data = {};
-
     // add player to server object
     entities.global[player.uuid] = player;
     entities.local.push(player.uuid);
 
     // passing full object throws DOM exception, can't pass canvas to worker
-    data[player.uuid] = player.state.private;
-
     worker.send({
-      'cmd': 'add',
-      'msg': data
+      'cmd': 'addPlayer',
+      'uuid': player.uuid,
+      'state': player.state.private
     });
 
     // TODO: trigger full state update

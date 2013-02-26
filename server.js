@@ -9,7 +9,19 @@ var worker;
 
 console.log('CPUs:', numCPUs);
 if (numCPUs > 1) {
-  worker = child.fork('worker.js');
+  // polyfill for nodejitsu compatibility
+  child.fork = function(file) {
+    return this.spawn(process.execPath, [file], {
+      stdio: ['pipe', 1, 2, 'ipc'],
+      env: process.env
+    });
+  }
+
+  worker = child.spawn(process.execPath, ['worker.js'], {
+      stdio: ['pipe', 1, 2, 'ipc'],
+      env: process.env
+    });
+
   console.log('Worker', worker.pid, worker.connected);
   // console.log('worker.send', worker.send);
 
