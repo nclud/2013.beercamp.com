@@ -85,66 +85,92 @@
     // input queue
     this.queue.input = [];
 
+    // current input state
+    this.input = {};
+
     return this;
 	};
 
 	Player.prototype = new Rectangle();
   Player.prototype.constructor = Player;
 
-	Player.prototype.respondToInput = function(pressed, callback) {
+	Player.prototype.sendImpulse = function(worker, degrees) {
+    worker.send({
+      'cmd': 'impulse',
+      'uuid': this.uuid,
+      'degrees': degrees,
+      'power': this.state.private.speed
+    });
+  };
 
-    var vector = core.getVelocity(pressed);
+	Player.prototype.respondToInput = function(pressed, callback) {
 
     var fireButtonChanged = false;
     var input;
 
-    var delta = false;
-    var power;
+    var delta = [];
+    // console.log(move, worker.pid, worker.connected);
 
-    for (var vertex in vector) {
-      // false if no magnitude
-      if (typeof vector[vertex] === 'number') {
-        if (this.state.private[vertex] !== this.state.private.speed) {
-          this.state.private[vertex] = this.state.private.speed;
-          delta = true;
-        }
-      } else if (this.state.private[vertex] !== 0) {
-        this.state.private[vertex] = 0;
-        delta = true;
+    for (var key in pressed) {
+      if (pressed[key] !== this.input[key]) {
+        delta.push(key);
+
+        // update current input state
+        this.input[key] = pressed[key];
       }
     }
 
-    // set animation state for jumping or moving
-    if (vector['vy'] === 270) {
-      // set back to false by server update
-      this.state.public.isJumping = true;
-    }
-    
-    if (vector['vx'] === 0) {
-      this.state.public.isMoving = true;
-      this.state.public.direction = 'right';
-    } else if (vector['vx'] === 180) {
-      this.state.public.isMoving = true;
-      this.state.public.direction = 'left';
-    } else {
-      this.state.public.isMoving = false;
-    }
+    // calculate delta time vector
+    var vector = core.getVelocity(pressed);
 
-		if(pressed.spacebar) {
-			this.fire();
+    var length = delta.length;
+    var deltaKey;
 
-      // play throw animation
-      this.animation = 3;
-		} else {
-      if (!this.fireButtonReleased) {
-        fireButtonChanged = true;
+    for (var i = 0; i < length; i++) {
+      deltaKey = delta[i];
+
+      switch(deltaKey) {
+
+        case 'up':
+          if (pressed['up']) {
+            // sendImpulse(worker, vector['vy']);
+          }
+          break;
+
+        case 'left':
+        case 'right':
+          if (pressed['left'] !== pressed['right']) {
+            this.state.public.isMoving = true;
+            this.state.public.direction = pressed['left'] ? 'left' : 'right';
+
+            // sendImpulse(worker, vector['vx']);
+          } else {
+            this.state.public.isMoving = false;
+
+            /*
+            worker.send({
+              'cmd': 'setZero',
+              'uuid': this.uuid
+            });
+            */
+          }
+          break;
+
+        case 'spacebar':
+          if (pressed['spacebar']) {
+            // TODO: play throw animation
+            this.fire();
+          } else {
+            this.fireButtonReleased = true;
+          }
+          break;
+
       }
+    }
 
-			this.fireButtonReleased = true;
-		}
+    // TODO: sendImpulse if key pressed but no velocity (from wall collision?)
 
-    if (delta || pressed.spacebar || fireButtonChanged) {
-      // create input object
+    if (delta.length) {
       input = {
         seq: this.seq++,
         input: pressed
@@ -154,71 +180,75 @@
       this.queue.input.push(input);
 
       if (typeof callback === 'function') callback(input);
-    } else {
-      // reset to default animation if no input
-      // TODO: move this to update loop if no change?
-      // this.animation = 0;
     }
 
 	};
 
 	Player.prototype.processInput = function(move, worker) {
+
     process.nextTick((function() {
+      var pressed = move.input;
+      var delta = [];
+
       // console.log(move, worker.pid, worker.connected);
 
-      // calculate delta time vector
-      var vector = core.getVelocity(move.input);
+      for (var key in pressed) {
+        if (pressed[key] !== this.input[key]) {
+          delta.push(key);
 
-      var delta = false;
-      var power;
-
-      // TODO: static impulse instead of movement over time?
-      // TODO: FIX THIS LOGIC
-      for (var vertex in vector) {
-        // false if no magnitude
-        if (typeof vector[vertex] === 'number') {
-          power = this.state.private[vertex] = this.state.private.speed;
-
-          worker.send({
-            'cmd': 'setZero',
-            'uuid': this.uuid
-          });
-        
-          worker.send({
-            'cmd': 'impulse',
-            'uuid': this.uuid,
-            'degrees': vector[vertex],
-            'power': power
-          });
-
-          delta = true;
-        } else if (this.state.private[vertex] !== 0) {
-          this.state.private[vertex] = 0;
+          // update current input state
+          this.input[key] = pressed[key];
         }
       }
 
-      if (vector['vx'] === 0) {
-        this.state.public.isMoving = true;
-        this.state.public.direction = 'right';
-      } else if (vector['vx'] === 180) {
-        this.state.public.isMoving = true;
-        this.state.public.direction = 'left';
-      } else {
-        this.state.public.isMoving = false;
+      // calculate delta time vector
+      var vector = core.getVelocity(pressed);
+
+      var length = delta.length;
+      var deltaKey;
+
+      for (var i = 0; i < length; i++) {
+        deltaKey = delta[i];
+
+        switch(deltaKey) {
+
+          case 'up':
+            if (pressed['up']) {
+              this.sendImpulse(worker, vector['vy']);
+            }
+            break;
+
+          case 'left':
+          case 'right':
+            // negate values to make undefined equal false
+            if (!pressed['left'] === !pressed['right']) {
+              this.state.public.isMoving = false;
+
+              worker.send({
+                'cmd': 'setZero',
+                'uuid': this.uuid
+              });
+            } else {
+              this.state.public.isMoving = true;
+              this.state.public.direction = pressed['left'] ? 'left' : 'right';
+
+              this.sendImpulse(worker, vector['vx']);
+            }
+            break;
+
+          case 'spacebar':
+            if (pressed['spacebar']) {
+              // TODO: play throw animation
+              this.fire();
+            } else {
+              this.fireButtonReleased = true;
+            }
+            break;
+
+        }
       }
 
-      if (!delta) {
-        worker.send({
-          'cmd': 'setZero',
-          'uuid': this.uuid
-        });
-      }
-
-      if(move.input.spacebar) {
-        this.fire();
-      } else {
-        this.fireButtonReleased = true;
-      }
+      // TODO: sendImpulse if key pressed but no velocity (from wall collision?)
 
       // if queue empty, stop looping
       if (!this.queue.input.length) return;
