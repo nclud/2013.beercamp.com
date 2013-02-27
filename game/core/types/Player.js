@@ -103,6 +103,8 @@
     });
   };
 
+  // TODO: refactor respondToInput and processInput core into a shared function
+  // TODO: pass in Web Worker to process input
 	Player.prototype.respondToInput = function(pressed, callback) {
 
     var fireButtonChanged = false;
@@ -133,6 +135,7 @@
 
         case 'up':
           if (pressed['up']) {
+            this.state.public.isJumping = true;
             // sendImpulse(worker, vector['vy']);
           }
           break;
@@ -188,8 +191,8 @@
 
     process.nextTick((function() {
       var pressed = move.input;
-      var delta = [];
 
+      var delta = [];
       // console.log(move, worker.pid, worker.connected);
 
       for (var key in pressed) {
@@ -214,6 +217,7 @@
 
           case 'up':
             if (pressed['up']) {
+              this.state.public.isJumping = true;
               this.sendImpulse(worker, vector['vy']);
             }
             break;
