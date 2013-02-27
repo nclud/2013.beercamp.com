@@ -175,6 +175,7 @@ bTest.prototype.sendUpdate = function() {
         x: b.GetPosition().x,
         y: b.GetPosition().y,
         angle: b.GetAngle(),
+        velocity: b.GetLinearVelocity(),
         isJumping: b.numFootContacts === 0
       };
     }

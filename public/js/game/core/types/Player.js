@@ -134,7 +134,7 @@
       switch(deltaKey) {
 
         case 'up':
-          if (pressed['up']) {
+          if (pressed['up'] && !this.state.public.isJumping) {
             this.state.public.isJumping = true;
             // sendImpulse(worker, vector['vy']);
           }
@@ -171,7 +171,12 @@
       }
     }
 
-    // TODO: sendImpulse if key pressed but no velocity (from wall collision?)
+    // sendImpulse if key pressed but no velocity (from wall collision)
+    /*
+    if (!pressed['left'] !== !pressed['right'] && this.state.public.velocity.x === 0) {
+      // this.sendImpulse(worker, vector['vx']);
+    }
+    */
 
     if (delta.length) {
       input = {
@@ -216,7 +221,7 @@
         switch(deltaKey) {
 
           case 'up':
-            if (pressed['up']) {
+            if (pressed['up'] && !this.state.public.isJumping) {
               this.state.public.isJumping = true;
               this.sendImpulse(worker, vector['vy']);
             }
@@ -252,7 +257,12 @@
         }
       }
 
-      // TODO: sendImpulse if key pressed but no velocity (from wall collision?)
+      // sendImpulse if key pressed but no velocity (from wall collision)
+      /*
+      if (!pressed['left'] !== !pressed['right'] && this.state.public.velocity.x === 0) {
+        this.sendImpulse(worker, vector['vx']);
+      }
+      */
 
       // if queue empty, stop looping
       if (!this.queue.input.length) return;
