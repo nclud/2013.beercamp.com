@@ -4,35 +4,54 @@
     module.exports = factory(
       require('../core'),
       require('../time'),
-      require('./Entity')
+      require('./Rectangle')
     );
   } else if (typeof define === 'function' && define.amd) {
     // AMD
     define([
       '../core',
       '../time',
-      './Entity'
+      './Rectangle'
     ], factory);
   }
-})(this, function(core, time, Entity) {
+})(this, function(core, time, Rectangle) {
 
 	var Platform = function(properties, id, client) {
     properties = properties || {};
     properties.class = properties.class || 'Platform';
 
+    // console.log(properties.width, properties.height);
+
     properties.sprite = properties.sprite || {
-      src: 'images/level_sprite.png'
+      src: 'images/level_sprite.png',
+      width: properties.width,
+      height: properties.width,
+      x: 10,
+      y: 10,
+      scale: 4,
+      map: {
+
+        // default
+        0: {
+          start: 1,
+          end: 1,
+          repeat: false
+        }
+
+      }
     };
     
-    Entity.call(this, properties, id, client);
+    Rectangle.call(this, properties, id, client);
 
     return this;
 	};
 
-	Rectangle.prototype = new Entity();
-  Rectangle.prototype.constructor = Rectangle;
+	Platform.prototype = new Rectangle();
+  Platform.prototype.constructor = Platform;
 
-  Rectangle.prototype.drawType = function(client) {
+  Platform.prototype.drawType = function(client) {
+    Rectangle.prototype.drawType.call(this, client);
+
     var ctx = client.ctx;
     var SCALE = client.canvas.scale;
 
@@ -57,11 +76,14 @@
       width,
       height
     );
-    ctx.restore();
 
-    // Entity.prototype.draw.call(this, client);
+    if (this.actor) {
+      this.actor.draw(ctx, x - halfWidth, y - halfHeight, SCALE);
+    }
+
+    ctx.restore();
   }
 
-  return Rectangle;
+  return Platform;
 
 });

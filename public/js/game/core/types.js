@@ -10,6 +10,7 @@
       'require',
       './types/Entity',
       './types/Rectangle',
+      './types/Platform',
       './types/Player',
       './types/Actor'
     ], factory);
@@ -21,6 +22,7 @@
   return {
     Entity: require('./types/Entity'),
     Rectangle: require('./types/Rectangle'),
+    Platform: require('./types/Platform'),
     Player: require('./types/Player'),
     Actor: require('./types/Actor')
   };

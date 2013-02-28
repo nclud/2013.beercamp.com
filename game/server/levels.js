@@ -10,7 +10,7 @@
   }
 })(this, function(types, entities, npcs, async) {
   
-  var Rectangle = types['Rectangle'];
+  var Platform = types['Platform'];
 
   var init = function(worker) {
     worker.on('message', function(data) {
@@ -54,7 +54,7 @@
     for (var i = 0; i < length; i++) {
       platform = platforms[i];
 
-      entity = new Rectangle({
+      entity = new Platform({
         x: platform.x,
         y: platform.y,
         angle: 0,

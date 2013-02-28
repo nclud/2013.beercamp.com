@@ -54,6 +54,7 @@
       width,
       height
     );
+
     ctx.restore();
 
     // Entity.prototype.draw.call(this, client);

@@ -16,19 +16,28 @@
   }
 })(this, function(core, time, Rectangle) {
 
-  // constructor
 	var Player = function(properties, id, client) {
     properties = properties || {};
     properties.class = properties.class || 'Player';
     properties.type = properties.type || 'dynamic';
 
+    properties.angle = properties.angle ||  0;
+    properties.width = properties.width ||  4;
+    properties.height = properties.height ||  4;
+    properties.fixed = properties.fixed ||  true;
+    properties.speed = properties.speed ||  500;
+
     properties.sprite = properties.sprite || {
       src: properties.skin,
       direction: 'right',
+      width: 4,
+      height: 4,
       x: 9,
       y: 5,
       step: 8,
+      scale: 10,
       map: {
+
         // default
         0: {
           start: 0,
@@ -63,6 +72,7 @@
           end: 8,
           repeat: false
         }
+
       }
     };
 

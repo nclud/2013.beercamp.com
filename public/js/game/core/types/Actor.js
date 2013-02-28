@@ -56,39 +56,49 @@
     var ctx = this.skin.getContext('2d');
     var SCALE = canvas.scale;
 
-    this.skin.width = this.entity.state.private.width * SCALE;
-    this.skin.height = this.entity.state.private.height * SCALE;
+    this.skin.width = sprite.width * SCALE;
+    this.skin.height = sprite.height * SCALE;
+    this.skin.scale = sprite.scale;
 
     // render to offscreen canvas
-    // reverse canvas for moving in opposite direction
-    var cached = this.cached = this.right = this.renderToCanvas(sprite.skin, SCALE, false);
-    this.left = this.renderToCanvas(sprite.skin, SCALE, true);
+    var cached = this.cached = this.renderToCanvas(sprite, SCALE, false);
 
-    /*
+    // reverse canvas for moving in opposite direction
+    var direction = sprite.direction
+
+    if (direction) {
+      this[direction] = cached;
+      var mirror = direction === 'right' ? 'left' : 'right';
+      this[mirror] = this.renderToCanvas(sprite, SCALE, true);
+    }
+
     // DEBUG: render full skin
-    this.skin.width = cached.width;
-    this.skin.height = cached.height;
+    /*
+    if (this.entity.state.private.class === 'Platform') {
+      this.skin.width = cached.width;
+      this.skin.height = cached.height;
+    }
     */
 
     ctx.drawImage(cached, 0, 0, cached.width / 2, cached.height / 2);
   };
 
-  Actor.prototype.renderToCanvas = function(skin, SCALE, mirror) {
+  Actor.prototype.renderToCanvas = function(sprite, SCALE, mirror) {
     var buffer = document.createElement('canvas');
     var ctx = buffer.getContext('2d');
 
-    var ratio = skin.width / skin.height;
+    var ratio = sprite.skin.width / sprite.skin.height;
 
     // TODO: where is this 10 value coming from? is ratio being used correctly?
-    var width = buffer.width = SCALE * this.entity.state.private.width * 10 * ratio;
-    var height = buffer.height = SCALE * this.entity.state.private.height * 10;
+    var width = buffer.width = sprite.width * sprite.scale * ratio * SCALE;
+    var height = buffer.height = sprite.height * sprite.scale * SCALE;
 
     if (mirror) {
       ctx.translate(width, 0);
       ctx.scale(-1, 1);
     }
 
-    ctx.drawImage(skin, 0, 0, width, height);
+    ctx.drawImage(sprite.skin, 0, 0, width, height);
 
     return buffer;
   };
@@ -99,8 +109,8 @@
     var skin = this.skin;
     var ctx = skin.getContext('2d');
 
-    var shift = this.frame * SCALE * this.entity.state.private.width;
     var cached = this.cached;
+    var shift = this.frame * cached.width / this.xMax / 2
 
     ctx.clearRect(0, 0, skin.width, skin.height);
     ctx.drawImage(cached, -shift, 0, cached.width / 2, cached.height / 2);
@@ -132,7 +142,7 @@
     }
 
     this.frame = start + delta;
-    shift = this.frame * SCALE * this.entity.state.private.width;
+    shift = this.frame * cached.width / this.xMax / 2;
     ctx.drawImage(cached, -shift, 0, cached.width / 2, cached.height / 2);
   };
 

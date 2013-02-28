@@ -40,12 +40,7 @@
       var player = new Player({
         x: Math.random() * 20,
         y: Math.random() * 10,
-        angle: 0,
-        width: 4,
-        height: 4,
-        fixed: true,
-        skin: 'images/char1.png',
-        speed: 500
+        skin: 'images/char1.png'
       });
       
       // set uuid and send to client
