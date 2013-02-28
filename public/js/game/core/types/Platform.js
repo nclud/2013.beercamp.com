@@ -16,11 +16,14 @@
   }
 })(this, function(core, time, Entity) {
 
-	var Rectangle = function(properties, id, client) {
+	var Platform = function(properties, id, client) {
     properties = properties || {};
-    properties.class = properties.class || 'Rectangle';
-    properties.type = properties.type || 'static';
+    properties.class = properties.class || 'Platform';
 
+    properties.sprite = properties.sprite || {
+      src: 'images/level_sprite.png'
+    };
+    
     Entity.call(this, properties, id, client);
 
     return this;

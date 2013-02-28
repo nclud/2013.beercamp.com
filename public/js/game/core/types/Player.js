@@ -4,7 +4,6 @@
     module.exports = factory(
       require('../core'),
       require('../time'),
-      require('./Entity'),
       require('./Rectangle')
     );
   } else if (typeof define === 'function' && define.amd) {
@@ -12,17 +11,19 @@
     define([
       '../core',
       '../time',
-      './Entity',
-      './Rectangle',
-      './Actor'
+      './Rectangle'
     ], factory);
   }
-})(this, function(core, time, Entity, Rectangle, Actor) {
+})(this, function(core, time, Rectangle) {
 
   // constructor
 	var Player = function(properties, id, client) {
-    var sprite = {
-      src: properties ? properties.skin : false,
+    properties = properties || {};
+    properties.class = properties.class || 'Player';
+    properties.type = properties.type || 'dynamic';
+
+    properties.sprite = properties.sprite || {
+      src: properties.skin,
       direction: 'right',
       x: 9,
       y: 5,
@@ -65,7 +66,7 @@
       }
     };
 
-    Rectangle.call(this, properties, id, client, sprite);
+    Rectangle.call(this, properties, id, client);
 
     // input sequence id
     this.seq = 0;

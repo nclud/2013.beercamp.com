@@ -11,14 +11,17 @@
     define([
       '../core',
       '../time',
-      './Entity',
-      './Actor'
+      './Entity'
     ], factory);
   }
-})(this, function(core, time, Entity, Actor) {
+})(this, function(core, time, Entity) {
 
-	var Rectangle = function(properties, id, client, sprite) {
-    Entity.call(this, properties, id, client, sprite);
+	var Rectangle = function(properties, id, client) {
+    properties = properties || {};
+    properties.class = properties.class || 'Rectangle';
+    properties.type = properties.type || 'static';
+
+    Entity.call(this, properties, id, client);
 
     return this;
 	};

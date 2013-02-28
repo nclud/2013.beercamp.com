@@ -38,8 +38,6 @@
       // switch from socket.id to Connect sessions?
       // TODO: move player init to socket.js
       var player = new Player({
-        class: 'Player',
-        type: 'dynamic',
         x: Math.random() * 20,
         y: Math.random() * 10,
         angle: 0,

@@ -8,7 +8,7 @@
   }
 })(this, function() {
 
-	var Actor = function(entity, client, sprite) {
+	var Actor = function(entity, sprite, client) {
     // set sprite direction if specified
     if (sprite.direction) {
       entity.set({
@@ -61,8 +61,8 @@
 
     // render to offscreen canvas
     // reverse canvas for moving in opposite direction
-    var cached = this.cached = this.right = this.renderToCanvas(sprite.src, SCALE, false);
-    this.left = this.renderToCanvas(sprite.src, SCALE, true);
+    var cached = this.cached = this.right = this.renderToCanvas(sprite.skin, SCALE, false);
+    this.left = this.renderToCanvas(sprite.skin, SCALE, true);
 
     /*
     // DEBUG: render full skin

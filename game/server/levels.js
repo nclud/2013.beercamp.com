@@ -55,16 +55,11 @@
       platform = platforms[i];
 
       entity = new Rectangle({
-        class: 'Rectangle',
-        type: 'static',
         x: platform.x,
         y: platform.y,
         angle: 0,
         width: platform.width,
-        height: platform.height,
-        fixed: true,
-        // skin: false
-        skin: 'images/level_sprite.png'
+        height: platform.height
       });
 
       // passing full object throws DOM exception, can't pass DOM elements to worker
@@ -75,8 +70,7 @@
         y: entity.state.private.y,
         angle: entity.state.private.angle,
         width: entity.state.private.width,
-        height: entity.state.private.height,
-        fixed: entity.state.private.fixed
+        height: entity.state.private.height
       };
 
       entities.global[entity.uuid] = entity;

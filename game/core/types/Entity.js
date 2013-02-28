@@ -17,7 +17,7 @@
   }
 })(this, function(core, time, uuid, Actor) {
 
-	var Entity = function(properties, id, client, sprite) {
+	var Entity = function(properties, id, client) {
     if (uuid) {
       this.uuid = uuid.v4 ? uuid.v4() : false;
     } else if (id) {
@@ -32,18 +32,18 @@
 
 		if(properties) {
 			this.set(properties);
+
+      // Actor undefined on server
+      // Image is function in Chrome and Firefox, object in Safari
+      if (Actor && properties.sprite) {
+        this.actor = new Actor(this, properties.sprite, client);
+      }
 		}
 
     this.queue = {};
 
     // interpolation queue
     this.queue.server = [];
-
-    // Actor undefined on server
-    // Image is function in Chrome and Firefox, object in Safari
-    if (Actor && sprite) {
-      this.actor = new Actor(this, client, sprite);
-    }
 
     return this;
 	};

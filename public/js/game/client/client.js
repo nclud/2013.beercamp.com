@@ -63,7 +63,7 @@
       var entity;
 
       var state;
-      var skin;
+      var sprite;
 
       var msg = {};
 
@@ -80,23 +80,22 @@
         } else if (entity) {
           // if defined on server but not on client, create new Entity on client
           state = entity.state;
-          skin = state.skin;
+          sprite = state.sprite;
 
           // TODO: create correct entity type
-          if (skin) {
+          if (sprite && sprite.src) {
             var img = new Image();
 
             // encapsulate to keep correct state and uuid in callback
             (function(state, uuid) {
               img.addEventListener('load', function() {
-                state.skin = this;
+                state.sprite.skin = this;
                 client.entities[uuid] = new types[state.class](state, uuid, client);
               });
             })(state, uuid);
 
-            img.src = skin;
+            img.src = sprite.src;
           } else {
-            console.log(state.class);
             client.entities[uuid] = new types[state.class](state, uuid);
           }
 
