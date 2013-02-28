@@ -1,9 +1,14 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD
-    define(['../core/core', '../core/time', './input', '../core/types/Player'], factory);
+    define([
+      '../core/core',
+      '../core/time',
+      '../core/types',
+      './input'
+    ], factory);
   }
-})(this, function(core, time, input, Player) {
+})(this, function(core, time, types, input) {
 
   // init stats
   var stats = new Stats();
@@ -64,38 +69,41 @@
 
       // iterate over union of client and server players
       for (var i = 0; i < entities.length; i++) {
-        (function(uuid) {
-          entity = data.entities[uuid];
+        uuid = entities[i]
+        entity = data.entities[uuid];
 
-          if (entity && client.entities[uuid]) {
-            // TODO: if defined on server and client, update state
-            state = entity.state;
-            client.entities[uuid].setPublic(state);
-            client.entities[uuid].queue.server.push(client.entities[uuid].getState());
-          } else if (entity) {
-            // if defined on server but not on client, create new Entity on client
-            state = entity.state;
-            skin = state.skin;
+        if (entity && client.entities[uuid]) {
+          // TODO: if defined on server and client, update state
+          state = entity.state;
+          client.entities[uuid].setPublic(state);
+          client.entities[uuid].queue.server.push(client.entities[uuid].getState());
+        } else if (entity) {
+          // if defined on server but not on client, create new Entity on client
+          state = entity.state;
+          skin = state.skin;
 
-            // TODO: create correct entity type
-            if (skin) {
-              var img = new Image();
+          // TODO: create correct entity type
+          if (skin) {
+            var img = new Image();
 
+            // encapsulate to keep correct state and uuid in callback
+            (function(state, uuid) {
               img.addEventListener('load', function() {
                 state.skin = this;
-                client.entities[uuid] = new Player(state, uuid, client);
+                client.entities[uuid] = new types[state.class](state, uuid, client);
               });
+            })(state, uuid);
 
-              img.src = skin;
-            } else {
-              client.entities[uuid] = new Player(state, uuid);
-            }
-
-            msg[entity.uuid] = state;
+            img.src = skin;
           } else {
-            delete client.entities[uuid];
+            console.log(state.class);
+            client.entities[uuid] = new types[state.class](state, uuid);
           }
-        })(entities[i]);
+
+          msg[entity.uuid] = state;
+        } else {
+          delete client.entities[uuid];
+        }
       }
 
       if (Object.keys(msg).length) {

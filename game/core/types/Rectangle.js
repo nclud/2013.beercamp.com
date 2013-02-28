@@ -8,12 +8,17 @@
     );
   } else if (typeof define === 'function' && define.amd) {
     // AMD
-    define(['../core', '../time', './Entity'], factory);
+    define([
+      '../core',
+      '../time',
+      './Entity',
+      './Actor'
+    ], factory);
   }
-})(this, function(core, time, Entity) {
+})(this, function(core, time, Entity, Actor) {
 
-	var Rectangle = function(properties) {
-    Entity.call(this, properties);
+	var Rectangle = function(properties, id, client, sprite) {
+    Entity.call(this, properties, id, client, sprite);
 
     return this;
 	};

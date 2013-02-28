@@ -2,14 +2,15 @@
   if (typeof exports === 'object') {
     // Node.js
     module.exports = factory(
+      require('../core/types'),
       require('./entities'),
       require('./npcs'),
-      require('../core/types/Enemy.js'),
-      require('../core/types/Rectangle.js'),
       require('async')
     );
   }
-})(this, function(entities, npcs, Enemy, Rectangle, async) {
+})(this, function(types, entities, npcs, async) {
+  
+  var Rectangle = types['Rectangle'];
 
   var init = function(worker) {
     worker.on('message', function(data) {
@@ -54,6 +55,7 @@
       platform = platforms[i];
 
       entity = new Rectangle({
+        class: 'Rectangle',
         type: 'static',
         x: platform.x,
         y: platform.y,
@@ -61,7 +63,8 @@
         width: platform.width,
         height: platform.height,
         fixed: true,
-        skin: false
+        // skin: false
+        skin: 'images/level_sprite.png'
       });
 
       // passing full object throws DOM exception, can't pass DOM elements to worker

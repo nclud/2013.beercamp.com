@@ -2,17 +2,19 @@
   if (typeof exports === 'object') {
     // Node.js
     module.exports = factory(
+      require('../../config'),
+      require('../core/types'),
       require('./update'),
       require('./entities'),
-      require('../core/types/Player'),
       require('async'),
       require('redis'),
       require('socket.io'),
-      require('node-uuid'),
-      require('../../config')
+      require('node-uuid')
     );
   }
-})(this, function(update, entities, Player, async, redis, sio, uuid, config) {
+})(this, function(config, types, update, entities, async, redis, sio, uuid) {
+
+  var Player = types['Player'];
 
   var init = function(app, channel, worker) {
     var io = sio.listen(app);
@@ -36,6 +38,7 @@
       // switch from socket.id to Connect sessions?
       // TODO: move player init to socket.js
       var player = new Player({
+        class: 'Player',
         type: 'dynamic',
         x: Math.random() * 20,
         y: Math.random() * 10,

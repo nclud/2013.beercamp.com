@@ -5,79 +5,67 @@
       require('../core'),
       require('../time'),
       require('./Entity'),
-      require('./Rectangle'),
-      require('./Actor')
+      require('./Rectangle')
     );
   } else if (typeof define === 'function' && define.amd) {
     // AMD
-    define(['../core', '../time', './Entity', './Rectangle', './Actor'], factory);
+    define([
+      '../core',
+      '../time',
+      './Entity',
+      './Rectangle',
+      './Actor'
+    ], factory);
   }
 })(this, function(core, time, Entity, Rectangle, Actor) {
 
   // constructor
-	var Player = function(properties, uuid, client) {
-    Rectangle.call(this, properties);
+	var Player = function(properties, id, client) {
+    var sprite = {
+      src: properties ? properties.skin : false,
+      direction: 'right',
+      x: 9,
+      y: 5,
+      step: 8,
+      map: {
+        // default
+        0: {
+          start: 0,
+          end: 0,
+          repeat: false
+        },
 
-    if (uuid) {
-      this.uuid = uuid;
-    }
+        // move
+        1: {
+          start: 1,
+          end: 3,
+          repeat: true
+        },
 
-    // function in Chrome and Firefox, object in Safari
-    if (typeof Image !== 'undefined') {
+        // jump
+        2: {
+          start: 4,
+          end: 5,
+          repeat: false
+        },
 
-      // pass xMax, yMax, frameStep when creating Actor
-      // pass xStart, xEnd, xRepeat, yStart when updating Actor
+        // throw
+        3: {
+          start: 6,
+          end: 7,
+          repeat: false
+        },
 
-      // this.drunk ranges from 0 to 4
-
-      var sprite = {
-        src: this,
-        x: 9,
-        y: 5,
-        step: 8,
-        map: {
-          // default
-          0: {
-            start: 0,
-            end: 0,
-            repeat: false
-          },
-
-          // move
-          1: {
-            start: 1,
-            end: 3,
-            repeat: true
-          },
-
-          // jump
-          2: {
-            start: 4,
-            end: 5,
-            repeat: false
-          },
-
-          // throw
-          3: {
-            start: 6,
-            end: 7,
-            repeat: false
-          },
-
-          // hit
-          4: {
-            start: 8,
-            end: 8,
-            repeat: false
-          }
+        // hit
+        4: {
+          start: 8,
+          end: 8,
+          repeat: false
         }
-      };
+      }
+    };
 
-      // TODO: move this into state to update other clients
-      this.state.public.direction = 'right';
-
-      this.actor = properties.skin ? new Actor(properties, this, client, sprite) : false;
-    }
+    Rectangle.call(this, properties, id, client, sprite);
 
     // input sequence id
     this.seq = 0;

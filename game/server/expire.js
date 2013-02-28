@@ -24,12 +24,12 @@
       store.setnx('lock:npc', Date.now() + 1000, function(err, res) {
         if (res) {
           // no lock previously set, lock acquired
-          levels.loadEnemies();
+          // levels.loadEnemies();
         } else {
           store.getset('lock:npc', Date.now() + 1000, function(err, res) {
             if (res < Date.now()) {
               // timestamp expired, lock acquired
-              levels.loadEnemies();
+              // levels.loadEnemies();
             }
           });
         }

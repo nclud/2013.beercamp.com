@@ -1,16 +1,21 @@
 (function(root, factory) {
   if (typeof exports === 'object') {
     // Node.js
-    module.exports = factory(
-      require('./Entity')
-    );
+    module.exports = factory();
   } else if (typeof define === 'function' && define.amd) {
     // AMD
-    define(['./Entity'], factory);
+    define(factory);
   }
-})(this, function(Entity) {
+})(this, function() {
 
-	var Actor = function(properties, entity, client, sprite) {
+	var Actor = function(entity, client, sprite) {
+    // set sprite direction if specified
+    if (sprite.direction) {
+      entity.set({
+        direction: sprite.direction
+      });
+    }
+
     this.entity = entity;
 
     // prepare Actor canvas
@@ -23,13 +28,13 @@
     window.addEventListener('resize', (function(event) {
       var resize = (function() {
         clearTimeout(resizeTimer);
-        this.updateCache(properties, client.canvas);
+        this.updateCache(sprite, client.canvas);
       }).bind(this);
 
       resizeTimer = setTimeout(resize, 100);
     }).bind(this));
 
-    this.updateCache(properties, client.canvas);
+    this.updateCache(sprite, client.canvas);
 
     // sprite config
     if (sprite) {
@@ -47,17 +52,17 @@
 
   Actor.prototype.constructor = Actor;
 
-  Actor.prototype.updateCache = function(properties, canvas) {
+  Actor.prototype.updateCache = function(sprite, canvas) {
     var ctx = this.skin.getContext('2d');
     var SCALE = canvas.scale;
 
-    this.skin.width = properties.width * SCALE;
-    this.skin.height = properties.height * SCALE;
+    this.skin.width = this.entity.state.private.width * SCALE;
+    this.skin.height = this.entity.state.private.height * SCALE;
 
     // render to offscreen canvas
     // reverse canvas for moving in opposite direction
-    var cached = this.cached = this.right = this.renderToCanvas(properties.skin, SCALE, false);
-    this.left = this.renderToCanvas(properties.skin, SCALE, true);
+    var cached = this.cached = this.right = this.renderToCanvas(sprite.src, SCALE, false);
+    this.left = this.renderToCanvas(sprite.src, SCALE, true);
 
     /*
     // DEBUG: render full skin

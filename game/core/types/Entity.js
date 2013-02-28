@@ -8,13 +8,20 @@
     );
   } else if (typeof define === 'function' && define.amd) {
     // AMD
-    define(['../core', '../time'], factory);
+    define([
+      '../core',
+      '../time', 
+      undefined,
+      './Actor'
+    ], factory);
   }
-})(this, function(core, time, uuid) {
+})(this, function(core, time, uuid, Actor) {
 
-	var Entity = function(properties) {
+	var Entity = function(properties, id, client, sprite) {
     if (uuid) {
       this.uuid = uuid.v4 ? uuid.v4() : false;
+    } else if (id) {
+      this.uuid = id;
     }
 
     this.state = {};
@@ -31,6 +38,12 @@
 
     // interpolation queue
     this.queue.server = [];
+
+    // Actor undefined on server
+    // Image is function in Chrome and Firefox, object in Safari
+    if (Actor && sprite) {
+      this.actor = new Actor(this, client, sprite);
+    }
 
     return this;
 	};
