@@ -8,7 +8,7 @@
   }
 })(this, function() {
 
-	var Actor = function(entity, sprite, client) {
+	var Actor = function(entity, img, sprite, client) {
     // set sprite direction if specified
     if (sprite.direction) {
       entity.set({
@@ -17,6 +17,8 @@
     }
 
     this.entity = entity;
+
+    var canvas = client.canvas[this.entity.state.private.class];
 
     // prepare Actor canvas
     this.skin = document.createElement('canvas');
@@ -28,13 +30,13 @@
     window.addEventListener('resize', (function(event) {
       var resize = (function() {
         clearTimeout(resizeTimer);
-        this.updateCache(sprite, client.canvas);
+        this.updateCache(img, sprite, canvas);
       }).bind(this);
 
       resizeTimer = setTimeout(resize, 100);
     }).bind(this));
 
-    this.updateCache(sprite, client.canvas);
+    this.updateCache(img, sprite, canvas);
 
     // sprite config
     if (sprite) {
@@ -52,7 +54,7 @@
 
   Actor.prototype.constructor = Actor;
 
-  Actor.prototype.updateCache = function(sprite, canvas) {
+  Actor.prototype.updateCache = function(img, sprite, canvas) {
     var ctx = this.skin.getContext('2d');
     var SCALE = canvas.scale;
 
@@ -61,7 +63,7 @@
     this.skin.scale = sprite.scale;
 
     // render to offscreen canvas
-    var cached = this.cached = this.renderToCanvas(sprite, SCALE, false);
+    var cached = this.cached = this.renderToCanvas(img, sprite, SCALE, false);
 
     // reverse canvas for moving in opposite direction
     var direction = sprite.direction
@@ -69,7 +71,7 @@
     if (direction) {
       this[direction] = cached;
       var mirror = direction === 'right' ? 'left' : 'right';
-      this[mirror] = this.renderToCanvas(sprite, SCALE, true);
+      this[mirror] = this.renderToCanvas(img, sprite, SCALE, true);
     }
 
     // DEBUG: render full skin
@@ -83,11 +85,11 @@
     ctx.drawImage(cached, 0, 0, cached.width / 2, cached.height / 2);
   };
 
-  Actor.prototype.renderToCanvas = function(sprite, SCALE, mirror) {
+  Actor.prototype.renderToCanvas = function(img, sprite, SCALE, mirror) {
     var buffer = document.createElement('canvas');
     var ctx = buffer.getContext('2d');
 
-    var ratio = sprite.skin.width / sprite.skin.height;
+    var ratio = img.width / img.height;
 
     // TODO: where is this 10 value coming from? is ratio being used correctly?
     var width = buffer.width = sprite.width * sprite.scale * ratio * SCALE;
@@ -98,7 +100,7 @@
       ctx.scale(-1, 1);
     }
 
-    ctx.drawImage(sprite.skin, 0, 0, width, height);
+    ctx.drawImage(img, 0, 0, width, height);
 
     return buffer;
   };

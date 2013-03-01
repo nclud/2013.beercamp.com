@@ -40,7 +40,7 @@
 
     // TODO: rename this
     var objects = [
-      { x: 24, y: 20, width: 48, height: 15, class: 'Background' },
+      { x: 24, y: 20, width: 48, height: 15, class: 'Background', src: 'images/brick.png' },
       { x: 24, y: 26, width: 48, height: 1, class: 'Platform' },
       { x: 8, y: 19, width: 16, height: 1, class: 'Platform' },
       { x: 40, y: 19, width: 16, height: 1, class: 'Platform' },
@@ -63,7 +63,8 @@
         y: obj.y,
         angle: 0,
         width: obj.width,
-        height: obj.height
+        height: obj.height,
+        src: obj.src
       });
 
       if (entity.state.private.class === 'Platform') {

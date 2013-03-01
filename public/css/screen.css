@@ -11,6 +11,9 @@ html, body, #main > canvas {
 }
 
 body {
+  background-image: url('../images/background.jpg');
+  background-size: cover;
+  -webkit-transition: top 0.1s ease;
 	-webkit-font-smoothing: antialiased;
 	font-family: sans-serif;
 	font-weight: bold;
@@ -38,13 +41,22 @@ a {
 	transform: rotate(-20deg);
 }
 
-#main > canvas {
+canvas {
   position: absolute;
   top: 0;
   left: 0;
-  background-image: url('../images/background.jpg');
-  background-size: cover;
-  -webkit-transition: top 0.1s ease;
+}
+
+#Background {
+  z-index: 1;
+}
+
+#Platform {
+  z-index: 2;
+}
+
+#Player {
+  z-index: 5;
 }
 
 #stats {

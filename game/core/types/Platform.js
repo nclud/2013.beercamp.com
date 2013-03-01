@@ -47,11 +47,11 @@
 	Platform.prototype = new Rectangle();
   Platform.prototype.constructor = Platform;
 
-  Platform.prototype.drawType = function(client) {
-    // Rectangle.prototype.drawType.call(this, client);
+  Platform.prototype.drawType = function(canvas) {
+    // Rectangle.prototype.drawType.call(this, canvas);
 
-    var ctx = client.ctx;
-    var SCALE = client.canvas.scale;
+    var ctx = canvas.ctx;
+    var SCALE = canvas.scale;
 
     // round to whole pixel
     // interpolated x and y coords
@@ -100,6 +100,7 @@
     yMin -= halfHeight;
 
     ctx.fillStyle = '#484749'; // dark grey
+    ctx.fillStyle = '#a7a9ab'; // lighter grey
     // ctx.fillStyle = '#624130'; // dark brown
 
     ctx.beginPath();
