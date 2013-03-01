@@ -16,7 +16,7 @@
 
   var Player = types['Player'];
 
-  var init = function(app, channel, worker) {
+  var init = function(app, worker, channel) {
     var io = sio.listen(app);
 
     // turn off websocket debug spam

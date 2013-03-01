@@ -39,12 +39,12 @@ var static = require('node-static');
 var file = new (static.Server)('./public');
 
 // require server game modules, init using dependency injection if required
-var channel = require('./game/server/redis').init();
-var socket = require('./game/server/socket').init(app, channel, worker);
+// var channel = require('./game/server/redis').init();
+var socket = require('./game/server/socket').init(app, worker); //, channel);
 
 // init expire loop
 var levels = require('./game/server/levels.js').init(worker).load(worker);
-var expire = require('./game/server/expire.js').init(channel.store);
+// var expire = require('./game/server/expire.js').init(channel.store);
 
 // require server loops
 var input = require('./game/server/input').init(worker);
