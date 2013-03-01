@@ -23,3 +23,10 @@ git submodule update
 1. Play!
 
 
+## Deploying to production
+
+Deploy using Capistrano, so you we will need Ruby installed. Then do the following:
+
+1. bundle install # This will install capistrano and it's dependencies.
+1. cap deploy
+
