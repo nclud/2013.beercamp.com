@@ -190,12 +190,14 @@
     // Call extended Entity Type's draw method
     this.drawType && this.drawType(client);
 
+    /*
     // draw small dot at Entity center
     ctx.fillStyle = 'cyan';
     ctx.beginPath();
     ctx.arc(x, y, 2, 0, Math.PI * 2, true);
     ctx.closePath();
     ctx.fill();
+    */
 
     ctx.restore();
 	};

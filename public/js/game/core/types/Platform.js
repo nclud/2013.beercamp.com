@@ -20,8 +20,6 @@
     properties = properties || {};
     properties.class = properties.class || 'Platform';
 
-    // console.log(properties.width, properties.height);
-
     properties.sprite = properties.sprite || {
       src: 'images/level_sprite.png',
       width: properties.width,
@@ -50,7 +48,7 @@
   Platform.prototype.constructor = Platform;
 
   Platform.prototype.drawType = function(client) {
-    Rectangle.prototype.drawType.call(this, client);
+    // Rectangle.prototype.drawType.call(this, client);
 
     var ctx = client.ctx;
     var SCALE = client.canvas.scale;
@@ -68,18 +66,55 @@
 
     ctx.save();
 
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = 'salmon';
-    ctx.strokeRect(
-      x - halfWidth,
-      y - halfHeight,
-      width,
-      height
-    );
+    var xMin = x - halfWidth;
+    var yMin = y;
+    var offset = height;
 
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = halfHeight / 2;
+    ctx.shadowBlur = height;
+    ctx.shadowColor = 'black';
+
+    ctx.beginPath();
+    ctx.moveTo(xMin - offset, yMin);
+    ctx.lineTo(xMin + offset + width, yMin);
+    ctx.lineTo(xMin + offset + width, yMin + halfHeight);
+    ctx.lineTo(xMin - offset, yMin + halfHeight);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.shadowColor = 'none';
+
+    ctx.fillStyle = '#bcbdc0'; // light grey
+    ctx.fillStyle = '#8b5428'; // light brown
+
+    ctx.beginPath();
+    ctx.lineCap = 'round';
+    ctx.moveTo(xMin - offset - halfHeight, yMin);
+    ctx.lineTo(xMin + offset + width + halfHeight, yMin);
+    ctx.lineTo(xMin + offset + width + halfHeight, yMin + halfHeight);
+    ctx.lineTo(xMin - offset - halfHeight, yMin + halfHeight);
+    ctx.closePath();
+    ctx.fill();
+
+    yMin -= halfHeight;
+
+    ctx.fillStyle = '#484749'; // dark grey
+    ctx.fillStyle = '#624130'; // dark brown
+
+    ctx.beginPath();
+    ctx.moveTo(xMin - offset, yMin);
+    ctx.lineTo(xMin + offset + width, yMin);
+    ctx.lineTo(xMin + offset + width + halfHeight, yMin + halfHeight);
+    ctx.lineTo(xMin - offset - halfHeight, yMin + halfHeight);
+    ctx.closePath();
+    ctx.fill();
+
+    /*
     if (this.actor) {
       this.actor.draw(ctx, x - halfWidth, y - halfHeight, SCALE);
     }
+    */
 
     ctx.restore();
   }

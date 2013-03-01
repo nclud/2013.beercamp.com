@@ -22,10 +22,10 @@
     properties.type = properties.type || 'dynamic';
 
     properties.angle = properties.angle ||  0;
-    properties.width = properties.width ||  4;
-    properties.height = properties.height ||  4;
+    properties.width = properties.width ||  3.4;
+    properties.height = properties.height ||  3.4;
     properties.fixed = properties.fixed ||  true;
-    properties.speed = properties.speed ||  500;
+    properties.speed = properties.speed ||  340;
 
     properties.sprite = properties.sprite || {
       src: properties.skin,
@@ -304,7 +304,7 @@
   };
 
   Player.prototype.drawType = function(client) {
-    Rectangle.prototype.drawType.call(this, client);
+    // Rectangle.prototype.drawType.call(this, client);
 
     var ctx = client.ctx;
     var SCALE = client.canvas.scale;
