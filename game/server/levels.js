@@ -38,40 +38,46 @@
   var load = function(worker) {
     var data = {};
 
-    var platforms = [
-      { x: 24, y: 26, width: 48, height: 1 },
-      { x: 24, y: 19, width: 12, height: 1 },
-      { x: 6, y: 12, width: 12, height: 1 },
-      { x: 42, y: 12, width: 12, height: 1 }
+    // TODO: rename this
+    var objects = [
+      { x: 24, y: 20, width: 48, height: 15, class: 'Background' },
+      { x: 24, y: 26, width: 48, height: 1, class: 'Platform' },
+      { x: 8, y: 19, width: 16, height: 1, class: 'Platform' },
+      { x: 40, y: 19, width: 16, height: 1, class: 'Platform' },
+      { x: 3, y: 12, width: 5, height: 1, class: 'Platform' },
+      { x: 45, y: 12, width: 5, height: 1, class: 'Platform' },
+      { x: 24, y: 12, width: 18, height: 1, class: 'Platform' }
     ];
   
-    var length = platforms.length;
-    var platform;
+    var length = objects.length;
+    var obj;
 
     var id;
     var entity;
 
     for (var i = 0; i < length; i++) {
-      platform = platforms[i];
+      obj = objects[i];
 
-      entity = new Platform({
-        x: platform.x,
-        y: platform.y,
+      entity = new types[obj.class]({
+        x: obj.x,
+        y: obj.y,
         angle: 0,
-        width: platform.width,
-        height: platform.height
+        width: obj.width,
+        height: obj.height
       });
 
-      // passing full object throws DOM exception, can't pass DOM elements to worker
-      // TODO: replace with getState method
-      data[entity.uuid] = {
-        type: entity.state.private.type,
-        x: entity.state.private.x,
-        y: entity.state.private.y,
-        angle: entity.state.private.angle,
-        width: entity.state.private.width,
-        height: entity.state.private.height
-      };
+      if (entity.state.private.class === 'Platform') {
+        // passing full object throws DOM exception, can't pass DOM elements to worker
+        // TODO: replace with getState method
+        data[entity.uuid] = {
+          type: entity.state.private.type,
+          x: entity.state.private.x,
+          y: entity.state.private.y,
+          angle: entity.state.private.angle,
+          width: entity.state.private.width,
+          height: entity.state.private.height
+        };
+      }
 
       entities.global[entity.uuid] = entity;
       entities.local.push(entity.uuid);

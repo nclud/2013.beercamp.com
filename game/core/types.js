@@ -10,6 +10,7 @@
       'require',
       './types/Entity',
       './types/Rectangle',
+      './types/Background',
       './types/Platform',
       './types/Player',
       './types/Actor'
@@ -22,6 +23,7 @@
   return {
     Entity: require('./types/Entity'),
     Rectangle: require('./types/Rectangle'),
+    Background: require('./types/Background'),
     Platform: require('./types/Platform'),
     Player: require('./types/Player'),
     Actor: require('./types/Actor')

@@ -86,7 +86,7 @@
     ctx.shadowColor = 'none';
 
     ctx.fillStyle = '#bcbdc0'; // light grey
-    ctx.fillStyle = '#8b5428'; // light brown
+    // ctx.fillStyle = '#8b5428'; // light brown
 
     ctx.beginPath();
     ctx.lineCap = 'round';
@@ -100,7 +100,7 @@
     yMin -= halfHeight;
 
     ctx.fillStyle = '#484749'; // dark grey
-    ctx.fillStyle = '#624130'; // dark brown
+    // ctx.fillStyle = '#624130'; // dark brown
 
     ctx.beginPath();
     ctx.moveTo(xMin - offset, yMin);

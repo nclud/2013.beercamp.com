@@ -8,27 +8,26 @@ var numCPUs = require('os').cpus().length;
 var worker;
 
 console.log('CPUs:', numCPUs);
-if (numCPUs > 1) {
-  // polyfill for nodejitsu compatibility
-  child.fork = function(file) {
-    return this.spawn(process.execPath, [file], {
-      stdio: ['pipe', 1, 2, 'ipc'],
-      env: process.env
-    });
-  }
 
-  worker = child.spawn(process.execPath, ['worker.js'], {
-      stdio: ['pipe', 1, 2, 'ipc'],
-      env: process.env
-    });
-
-  console.log('Worker', worker.pid, worker.connected);
-  // console.log('worker.send', worker.send);
-
-  worker.on('exit', function(worker, code, signal) {
-    console.log('Worker ' + worker.process.pid + ' died');
+// polyfill for nodejitsu compatibility
+child.fork = function(file) {
+  return this.spawn(process.execPath, [file], {
+    stdio: ['pipe', 1, 2, 'ipc'],
+    env: process.env
   });
 }
+
+worker = child.spawn(process.execPath, ['worker.js'], {
+    stdio: ['pipe', 1, 2, 'ipc'],
+    env: process.env
+  });
+
+console.log('Worker', worker.pid, worker.connected);
+// console.log('worker.send', worker.send);
+
+worker.on('exit', function(worker, code, signal) {
+  console.log('Worker ' + worker.process.pid + ' died');
+});
 
 // server config
 var app = require('http').createServer(handler);

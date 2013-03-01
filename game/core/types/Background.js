@@ -16,23 +16,23 @@
   }
 })(this, function(core, time, Rectangle) {
 
-	var Platform = function(properties, id, client) {
+	var Background = function(properties, id, client) {
     properties = properties || {};
-    properties.class = properties.class || 'Platform';
+    properties.class = properties.class || 'Background';
 
     properties.sprite = properties.sprite || {
-      src: 'images/level_sprite.png',
+      src: 'images/brick.png',
       width: properties.width,
       height: properties.width,
-      x: 10,
-      y: 10,
-      scale: 4,
+      x: 0,
+      y: 0,
+      scale: 0.56,
       map: {
 
         // default
         0: {
-          start: 1,
-          end: 1,
+          start: 0,
+          end: 0,
           repeat: false
         }
 
@@ -44,10 +44,10 @@
     return this;
 	};
 
-	Platform.prototype = new Rectangle();
-  Platform.prototype.constructor = Platform;
+	Background.prototype = new Rectangle();
+  Background.prototype.constructor = Background;
 
-  Platform.prototype.drawType = function(client) {
+  Background.prototype.drawType = function(client) {
     // Rectangle.prototype.drawType.call(this, client);
 
     var ctx = client.ctx;
@@ -66,6 +66,7 @@
 
     ctx.save();
 
+    /*
     var xMin = x - halfWidth;
     var yMin = y;
     var offset = height;
@@ -86,7 +87,7 @@
     ctx.shadowColor = 'none';
 
     ctx.fillStyle = '#bcbdc0'; // light grey
-    // ctx.fillStyle = '#8b5428'; // light brown
+    ctx.fillStyle = '#8b5428'; // light brown
 
     ctx.beginPath();
     ctx.lineCap = 'round';
@@ -100,7 +101,7 @@
     yMin -= halfHeight;
 
     ctx.fillStyle = '#484749'; // dark grey
-    // ctx.fillStyle = '#624130'; // dark brown
+    ctx.fillStyle = '#624130'; // dark brown
 
     ctx.beginPath();
     ctx.moveTo(xMin - offset, yMin);
@@ -109,16 +110,15 @@
     ctx.lineTo(xMin - offset - halfHeight, yMin + halfHeight);
     ctx.closePath();
     ctx.fill();
+    */
 
-    /*
     if (this.actor) {
       this.actor.draw(ctx, x - halfWidth, y - halfHeight, SCALE);
     }
-    */
 
     ctx.restore();
   }
 
-  return Platform;
+  return Background;
 
 });
