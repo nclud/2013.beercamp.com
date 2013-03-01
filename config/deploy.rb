@@ -8,4 +8,8 @@ role :app, "affric.browsermedia.com"
 
 set :git_enable_submodules, 1 # Make sure we fetch submodules
 set :deploy_via, :remote_cache
-set :node_user, "node_user"
+set :node_user, "node"
+set :app_environment, "NODE_PORT=80"
+
+# Node script still tries to use sudo start beercamp-production even when the following is set.
+# set :use_sudo, false

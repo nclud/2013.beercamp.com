@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# A super hacky start up to run this in production.
+export NODE_PORT=80
+sudo -E node server.js
