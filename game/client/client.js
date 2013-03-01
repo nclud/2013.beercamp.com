@@ -83,18 +83,18 @@
           sprite = state.sprite;
 
           // TODO: create correct entity type
-          if (sprite && sprite.src) {
+          if (state.src) {
             var img = new Image();
 
             // encapsulate to keep correct state and uuid in callback
             (function(state, uuid) {
               img.addEventListener('load', function() {
-                state.sprite.skin = this;
+                state.img = this;
                 client.entities[uuid] = new types[state.class](state, uuid, client);
               });
             })(state, uuid);
 
-            img.src = sprite.src;
+            img.src = state.src;
           } else {
             client.entities[uuid] = new types[state.class](state, uuid);
           }
@@ -194,34 +194,44 @@
 
   var runFrameActions = function(client) {
     for (var i = 0; i < client.actions.length; i++) {
-      client.actions[i](client);
+      // only clearCanvas on canvas['Player'] every frame
+      client.actions[i](client.canvas['Player'], client);
     }
   };
 
-  var clearCanvas = function(client) {
-    client.ctx.clearRect(0, 0, client.canvas.width, client.canvas.height);
+  var clearCanvas = function(canvas) {
+    canvas.ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
   var createCanvas = function() {
-    this.canvas = document.createElement('canvas');
-    this.ctx = this.canvas.getContext('2d');
-    this.setScale(window.innerWidth, window.innerHeight);
+    this.canvas = {};
+
+    var canvas;
+
+    for (var type in types) {
+      canvas = this.canvas[type] = document.createElement('canvas');
+      canvas.setAttribute('id', type);
+      canvas.ctx = canvas.getContext('2d');
+      this.setScale(canvas, window.innerWidth, window.innerHeight);
+      document.getElementById('main').appendChild(canvas);
+    }
 
     // make scale and canvas dynamic based on screen size
     window.addEventListener('resize', (function(event) {
-      this.setScale(window.innerWidth, window.innerHeight);
+      for (var type in types) {
+        this.setScale(this.canvas[type], window.innerWidth, window.innerHeight);
+      }
     }).bind(this));
-
-    document.getElementById('main').appendChild(this.canvas);
   };
 
-  var setScale = function(width, height) {
-    this.canvas.width = width;
-    this.canvas.height = height;
-    this.canvas.scale = width / 48;
+  var setScale = function(canvas, width, height) {
+    canvas.width = width;
+
+    canvas.height = height;
+    canvas.scale = width / 48;
   };
 
-  var updateEntities = function(client) {
+  var updateEntities = function(canvas, client) {
     var entities = Object.keys(client.entities);
     var length = entities.length;
     var uuid;
@@ -232,27 +242,29 @@
       uuid = entities[i];
       entity = client.entities[uuid];
 
-      // TODO: switch to array of player-originated entities
-      interpolate = (uuid !== client.uuid);
+      if (entity.state.private.class = 'Player') {
+        // TODO: switch to array of player-originated entities
+        interpolate = (uuid !== client.uuid);
 
-      if (interpolate) {
+        if (interpolate) {
 
-        // interpolate position of other players
-        entity.interpolate();
+          // interpolate position of other players
+          entity.interpolate();
 
-      } else {
+        } else {
 
-        // TODO: switch this to reconcile
-        entity.interpolate();
+          // TODO: switch this to reconcile
+          entity.interpolate();
 
-        // client prediction only for active player
-        entity.respondToInput(input.pressed, function(input) {
-          client.socket.emit('command:send', input);
-        });
+          // client prediction only for active player
+          entity.respondToInput(input.pressed, function(input) {
+            client.socket.emit('command:send', input);
+          });
 
+        }
+
+        entity.draw(client.canvas[entity.state.private.class]);
       }
-
-      entity.draw(client);
     }
   };
 

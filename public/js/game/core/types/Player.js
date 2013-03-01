@@ -28,7 +28,6 @@
     properties.speed = properties.speed ||  340;
 
     properties.sprite = properties.sprite || {
-      src: properties.skin,
       direction: 'right',
       width: 4,
       height: 4,
@@ -303,11 +302,11 @@
 
   };
 
-  Player.prototype.drawType = function(client) {
-    // Rectangle.prototype.drawType.call(this, client);
+  Player.prototype.drawType = function(canvas) {
+    // Rectangle.prototype.drawType.call(this, canvas);
 
-    var ctx = client.ctx;
-    var SCALE = client.canvas.scale;
+    var ctx = canvas.ctx;
+    var SCALE = canvas.scale;
 
     // round to whole pixel
     // interpolated x and y coords

@@ -29,9 +29,9 @@
 	Rectangle.prototype = new Entity();
   Rectangle.prototype.constructor = Rectangle;
 
-  Rectangle.prototype.drawType = function(client) {
-    var ctx = client.ctx;
-    var SCALE = client.canvas.scale;
+  Rectangle.prototype.drawType = function(canvas) {
+    var ctx = canvas.ctx;
+    var SCALE = canvas.scale;
 
     // round to whole pixel
     // interpolated x and y coords

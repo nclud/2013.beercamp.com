@@ -12,10 +12,11 @@
       '../core',
       '../time', 
       undefined,
-      './Actor'
+      './Actor',
+      './Graphic'
     ], factory);
   }
-})(this, function(core, time, uuid, Actor) {
+})(this, function(core, time, uuid, Actor, Graphic) {
 
 	var Entity = function(properties, id, client) {
     if (uuid) {
@@ -35,8 +36,10 @@
 
       // Actor undefined on server
       // Image is function in Chrome and Firefox, object in Safari
-      if (Actor && properties.sprite) {
-        this.actor = new Actor(this, properties.sprite, client);
+      if (Actor && properties.sprite && properties.img) {
+        this.actor = new Actor(this, properties.img, properties.sprite, client);
+      } else if (Graphic && properties.img) {
+        this.actor = new Graphic(this, properties.img, client);
       }
 		}
 
@@ -165,9 +168,9 @@
     }
   };
 
-	Entity.prototype.draw = function(client) {
-    var ctx = client.ctx;
-    var SCALE = client.canvas.scale;
+	Entity.prototype.draw = function(canvas) {
+    var ctx = canvas.ctx;
+    var SCALE = canvas.scale;
 
     ctx.save();
 
@@ -188,7 +191,7 @@
     ctx.translate(-x, -y);
 
     // Call extended Entity Type's draw method
-    this.drawType && this.drawType(client);
+    this.drawType && this.drawType(canvas);
 
     /*
     // draw small dot at Entity center
