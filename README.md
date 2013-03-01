@@ -39,3 +39,8 @@ Deploy using Capistrano, so you we will need Ruby installed. Then do the followi
 1. Open http://affric.browsermedia.com
 
 The script has to run as sudo, which is probably not a good idea. It will also last only until you exit the script.
+
+## Generate the public js assets
+
+sudo npm install -g requirejs
+r.js -o build.js
