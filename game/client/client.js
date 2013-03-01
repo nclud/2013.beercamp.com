@@ -150,6 +150,30 @@
       }
 
     });
+
+    window.addEventListener('resize', (function(event) {
+      // clearCanvas
+      var keys = Object.keys(client.canvas);
+      var length = keys.length;
+      var canvas;
+
+      for (var i = 0; i < length; i++) {
+        type = keys[i];
+        canvas = client.canvas[type];
+        canvas.ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      var entities = Object.keys(client.entities);
+      var length = entities.length;
+      var uuid;
+      var entity;
+
+      for (var i = 0; i < length; i++) {
+        uuid = entities[i];
+        entity = client.entities[uuid];
+        entity.redraw = true;
+      }
+    }).bind(this));
   };
 
   var frame = function() {
@@ -195,12 +219,23 @@
   var runFrameActions = function(client) {
     for (var i = 0; i < client.actions.length; i++) {
       // only clearCanvas on canvas['Player'] every frame
-      client.actions[i](client.canvas['Player'], client);
+      client.actions[i](client.canvas, client);
     }
   };
 
   var clearCanvas = function(canvas) {
-    canvas.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var player = canvas['Player'];
+    player.ctx.clearRect(0, 0, player.width, player.height);
+
+    /*
+    var keys = Object.keys(canvas);
+    var length = keys.length;
+
+    for (var i = 0; i < length; i++) {
+      type = keys[i];
+      canvas[type].ctx.clearRect(0, 0, canvas[type].width, canvas[type].height);
+    }
+    */
   };
 
   var createCanvas = function() {
@@ -237,12 +272,11 @@
     var uuid;
     var entity;
 
-    // TODO: is this loop syntax faster?
     for (var i = 0; i < length; i++) {
       uuid = entities[i];
       entity = client.entities[uuid];
 
-      if (entity.state.private.class = 'Player') {
+      if (entity.redraw) {
         // TODO: switch to array of player-originated entities
         interpolate = (uuid !== client.uuid);
 

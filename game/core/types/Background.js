@@ -52,6 +52,7 @@
     }
 
     ctx.restore();
+    this.redraw = false;
   }
 
   return Background;

@@ -118,6 +118,8 @@
     */
 
     ctx.restore();
+
+    this.redraw = false;
   }
 
   return Platform;

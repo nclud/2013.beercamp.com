@@ -24,6 +24,7 @@
       var resize = (function() {
         clearTimeout(resizeTimer);
         this.updateCache(img, canvas);
+        this.entity.redraw = true;
       }).bind(this);
 
       resizeTimer = setTimeout(resize, 100);

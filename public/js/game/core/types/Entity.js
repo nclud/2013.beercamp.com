@@ -43,6 +43,9 @@
       }
 		}
 
+    // default to redrawing all entities
+    this.redraw = true;
+
     this.queue = {};
 
     // interpolation queue
