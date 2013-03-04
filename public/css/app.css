@@ -196,16 +196,16 @@ nav {
 }
 
 #char2 {
-    background-image: url(../images/char1.svg);
+    background-image: url(../images/char2.svg);
 }
 #char3 {
-    background-image: url(../images/char1.svg);
+    background-image: url(../images/char3.svg);
 }
 #char4 {
-    background-image: url(../images/char1.svg);
+    background-image: url(../images/char4.svg);
 }
 #char5 {
-    background-image: url(../images/char1.svg);
+    background-image: url(../images/char5.svg);
 }
 
 .char:hover {
