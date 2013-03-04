@@ -65,14 +65,32 @@
       { x: 41, y: 25.9, width: 12, height: 1, class: 'Platform' },
 
       // roof
-      { x: 13, y: 19, width: 26, height: 1, class: 'Platform' },
-      { x: 45, y: 19, width: 5, height: 1, class: 'Platform' },
-      { x: 27, y: 14.5, width: 1, height: 8.1, class: 'Platform', perspective: 'right' },
-      { x: 7, y: 12, width: 12, height: 1, class: 'Platform' },
-      { x: 23.5, y: 12, width: 4, height: 1, class: 'Platform' },
-      { x: 41.5, y: 12, width: 12, height: 1, class: 'Platform' },
-      { x: 34, y: 18.4, width: 1, height: 14, class: 'Platform', perspective: 'left' },
-      { x: 41.5, y: 12, width: 12, height: 1, class: 'Platform' }
+      { x: 13, y: 19, width: 26, height: 1, class: 'Platform',
+        color: { light: '#8b5428', dark: '#624130' }
+      },
+      { x: 45, y: 19, width: 5, height: 1, class: 'Platform',
+        color: { light: '#8b5428', dark: '#624130' }
+      },
+      { x: 27, y: 14.5, width: 1, height: 8.1, class: 'Platform',
+        perspective: 'right',
+        color: { light: '#8b5428', dark: '#624130' }
+      },
+      { x: 7, y: 12, width: 12, height: 1, class: 'Platform',
+        color: { light: '#8b5428', dark: '#624130' }
+      },
+      { x: 23.5, y: 12, width: 4, height: 1, class: 'Platform',
+        color: { light: '#8b5428', dark: '#624130' }
+      },
+      { x: 41.5, y: 12, width: 12, height: 1, class: 'Platform',
+        color: { light: '#8b5428', dark: '#624130' }
+      },
+      { x: 34, y: 18.4, width: 1, height: 14, class: 'Platform',
+        perspective: 'left',
+        color: { light: '#8b5428', dark: '#624130' }
+      },
+      { x: 41.5, y: 12, width: 12, height: 1, class: 'Platform',
+        color: { light: '#8b5428', dark: '#624130' }
+      }
     ];
   
     var length = objects.length;
@@ -91,7 +109,8 @@
         width: obj.width,
         height: obj.height,
         src: obj.src,
-        perspective: obj.perspective
+        perspective: obj.perspective,
+        color: obj.color
       });
 
       if (entity.state.private.class === 'Platform') {

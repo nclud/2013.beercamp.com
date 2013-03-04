@@ -67,14 +67,16 @@
     var yMin;
     var offset;
 
+    var light = this.state.private.color ? this.state.private.color.light : '#bcbdc0';
+    var dark = this.state.private.color ? this.state.private.color.dark : '#a7a9ab';
+
     switch(this.state.private.perspective) {
       case 'left':
         xMin = x - halfWidth;
         yMin = y - halfHeight;
         offset = halfWidth;
 
-        ctx.fillStyle = '#bcbdc0'; // light grey
-        // ctx.fillStyle = '#8b5428'; // light brown
+        ctx.fillStyle = light;
 
         ctx.beginPath();
         ctx.moveTo(xMin, yMin - offset);
@@ -86,9 +88,7 @@
 
         xMin += halfWidth;
 
-        ctx.fillStyle = '#484749'; // dark grey
-        ctx.fillStyle = '#a7a9ab'; // lighter grey
-        // ctx.fillStyle = '#624130'; // dark brown
+        ctx.fillStyle = dark;
 
         ctx.beginPath();
         ctx.moveTo(xMin, yMin - offset);
@@ -105,9 +105,7 @@
         yMin = y - halfHeight;
         offset = halfWidth;
 
-        ctx.fillStyle = '#484749'; // dark grey
-        ctx.fillStyle = '#a7a9ab'; // lighter grey
-        // ctx.fillStyle = '#624130'; // dark brown
+        ctx.fillStyle = dark;
 
         ctx.beginPath();
         ctx.moveTo(xMin, yMin);
@@ -119,8 +117,7 @@
 
         xMin += halfWidth;
 
-        ctx.fillStyle = '#bcbdc0'; // light grey
-        // ctx.fillStyle = '#8b5428'; // light brown
+        ctx.fillStyle = light;
 
         ctx.beginPath();
         ctx.moveTo(xMin, yMin - offset);
@@ -151,8 +148,7 @@
 
         ctx.shadowColor = 'none';
 
-        ctx.fillStyle = '#bcbdc0'; // light grey
-        // ctx.fillStyle = '#8b5428'; // light brown
+        ctx.fillStyle = light;
 
         ctx.beginPath();
         ctx.lineCap = 'round';
@@ -165,9 +161,7 @@
 
         yMin -= halfHeight;
 
-        ctx.fillStyle = '#484749'; // dark grey
-        ctx.fillStyle = '#a7a9ab'; // lighter grey
-        // ctx.fillStyle = '#624130'; // dark brown
+        ctx.fillStyle = dark;
 
         ctx.beginPath();
         ctx.moveTo(xMin - offset, yMin);
