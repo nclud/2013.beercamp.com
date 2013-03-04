@@ -11,13 +11,19 @@ set :deploy_via, :remote_cache
 set :node_user, "node"
 set :app_environment, "NODE_PORT=80"
 
-desc "Start the node application"
-task :start do
-  sudo "/sbin/service node stop"
-  sudo "/sbin/service node start"
-end
+namespace :node do
+  desc "[Override] Start the node application"
+  task :start do
+    sudo "/sbin/service node start"
+  end
 
-desc "Stop the node application"
-task :stop do
-  sudo "/sbin/service node stop"
+  desc "[Override] Stop the node application"
+  task :stop do
+    sudo "/sbin/service node stop"
+  end
+
+  desc "Restart the node application"
+    task :restart do
+      sudo "/sbin/service node restart"
+    end
 end
