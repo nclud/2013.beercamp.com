@@ -48,7 +48,7 @@
   Platform.prototype.constructor = Platform;
 
   Platform.prototype.drawType = function(ctx, scale) {
-    // Rectangle.prototype.drawType.call(this, canvas);
+    Rectangle.prototype.drawType.call(this, ctx, scale);
 
     // round to whole pixel
     // interpolated x and y coords
@@ -63,56 +63,121 @@
 
     ctx.save();
 
-    var xMin = x - halfWidth;
-    var yMin = y;
-    var offset = height;
+    var xMin;
+    var yMin;
+    var offset;
 
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = halfHeight / 2;
-    ctx.shadowBlur = height;
-    ctx.shadowColor = 'black';
+    switch(this.state.private.perspective) {
+      case 'left':
+        xMin = x - halfWidth;
+        yMin = y - halfHeight;
+        offset = halfWidth;
 
-    ctx.beginPath();
-    ctx.moveTo(xMin - offset, yMin);
-    ctx.lineTo(xMin + offset + width, yMin);
-    ctx.lineTo(xMin + offset + width, yMin + halfHeight);
-    ctx.lineTo(xMin - offset, yMin + halfHeight);
-    ctx.closePath();
-    ctx.fill();
+        ctx.fillStyle = '#bcbdc0'; // light grey
+        // ctx.fillStyle = '#8b5428'; // light brown
 
-    ctx.shadowColor = 'none';
+        ctx.beginPath();
+        ctx.moveTo(xMin, yMin - offset);
+        ctx.lineTo(xMin + halfWidth, yMin - offset);
+        ctx.lineTo(xMin + halfWidth, yMin + height + offset);
+        ctx.lineTo(xMin, yMin + height + offset);
+        ctx.closePath();
+        ctx.fill();
 
-    ctx.fillStyle = '#bcbdc0'; // light grey
-    // ctx.fillStyle = '#8b5428'; // light brown
+        xMin += halfWidth;
 
-    ctx.beginPath();
-    ctx.lineCap = 'round';
-    ctx.moveTo(xMin - offset - halfHeight, yMin);
-    ctx.lineTo(xMin + offset + width + halfHeight, yMin);
-    ctx.lineTo(xMin + offset + width + halfHeight, yMin + halfHeight);
-    ctx.lineTo(xMin - offset - halfHeight, yMin + halfHeight);
-    ctx.closePath();
-    ctx.fill();
+        ctx.fillStyle = '#484749'; // dark grey
+        ctx.fillStyle = '#a7a9ab'; // lighter grey
+        // ctx.fillStyle = '#624130'; // dark brown
 
-    yMin -= halfHeight;
+        ctx.beginPath();
+        ctx.moveTo(xMin, yMin - offset);
+        ctx.lineTo(xMin + halfWidth, yMin);
+        ctx.lineTo(xMin + halfWidth, yMin + height);
+        ctx.lineTo(xMin, yMin + height + offset);
+        ctx.closePath();
+        ctx.fill();
 
-    ctx.fillStyle = '#484749'; // dark grey
-    ctx.fillStyle = '#a7a9ab'; // lighter grey
-    // ctx.fillStyle = '#624130'; // dark brown
+        break;
 
-    ctx.beginPath();
-    ctx.moveTo(xMin - offset, yMin);
-    ctx.lineTo(xMin + offset + width, yMin);
-    ctx.lineTo(xMin + offset + width + halfHeight, yMin + halfHeight);
-    ctx.lineTo(xMin - offset - halfHeight, yMin + halfHeight);
-    ctx.closePath();
-    ctx.fill();
+      case 'right':
+        xMin = x - halfWidth;
+        yMin = y - halfHeight;
+        offset = halfWidth;
 
-    /*
-    if (this.actor) {
-      this.actor.draw(ctx, x - halfWidth, y - halfHeight, scale);
+        ctx.fillStyle = '#484749'; // dark grey
+        ctx.fillStyle = '#a7a9ab'; // lighter grey
+        // ctx.fillStyle = '#624130'; // dark brown
+
+        ctx.beginPath();
+        ctx.moveTo(xMin, yMin);
+        ctx.lineTo(xMin + halfWidth, yMin - offset);
+        ctx.lineTo(xMin + halfWidth, yMin + height + offset);
+        ctx.lineTo(xMin, yMin + height);
+        ctx.closePath();
+        ctx.fill();
+
+        xMin += halfWidth;
+
+        ctx.fillStyle = '#bcbdc0'; // light grey
+        // ctx.fillStyle = '#8b5428'; // light brown
+
+        ctx.beginPath();
+        ctx.moveTo(xMin, yMin - offset);
+        ctx.lineTo(xMin + halfWidth, yMin - offset);
+        ctx.lineTo(xMin + halfWidth, yMin + height + offset);
+        ctx.lineTo(xMin, yMin + height + offset);
+        ctx.closePath();
+        ctx.fill();
+        break;
+
+      default:
+        xMin = x - halfWidth;
+        yMin = y;
+        offset = height;
+
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = halfHeight / 2;
+        ctx.shadowBlur = height;
+        ctx.shadowColor = 'black';
+
+        ctx.beginPath();
+        ctx.moveTo(xMin - offset, yMin);
+        ctx.lineTo(xMin + offset + width, yMin);
+        ctx.lineTo(xMin + offset + width, yMin + halfHeight);
+        ctx.lineTo(xMin - offset, yMin + halfHeight);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.shadowColor = 'none';
+
+        ctx.fillStyle = '#bcbdc0'; // light grey
+        // ctx.fillStyle = '#8b5428'; // light brown
+
+        ctx.beginPath();
+        ctx.lineCap = 'round';
+        ctx.moveTo(xMin - offset - halfHeight, yMin);
+        ctx.lineTo(xMin + offset + width + halfHeight, yMin);
+        ctx.lineTo(xMin + offset + width + halfHeight, yMin + halfHeight);
+        ctx.lineTo(xMin - offset - halfHeight, yMin + halfHeight);
+        ctx.closePath();
+        ctx.fill();
+
+        yMin -= halfHeight;
+
+        ctx.fillStyle = '#484749'; // dark grey
+        ctx.fillStyle = '#a7a9ab'; // lighter grey
+        // ctx.fillStyle = '#624130'; // dark brown
+
+        ctx.beginPath();
+        ctx.moveTo(xMin - offset, yMin);
+        ctx.lineTo(xMin + offset + width, yMin);
+        ctx.lineTo(xMin + offset + width + halfHeight, yMin + halfHeight);
+        ctx.lineTo(xMin - offset - halfHeight, yMin + halfHeight);
+        ctx.closePath();
+        ctx.fill();
+        break;
     }
-    */
 
     ctx.restore();
   }

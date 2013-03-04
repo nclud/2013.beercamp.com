@@ -40,13 +40,39 @@
 
     // TODO: rename this
     var objects = [
-      { x: 24, y: 20, width: 48, height: 15, class: 'Background', src: 'images/brick.png' },
-      { x: 24, y: 26, width: 48, height: 1, class: 'Platform' },
-      { x: 8, y: 19, width: 16, height: 1, class: 'Platform' },
-      { x: 40, y: 19, width: 16, height: 1, class: 'Platform' },
-      { x: 3, y: 12, width: 5, height: 1, class: 'Platform' },
-      { x: 45, y: 12, width: 5, height: 1, class: 'Platform' },
-      { x: 24, y: 12, width: 18, height: 1, class: 'Platform' }
+      // backgrounds
+      { x: 24, y: 15, width: 48, height: 10, class: 'Background', src: 'images/lights.png' },
+      { x: 24, y: 30, width: 48, height: 10, class: 'Background', src: 'images/lounge.png' },
+      { x: 24, y: 46.8, width: 48, height: 15, class: 'Background', src: 'images/disco.png' },
+      { x: 24, y: 54, width: 48, height: 15, class: 'Background', src: 'images/brick.png' },
+
+      // brick
+      { x: 24, y: 60, width: 48, height: 1, class: 'Platform' },
+      { x: 8, y: 53, width: 16, height: 1, class: 'Platform' },
+      { x: 40, y: 53, width: 16, height: 1, class: 'Platform' },
+
+      // disco
+      { x: 3, y: 46, width: 5, height: 1, class: 'Platform' },
+      { x: 45, y: 46, width: 5, height: 1, class: 'Platform' },
+      { x: 24, y: 46, width: 18, height: 1, class: 'Platform' },
+      { x: 24, y: 39.7, width: 6, height: 1, class: 'Platform' },
+      { x: 5, y: 39.7, width: 8, height: 1, class: 'Platform' },
+      { x: 43, y: 39.7, width: 8, height: 1, class: 'Platform' },
+
+      // lounge
+      { x: 24, y: 33, width: 28, height: 1, class: 'Platform' },
+      { x: 13, y: 25.9, width: 26, height: 1, class: 'Platform' },
+      { x: 41, y: 25.9, width: 12, height: 1, class: 'Platform' },
+
+      // roof
+      { x: 13, y: 19, width: 26, height: 1, class: 'Platform' },
+      { x: 45, y: 19, width: 5, height: 1, class: 'Platform' },
+      { x: 27, y: 14.5, width: 1, height: 8.1, class: 'Platform', perspective: 'right' },
+      { x: 7, y: 12, width: 12, height: 1, class: 'Platform' },
+      { x: 23.5, y: 12, width: 4, height: 1, class: 'Platform' },
+      { x: 41.5, y: 12, width: 12, height: 1, class: 'Platform' },
+      { x: 34, y: 18.4, width: 1, height: 14, class: 'Platform', perspective: 'left' },
+      { x: 41.5, y: 12, width: 12, height: 1, class: 'Platform' }
     ];
   
     var length = objects.length;
@@ -64,7 +90,8 @@
         angle: 0,
         width: obj.width,
         height: obj.height,
-        src: obj.src
+        src: obj.src,
+        perspective: obj.perspective
       });
 
       if (entity.state.private.class === 'Platform') {
@@ -75,6 +102,7 @@
           x: entity.state.private.x,
           y: entity.state.private.y,
           angle: entity.state.private.angle,
+
           width: entity.state.private.width,
           height: entity.state.private.height
         };
