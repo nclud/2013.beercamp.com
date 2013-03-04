@@ -48,7 +48,7 @@
   Platform.prototype.constructor = Platform;
 
   Platform.prototype.drawType = function(ctx, scale) {
-    // Rectangle.prototype.drawType.call(this, canvas);
+    Rectangle.prototype.drawType.call(this, ctx, scale);
 
     // round to whole pixel
     // interpolated x and y coords
@@ -63,56 +63,115 @@
 
     ctx.save();
 
-    var xMin = x - halfWidth;
-    var yMin = y;
-    var offset = height;
+    var xMin;
+    var yMin;
+    var offset;
 
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = halfHeight / 2;
-    ctx.shadowBlur = height;
-    ctx.shadowColor = 'black';
+    var light = this.state.private.color ? this.state.private.color.light : '#bcbdc0';
+    var dark = this.state.private.color ? this.state.private.color.dark : '#a7a9ab';
 
-    ctx.beginPath();
-    ctx.moveTo(xMin - offset, yMin);
-    ctx.lineTo(xMin + offset + width, yMin);
-    ctx.lineTo(xMin + offset + width, yMin + halfHeight);
-    ctx.lineTo(xMin - offset, yMin + halfHeight);
-    ctx.closePath();
-    ctx.fill();
+    switch(this.state.private.perspective) {
+      case 'left':
+        xMin = x - halfWidth;
+        yMin = y - halfHeight;
+        offset = halfWidth;
 
-    ctx.shadowColor = 'none';
+        ctx.fillStyle = light;
 
-    ctx.fillStyle = '#bcbdc0'; // light grey
-    // ctx.fillStyle = '#8b5428'; // light brown
+        ctx.beginPath();
+        ctx.moveTo(xMin, yMin - offset);
+        ctx.lineTo(xMin + halfWidth, yMin - offset);
+        ctx.lineTo(xMin + halfWidth, yMin + height + offset);
+        ctx.lineTo(xMin, yMin + height + offset);
+        ctx.closePath();
+        ctx.fill();
 
-    ctx.beginPath();
-    ctx.lineCap = 'round';
-    ctx.moveTo(xMin - offset - halfHeight, yMin);
-    ctx.lineTo(xMin + offset + width + halfHeight, yMin);
-    ctx.lineTo(xMin + offset + width + halfHeight, yMin + halfHeight);
-    ctx.lineTo(xMin - offset - halfHeight, yMin + halfHeight);
-    ctx.closePath();
-    ctx.fill();
+        xMin += halfWidth;
 
-    yMin -= halfHeight;
+        ctx.fillStyle = dark;
 
-    ctx.fillStyle = '#484749'; // dark grey
-    ctx.fillStyle = '#a7a9ab'; // lighter grey
-    // ctx.fillStyle = '#624130'; // dark brown
+        ctx.beginPath();
+        ctx.moveTo(xMin, yMin - offset);
+        ctx.lineTo(xMin + halfWidth, yMin);
+        ctx.lineTo(xMin + halfWidth, yMin + height);
+        ctx.lineTo(xMin, yMin + height + offset);
+        ctx.closePath();
+        ctx.fill();
 
-    ctx.beginPath();
-    ctx.moveTo(xMin - offset, yMin);
-    ctx.lineTo(xMin + offset + width, yMin);
-    ctx.lineTo(xMin + offset + width + halfHeight, yMin + halfHeight);
-    ctx.lineTo(xMin - offset - halfHeight, yMin + halfHeight);
-    ctx.closePath();
-    ctx.fill();
+        break;
 
-    /*
-    if (this.actor) {
-      this.actor.draw(ctx, x - halfWidth, y - halfHeight, scale);
+      case 'right':
+        xMin = x - halfWidth;
+        yMin = y - halfHeight;
+        offset = halfWidth;
+
+        ctx.fillStyle = dark;
+
+        ctx.beginPath();
+        ctx.moveTo(xMin, yMin);
+        ctx.lineTo(xMin + halfWidth, yMin - offset);
+        ctx.lineTo(xMin + halfWidth, yMin + height + offset);
+        ctx.lineTo(xMin, yMin + height);
+        ctx.closePath();
+        ctx.fill();
+
+        xMin += halfWidth;
+
+        ctx.fillStyle = light;
+
+        ctx.beginPath();
+        ctx.moveTo(xMin, yMin - offset);
+        ctx.lineTo(xMin + halfWidth, yMin - offset);
+        ctx.lineTo(xMin + halfWidth, yMin + height + offset);
+        ctx.lineTo(xMin, yMin + height + offset);
+        ctx.closePath();
+        ctx.fill();
+        break;
+
+      default:
+        xMin = x - halfWidth;
+        yMin = y;
+        offset = height;
+
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = halfHeight / 2;
+        ctx.shadowBlur = height;
+        ctx.shadowColor = 'black';
+
+        ctx.beginPath();
+        ctx.moveTo(xMin - offset, yMin);
+        ctx.lineTo(xMin + offset + width, yMin);
+        ctx.lineTo(xMin + offset + width, yMin + halfHeight);
+        ctx.lineTo(xMin - offset, yMin + halfHeight);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.shadowColor = 'none';
+
+        ctx.fillStyle = light;
+
+        ctx.beginPath();
+        ctx.lineCap = 'round';
+        ctx.moveTo(xMin - offset - halfHeight, yMin);
+        ctx.lineTo(xMin + offset + width + halfHeight, yMin);
+        ctx.lineTo(xMin + offset + width + halfHeight, yMin + halfHeight);
+        ctx.lineTo(xMin - offset - halfHeight, yMin + halfHeight);
+        ctx.closePath();
+        ctx.fill();
+
+        yMin -= halfHeight;
+
+        ctx.fillStyle = dark;
+
+        ctx.beginPath();
+        ctx.moveTo(xMin - offset, yMin);
+        ctx.lineTo(xMin + offset + width, yMin);
+        ctx.lineTo(xMin + offset + width + halfHeight, yMin + halfHeight);
+        ctx.lineTo(xMin - offset - halfHeight, yMin + halfHeight);
+        ctx.closePath();
+        ctx.fill();
+        break;
     }
-    */
 
     ctx.restore();
   }

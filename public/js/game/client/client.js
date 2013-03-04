@@ -40,16 +40,24 @@
     this.actions = [
       this.clearCanvas,
       this.updateEntities,
-      this.drawEntities
+      this.drawEntities,
+      this.updateCamera
     ];
 
     // socket.io client connection
     var socket = this.socket = io.connect();
 
+    socket.on('game-loaded', function(data){
+      var character_id = getParameter("as");
+      socket.emit('add-player', { 'character-id' : character_id });
+    });
+
     // set client.uuid
     socket.on('uuid', function(data) {
       client.uuid = data;
     });
+
+
 
     // listen for full state updates
     socket.on('state:full', function(data) {
@@ -153,6 +161,19 @@
     });
   };
 
+  // Read the URL and find a parameter by name.
+  // @param [String] name The name of the parameter (i.e. ?name=value) from the URL.
+  var getParameter = function(name){
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(window.location.search);
+    if(results == null)
+      return "";
+    else
+      return decodeURIComponent(results[1].replace(/\+/g, " "));
+  };
+
   var frame = function() {
     loop(this);
 
@@ -175,7 +196,6 @@
     time.setDelta();
     runFrameActions(client);
     stats.update();
-    // client.container.redraw();
   };
 
   var pause = function() {
@@ -207,18 +227,11 @@
   var createCanvas = function() {
     var canvas = this.canvas = document.createElement('canvas');
     this.ctx = canvas.ctx = canvas.getContext('2d');
+    this.setScale(canvas, window.innerWidth, window.innerWidth / 7 * 9);
 
-    this.setScale(canvas, window.innerWidth, window.innerHeight);
-
-    var container = this.container = new CanvasLayers.Container(canvas, true);
-
-    // redraw background layer
-    /*
-    container.onRender = function(layer, rect, context) {
-      context.fillStyle = '#000';
-      context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
-    }
-    */
+    var camera = this.camera = document.createElement('canvas');
+    camera.ctx = camera.getContext('2d');
+    this.setScale(camera, window.innerWidth, window.innerHeight);
 
     // throttle to only change after resizing complete
     var resizeTimer;
@@ -227,13 +240,20 @@
     window.addEventListener('resize', (function(event) {
       var resize = (function() {
         clearTimeout(resizeTimer);
-        this.setScale(this.canvas, window.innerWidth, window.innerHeight);
+
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+
+        this.setScale(this.canvas, width, width / 7 * 9);
+        this.setScale(this.camera, width, height);
+
+        this.updateCamera(this);
       }).bind(this);
 
       resizeTimer = setTimeout(resize, 100);
     }).bind(this));
 
-    document.getElementById('main').appendChild(canvas);
+    document.getElementById('main').appendChild(camera);
   };
 
   var setScale = function(canvas, width, height) {
@@ -305,20 +325,26 @@
     }
   };
 
-  var followPlayer = function(client) {
+  var updateCamera = function(client) {
     // follow player with camera
     // TODO: parallax background
+    var ctx = client.camera.ctx;
+    var canvas = client.canvas;
+
     var player = client.entities[client.uuid];
+    var value;
 
     if (player) {
-      var value = (window.innerHeight / 2) - player.state.private.y * client.canvas.scale;
-      client.canvas.setAttribute('style', 'top:' + value.toString() + 'px');
+      value = Math.min(player.state.private.y * canvas.scale, canvas.height - (window.innerHeight / 2));
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      ctx.drawImage(canvas, 0, (window.innerHeight / 2) - value);
     }
   };
 
   return {
     actions: actions,
     entities: entities,
+    getParameter: getParameter,
     init: init,
     loop: loop,
     pause: pause,
@@ -329,7 +355,7 @@
     setScale: setScale,
     updateEntities: updateEntities,
     drawEntities: drawEntities,
-    followPlayer: followPlayer
+    updateCamera: updateCamera
   };
 
 });

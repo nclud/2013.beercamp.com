@@ -11,5 +11,19 @@ set :deploy_via, :remote_cache
 set :node_user, "node"
 set :app_environment, "NODE_PORT=80"
 
-# Node script still tries to use sudo start beercamp-production even when the following is set.
-# set :use_sudo, false
+namespace :node do
+  desc "[Override] Start the node application"
+  task :start do
+    sudo "/sbin/service node start"
+  end
+
+  desc "[Override] Stop the node application"
+  task :stop do
+    sudo "/sbin/service node stop"
+  end
+
+  desc "Restart the node application"
+    task :restart do
+      sudo "/sbin/service node restart"
+    end
+end

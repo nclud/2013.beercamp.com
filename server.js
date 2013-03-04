@@ -17,7 +17,7 @@ child.fork = function(file) {
   });
 }
 
-worker = child.spawn(process.execPath, ['worker.js'], {
+worker = child.spawn(process.execPath, [__dirname + '/worker.js'], {
     stdio: ['pipe', 1, 2, 'ipc'],
     env: process.env
   });

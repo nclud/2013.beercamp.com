@@ -17,11 +17,11 @@
 
         <nav>
             <h2>SELECT CHARACTER:</h2>
-            <div class="char"><div id="char1"></div></div>
-            <div class="char"><div id="char2"></div></div>
-            <div class="char"><div id="char3"></div></div>
-            <div class="char"><div id="char4"></div></div>
-            <div class="char"><div id="char5"></div></div>
+            <div class="char"><div id="char1" data-character-id="0"></div></div>
+            <div class="char"><div id="char2" data-character-id="1"></div></div>
+            <div class="char"><div id="char3" data-character-id="2"></div></div>
+            <div class="char"><div id="char4" data-character-id="3"></div></div>
+            <div class="char"><div id="char5" data-character-id="4"></div></div>
         </nav>
         <form>
                 <input type="text" value="Enter your name" name="pname" />
@@ -47,8 +47,10 @@
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
     $(function(){
-        $(".char").click(function(){
-            window.location = "game.html";
+        $(".char").click(function(event){
+            var selected_character = $(event.target);
+            var character_id = selected_character.data('character-id');
+            window.location = "game.html?as=" + character_id;
         });
     });
     

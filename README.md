@@ -42,5 +42,7 @@ The script has to run as sudo, which is probably not a good idea. It will also l
 
 ## Generate the public js assets
 
+```
 sudo npm install -g requirejs
 r.js -o build.js
+```

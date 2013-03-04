@@ -22,10 +22,10 @@
     properties.type = properties.type || 'dynamic';
 
     properties.angle = properties.angle ||  0;
-    properties.width = properties.width ||  3.4;
+    properties.width = properties.width ||  3;
     properties.height = properties.height ||  3.4;
     properties.fixed = properties.fixed ||  true;
-    properties.speed = properties.speed ||  340;
+    properties.speed = properties.speed ||  300;
 
     properties.sprite = properties.sprite || {
       direction: 'right',
@@ -303,7 +303,7 @@
   };
 
   Player.prototype.drawType = function(ctx, scale) {
-    // Rectangle.prototype.drawType.call(this, canvas);
+    Rectangle.prototype.drawType.call(this, ctx, scale);
 
     // round to whole pixel
     // interpolated x and y coords
