@@ -47,10 +47,17 @@
     // socket.io client connection
     var socket = this.socket = io.connect();
 
+    socket.on('game-loaded', function(data){
+      var character_id = getParameter("as");
+      socket.emit('add-player', { 'character-id' : character_id });
+    });
+
     // set client.uuid
     socket.on('uuid', function(data) {
       client.uuid = data;
     });
+
+
 
     // listen for full state updates
     socket.on('state:full', function(data) {
@@ -152,6 +159,19 @@
       }
 
     });
+  };
+
+  // Read the URL and find a parameter by name.
+  // @param [String] name The name of the parameter (i.e. ?name=value) from the URL.
+  var getParameter = function(name){
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(window.location.search);
+    if(results == null)
+      return "";
+    else
+      return decodeURIComponent(results[1].replace(/\+/g, " "));
   };
 
   var frame = function() {
@@ -324,6 +344,7 @@
   return {
     actions: actions,
     entities: entities,
+    getParameter: getParameter,
     init: init,
     loop: loop,
     pause: pause,

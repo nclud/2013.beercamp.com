@@ -1,111 +1,6 @@
-@font-face {
-    font-family: 'Monstrrr-Bold';
-    src: url('monstrrrbold-regular-webfont.eot');
-    src: url('monstrrrbold-regular-webfont.eot?#iefix') format('embedded-opentype'),
-    url('monstrrrbold-regular-webfont.woff') format('woff'),
-    url('monstrrrbold-regular-webfont.ttf') format('truetype'),
-    url('monstrrrbold-regular-webfont.svg#MonstrrrBoldRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Monstrrr-Serif';
-    src: url('monstrrrserif-regular-webfont.eot');
-    src: url('monstrrrserif-regular-webfont.eot?#iefix') format('embedded-opentype'),
-    url('monstrrrserif-regular-webfont.woff') format('woff'),
-    url('monstrrrserif-regular-webfont.ttf') format('truetype'),
-    url('monstrrrserif-regular-webfont.svg#MonstrrrSerifRegular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
 html {height: 100%;}
 body {margin: 0; padding: 0; height: 100%;}
 
-/*** header ***/
-header {
-    text-shadow:0 1px 0 rgba(0,0,0,0.15), 0 2px 1px rgba(0,0,0,0.1), 0 3px 2px rgba(0,0,0,0.07), 0 3px 6px rgba(0,0,0,0.07);
-    z-index:10;
-    color:#8b97a8;
-    width: 96%;
-    background:#0d164d;
-    padding: 0 2%;
-    min-width: 960px;
-    height: 64px;
-    position: absolute;
-    bottom: 0;
-    z-index: 9999;
-}
-header h1 {
-    /*position:absolute;
-     bottom:-70px;
-     left:0;
-     text-align:center;
-     width:100%;
-     z-index:3;*/
-    line-height:1;
-    font-family:'Monstrrr-Bold', 'lucida grande', tahoma, verdana, arial, sans-serif;
-    font-size:250%;
-    /*width:7.75em;
-    margin:0;
-    float:left;*/
-    position:absolute;
-    left:.5em;
-    top:-.35em;
-}
-h1 em {
-    font:normal 32.5%/.7 'Monstrrr-Serif', sans-serif;
-    /*border:1px solid rgba(255,255,255,0.15);
-    padding:.5em .5em .25em;
-    background:rgba(0,0,0,0.35);*/
-    display:inline-block;
-    border-radius:4px;
-    position:relative;
-    top:-.65em;
-    left:-.25em;
-}
-h1 em:before {
-    content:"/";
-    display:block;
-    position:absolute;
-    left:-.5em;
-    top:0;
-}
-header ul {
-    /*float:right;
-    margin:0 auto;
-    width:100%;
-    text-align:center;
-    padding:1.45em 0 0 4em;
-    font:normal 115%/1 'Monstrrr-Serif', sans-serif;*/
-    margin: 0;
-	text-align: center;
-	padding: 0;
-	font: normal 115%/1 'Monstrrr-Serif', sans-serif;
-	top: 1.4em;
-	position: absolute;
-	left: 30%;
-}
-header li {
-    display:inline;
-    list-style:none;
-    padding:0 1em 0;
-    /*border-right:1px solid rgba(255,255,255,0.25);*/
-}
-header li:first-child {
-    padding-left:0;
-}
-header li:last-child {
-    padding-right:0;
-    border:0;
-}
-header img {
-    float:right;
-    position:relative;
-    top:.75em;
-    margin:0 0 0 1em;
-}
 .logo {
     height:120px;
     width:128px;
@@ -412,38 +307,25 @@ nav {
     z-index: 8001;
 }
 
-/* header things */
-
-@media screen and (max-width: 1120px){
-
-	header h1{
-		font-size:230%;
-	}
-
-	header ul{
-		font: normal 105%/1 'Monstrrr-Serif', sans-serif;
-		top: 1.5em;
-	}
-}
-
-@media screen and (max-width: 1050px){
-	header img{
-		width:8%;
-		margin: 0 0 0 .5em;
-	}
-
-	header img[alt^="nclud"]{
-		width: 2.5%;
-	}
-
-}
 
 
+/* Game Over Screen(s) */
+body.gameover {background-color: #1a1a1a;}
+.gameover div.container {width: 500px; margin: 0 auto; overflow: visible}
+.gameover h1 {float: left; clear: none; margin-bottom: 20px;}
+.gameover .blackout h1 {background: transparent url(../images/Type_BlackOut.svg) no-repeat center center; width: 400px; height: 340px; font-size: 0; text-indent: -9999;}
+.gameover a {display: block;}
+.gameover .tweet {float: left; background: transparent url(../images/Button_Tweet.svg) no-repeat center center; width: 250px; height: 120px;}
+.gameover .facebook {float: right; background: transparent url(../images/Button_Share.svg) no-repeat center center; width: 250px; height: 120px;}
+.gameover .replay {float: left; background: transparent url(../images/Button_Replay.svg) no-repeat center center; width: 238px; height: 90px;}
+.gameover .newchar {float: right; background: transparent url(../images/Button_CharacterSelect.svg) no-repeat center center; width: 238px; height: 90px;}
 
+.gameover .glass {width: 60px; height: 340px; float: left; clear: none; -webkit-transform:rotate(-7deg); -moz-transform:rotate(-7deg); -o-transform:rotate(-7deg); -ms-transform:rotate(-7deg); transform:rotate(-7deg); margin-left: 20px;}
+.gameover .burst {width: 100px; height: 100px; position: absolute; top: 280px; left: 20px; }
+.gameover .burst.congrats {background: transparent url(../images/Pin_Congrats.svg) no-repeat center center;background-size: 100%;}
+.gameover .glass.shitty {background: transparent url(../images/gameover-blackout.png) no-repeat center center;}
 
-
-
-
-
+.gameover .pic {width: 369px; height: 280px; display: block; clear: both; margin: 0 auto;}
+.gameover .pic.one {background: transparent url(../images/char1.png) no-repeat left bottom;}
 
 
