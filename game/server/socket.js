@@ -42,23 +42,33 @@
 
     // socket.io client event listeners
     io.sockets.on('connection', function(socket) {
+      socket.emit('game-loaded');
 
-      // switch from socket.id to Connect sessions?
-      // TODO: move player init to socket.js
-      var player = new Player({
-        x: Math.random() * 20,
-        y: Math.random() * 10,
-        src: skins[4]
+      socket.on('add-player', function(data){
+        var character_id = parseInt(data['character-id']);
+        if(isNaN(character_id) || character_id < 0 || character_id > 4){    
+          console.log("Invalid Character '" + character_id + "'. Using default character instead.");      
+          character_id = 0;
+
+        }
+        console.log("Adding a new player to the game as character '" + character_id + "'.");
+
+        // switch from socket.id to Connect sessions?
+        var player = new Player({
+          x: Math.random() * 20,
+          y: Math.random() * 10,
+          src: skins[character_id]
+        });
+        
+        // set uuid and send to client
+        socket.emit('uuid', player.uuid);
+
+        addPlayer(socket, worker, player); 
       });
-      
-      // set uuid and send to client
-      socket.emit('uuid', player.uuid);
-
-      addPlayer(socket, worker, player);
-
     });
 
   };
+
 
   var addPlayer = function(socket, worker, player) {
 
