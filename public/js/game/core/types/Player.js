@@ -302,27 +302,24 @@
 
   };
 
-  Player.prototype.drawType = function(canvas) {
+  Player.prototype.drawType = function(ctx, scale) {
     // Rectangle.prototype.drawType.call(this, canvas);
-
-    var ctx = canvas.ctx;
-    var SCALE = canvas.scale;
 
     // round to whole pixel
     // interpolated x and y coords
-    var x = (this.state.private.x * SCALE + 0.5) | 0;
-    var y = (this.state.private.y * SCALE + 0.5) | 0;
+    var x = (this.state.private.x * scale + 0.5) | 0;
+    var y = (this.state.private.y * scale + 0.5) | 0;
 
-    var width = ((this.state.private.width * SCALE) + 0.5) | 0;
-    var height = ((this.state.private.height * SCALE) + 0.5) | 0;
+    var width = ((this.state.private.width * scale) + 0.5) | 0;
+    var height = ((this.state.private.height * scale) + 0.5) | 0;
 
-    var halfWidth = ((this.state.private.width * SCALE / 2) + 0.5) | 0;
-    var halfHeight = ((this.state.private.height * SCALE / 2) + 0.5) | 0;
+    var halfWidth = ((this.state.private.width * scale / 2) + 0.5) | 0;
+    var halfHeight = ((this.state.private.height * scale / 2) + 0.5) | 0;
 
     ctx.save();
 
     if (this.actor) {
-      this.actor.draw(ctx, x - halfWidth, y - halfHeight, SCALE);
+      this.actor.draw(ctx, x - halfWidth, y - halfHeight, scale);
     }
 
     ctx.restore();

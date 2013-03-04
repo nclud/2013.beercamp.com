@@ -34,6 +34,26 @@
 		if(properties) {
 			this.set(properties);
 
+      /*
+      if (client) {
+        var scale = client.canvas.scale;
+
+        var layer = this.layer = new CanvasLayers.Layer(
+          properties.x * scale,
+          properties.y * scale,
+          properties.width * scale,
+          properties.height * scale
+        );
+
+        layer.onRender = (function(layer, rect, ctx) {
+          layer.moveTo(layer.getRelativeX(), layer.getRelativeY());
+          this.draw(ctx, scale);
+        }).bind(this);
+
+        client.container.getChildren().add(layer);
+      }
+      */
+
       // Actor undefined on server
       // Image is function in Chrome and Firefox, object in Safari
       if (Actor && properties.sprite && properties.img) {
@@ -42,9 +62,6 @@
         this.actor = new Graphic(this, properties.img, client);
       }
 		}
-
-    // default to redrawing all entities
-    this.redraw = true;
 
     this.queue = {};
 
@@ -171,20 +188,17 @@
     }
   };
 
-	Entity.prototype.draw = function(canvas) {
-    var ctx = canvas.ctx;
-    var SCALE = canvas.scale;
-
+	Entity.prototype.draw = function(ctx, scale) {
     ctx.save();
 
     // round to whole pixel
     // interpolated x and y coords
     // TODO: dont round until AFTER scale
-    var x = (this.state.private.x * SCALE + 0.5) | 0;
-    var y = (this.state.private.y * SCALE + 0.5) | 0;
+    var x = (this.state.private.x * scale + 0.5) | 0;
+    var y = (this.state.private.y * scale + 0.5) | 0;
 
-    var halfWidth = ((this.state.private.width * SCALE / 2) + 0.5) | 0;
-    var halfHeight = ((this.state.private.height * SCALE / 2) + 0.5) | 0;
+    var halfWidth = ((this.state.private.width * scale / 2) + 0.5) | 0;
+    var halfHeight = ((this.state.private.height * scale / 2) + 0.5) | 0;
 
     // apply transformations (scale and rotate from center)
     // snapped rotation and scale
@@ -194,7 +208,7 @@
     ctx.translate(-x, -y);
 
     // Call extended Entity Type's draw method
-    this.drawType && this.drawType(canvas);
+    this.drawType && this.drawType(ctx, scale);
 
     /*
     // draw small dot at Entity center

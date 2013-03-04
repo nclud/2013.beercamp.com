@@ -18,8 +18,6 @@
 
     this.entity = entity;
 
-    var canvas = client.canvas[this.entity.state.private.class];
-
     // prepare Actor canvas
     this.skin = document.createElement('canvas');
 
@@ -30,13 +28,13 @@
     window.addEventListener('resize', (function(event) {
       var resize = (function() {
         clearTimeout(resizeTimer);
-        this.updateCache(img, sprite, canvas);
+        this.updateCache(img, sprite, client.canvas);
       }).bind(this);
 
       resizeTimer = setTimeout(resize, 100);
     }).bind(this));
 
-    this.updateCache(img, sprite, canvas);
+    this.updateCache(img, sprite, client.canvas);
 
     // sprite config
     if (sprite) {
@@ -56,14 +54,14 @@
 
   Actor.prototype.updateCache = function(img, sprite, canvas) {
     var ctx = this.skin.getContext('2d');
-    var SCALE = canvas.scale;
+    var scale = canvas.scale;
 
-    this.skin.width = sprite.width * SCALE;
-    this.skin.height = sprite.height * SCALE;
+    this.skin.width = sprite.width * scale;
+    this.skin.height = sprite.height * scale;
     this.skin.scale = sprite.scale;
 
     // render to offscreen canvas
-    var cached = this.cached = this.renderToCanvas(img, sprite, SCALE, false);
+    var cached = this.cached = this.renderToCanvas(img, sprite, scale, false);
 
     // reverse canvas for moving in opposite direction
     var direction = sprite.direction
@@ -71,7 +69,7 @@
     if (direction) {
       this[direction] = cached;
       var mirror = direction === 'right' ? 'left' : 'right';
-      this[mirror] = this.renderToCanvas(img, sprite, SCALE, true);
+      this[mirror] = this.renderToCanvas(img, sprite, scale, true);
     }
 
     // DEBUG: render full skin
@@ -85,15 +83,15 @@
     ctx.drawImage(cached, 0, 0, cached.width / 2, cached.height / 2);
   };
 
-  Actor.prototype.renderToCanvas = function(img, sprite, SCALE, mirror) {
+  Actor.prototype.renderToCanvas = function(img, sprite, scale, mirror) {
     var buffer = document.createElement('canvas');
     var ctx = buffer.getContext('2d');
 
     var ratio = img.width / img.height;
 
     // TODO: where is this 10 value coming from? is ratio being used correctly?
-    var width = buffer.width = sprite.width * sprite.scale * ratio * SCALE;
-    var height = buffer.height = sprite.height * sprite.scale * SCALE;
+    var width = buffer.width = sprite.width * sprite.scale * ratio * scale;
+    var height = buffer.height = sprite.height * sprite.scale * scale;
 
     if (mirror) {
       ctx.translate(width, 0);
@@ -105,7 +103,7 @@
     return buffer;
   };
 
-  Actor.prototype.setFrame = function(frame, SCALE) {
+  Actor.prototype.setFrame = function(frame, scale) {
     this.frame = frame;
 
     var skin = this.skin;
@@ -118,7 +116,7 @@
     ctx.drawImage(cached, -shift, 0, cached.width / 2, cached.height / 2);
   };
 
-  Actor.prototype.drawFrame = function(SCALE) {
+  Actor.prototype.drawFrame = function(scale) {
     var step = this.step;
 
     var skin = this.skin;
@@ -148,7 +146,7 @@
     ctx.drawImage(cached, -shift, 0, cached.width / 2, cached.height / 2);
   };
 
-  Actor.prototype.update = function(SCALE) {
+  Actor.prototype.update = function(scale) {
     var state = this.entity.state.public;
 
     var skin = this.skin;
@@ -163,7 +161,7 @@
     if (!end) {
       // if at step, advance to next frame in animation
       if (this.t % step === 0) {
-        this.drawFrame(SCALE);
+        this.drawFrame(scale);
       }
       this.t++;
     } else if (this.sprite.repeat) {
@@ -171,11 +169,11 @@
     } else if (this.direction !== state.direction) {
       // redraw if this.entity.state.public.direction changes
       this.direction = state.direction;
-      this.drawFrame(SCALE);
+      this.drawFrame(scale);
     }
   };
 
-  Actor.prototype.draw = function(ctx, x, y, SCALE) {
+  Actor.prototype.draw = function(ctx, x, y, scale) {
     var state = this.entity.state.public;
     var animation;
 
@@ -208,9 +206,9 @@
         this.cached = this.right;
 
         if (this.sprite.start === this.sprite.end && this.frame !== this.sprite.start) {
-          this.setFrame(this.sprite.start, SCALE);
+          this.setFrame(this.sprite.start, scale);
         } else if (this.sprite.start !== this.sprite.end) {
-          this.update(SCALE);
+          this.update(scale);
         }
 
         break;
@@ -218,9 +216,9 @@
         this.cached = this.left;
 
         if (this.sprite.start === this.sprite.end && this.frame !== (this.xMax - this.sprite.start - 1)) {
-          this.setFrame(this.xMax - this.sprite.start - 1, SCALE);
+          this.setFrame(this.xMax - this.sprite.start - 1, scale);
         } else if (this.sprite.start !== this.sprite.end) {
-          this.update(SCALE);
+          this.update(scale);
         }
 
         break;

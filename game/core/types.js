@@ -11,6 +11,7 @@
       './types/Entity',
       './types/Rectangle',
       './types/Background',
+      './types/Graphic',
       './types/Platform',
       './types/Player',
       './types/Actor'
@@ -24,6 +25,7 @@
     Entity: require('./types/Entity'),
     Rectangle: require('./types/Rectangle'),
     Background: require('./types/Background'),
+    Graphic: require('./types/Graphic'),
     Platform: require('./types/Platform'),
     Player: require('./types/Player'),
     Actor: require('./types/Actor')

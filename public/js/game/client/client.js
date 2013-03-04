@@ -14,6 +14,7 @@
   var stats = new Stats();
   document.body.appendChild(stats.domElement);
 
+  var actions = [];
   var entities = {};
 
   var init = function(client) {
@@ -36,10 +37,10 @@
     };
 
     // set methods to run every frame
-    // TODO: decouple this asynchronously?
     this.actions = [
       this.clearCanvas,
-      this.updateEntities
+      this.updateEntities,
+      this.drawEntities
     ];
 
     // socket.io client connection
@@ -92,11 +93,11 @@
                 state.img = this;
                 client.entities[uuid] = new types[state.class](state, uuid, client);
               });
-            })(state, uuid);
+            })(state, uuid, client);
 
             img.src = state.src;
           } else {
-            client.entities[uuid] = new types[state.class](state, uuid);
+            client.entities[uuid] = new types[state.class](state, uuid, client);
           }
 
           msg[entity.uuid] = state;
@@ -150,30 +151,6 @@
       }
 
     });
-
-    window.addEventListener('resize', (function(event) {
-      // clearCanvas
-      var keys = Object.keys(client.canvas);
-      var length = keys.length;
-      var canvas;
-
-      for (var i = 0; i < length; i++) {
-        type = keys[i];
-        canvas = client.canvas[type];
-        canvas.ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
-
-      var entities = Object.keys(client.entities);
-      var length = entities.length;
-      var uuid;
-      var entity;
-
-      for (var i = 0; i < length; i++) {
-        uuid = entities[i];
-        entity = client.entities[uuid];
-        entity.redraw = true;
-      }
-    }).bind(this));
   };
 
   var frame = function() {
@@ -198,6 +175,7 @@
     time.setDelta();
     runFrameActions(client);
     stats.update();
+    // client.container.redraw();
   };
 
   var pause = function() {
@@ -218,55 +196,55 @@
 
   var runFrameActions = function(client) {
     for (var i = 0; i < client.actions.length; i++) {
-      // only clearCanvas on canvas['Player'] every frame
-      client.actions[i](client.canvas, client);
+      client.actions[i](client);
     }
   };
 
-  var clearCanvas = function(canvas) {
-    var player = canvas['Player'];
-    player.ctx.clearRect(0, 0, player.width, player.height);
-
-    /*
-    var keys = Object.keys(canvas);
-    var length = keys.length;
-
-    for (var i = 0; i < length; i++) {
-      type = keys[i];
-      canvas[type].ctx.clearRect(0, 0, canvas[type].width, canvas[type].height);
-    }
-    */
+  var clearCanvas = function(client) {
+    client.ctx.clearRect(0, 0, client.canvas.width, client.canvas.height);
   };
 
   var createCanvas = function() {
-    this.canvas = {};
+    var canvas = this.canvas = document.createElement('canvas');
+    this.ctx = canvas.ctx = canvas.getContext('2d');
 
-    var canvas;
+    this.setScale(canvas, window.innerWidth, window.innerHeight);
 
-    for (var type in types) {
-      canvas = this.canvas[type] = document.createElement('canvas');
-      canvas.setAttribute('id', type);
-      canvas.ctx = canvas.getContext('2d');
-      this.setScale(canvas, window.innerWidth, window.innerHeight);
-      document.getElementById('main').appendChild(canvas);
+    var container = this.container = new CanvasLayers.Container(canvas, true);
+
+    // redraw background layer
+    /*
+    container.onRender = function(layer, rect, context) {
+      context.fillStyle = '#000';
+      context.fillRect(0, 0, layer.getWidth(), layer.getHeight());
     }
+    */
 
-    // make scale and canvas dynamic based on screen size
+    // throttle to only change after resizing complete
+    var resizeTimer;
+
+    // resize canvas on window resize
     window.addEventListener('resize', (function(event) {
-      for (var type in types) {
-        this.setScale(this.canvas[type], window.innerWidth, window.innerHeight);
-      }
+      var resize = (function() {
+        clearTimeout(resizeTimer);
+        this.setScale(this.canvas, window.innerWidth, window.innerHeight);
+      }).bind(this);
+
+      resizeTimer = setTimeout(resize, 100);
     }).bind(this));
+
+    document.getElementById('main').appendChild(canvas);
   };
 
   var setScale = function(canvas, width, height) {
     canvas.width = width;
-
     canvas.height = height;
     canvas.scale = width / 48;
   };
 
-  var updateEntities = function(canvas, client) {
+  var updateEntities = function(client) {
+    var draw = {};
+
     var entities = Object.keys(client.entities);
     var length = entities.length;
     var uuid;
@@ -276,28 +254,53 @@
       uuid = entities[i];
       entity = client.entities[uuid];
 
-      if (entity.redraw) {
-        // TODO: switch to array of player-originated entities
-        interpolate = (uuid !== client.uuid);
+      // TODO: switch to array of player-originated entities
+      interpolate = (uuid !== client.uuid);
 
-        if (interpolate) {
+      if (interpolate) {
 
-          // interpolate position of other players
-          entity.interpolate();
+        // interpolate position of other players
+        entity.interpolate();
 
-        } else {
+      } else {
 
-          // TODO: switch this to reconcile
-          entity.interpolate();
+        // TODO: switch this to reconcile
+        entity.interpolate();
 
-          // client prediction only for active player
-          entity.respondToInput(input.pressed, function(input) {
-            client.socket.emit('command:send', input);
-          });
+        // client prediction only for active player
+        entity.respondToInput(input.pressed, function(input) {
+          client.socket.emit('command:send', input);
+        });
 
+      }
+
+      // entity.draw(client.ctx, client.canvas.scale);
+    }
+  };
+
+  var drawEntities = function(client) {
+    var order = [
+      'Background',
+      'Platform',
+      'Player'
+    ];
+
+    var orderLength = order.length;
+
+    var entities = Object.keys(client.entities);
+    var length = entities.length;
+
+    var uuid;
+    var entity;
+
+    for (var i = 0; i < orderLength; i++) {
+      for (var j = 0; j < length; j++) {
+        uuid = entities[j];
+        entity = client.entities[uuid];
+
+        if (entity.state.private.class === order[i]) {
+          entity.draw(client.ctx, client.canvas.scale);
         }
-
-        entity.draw(client.canvas[entity.state.private.class]);
       }
     }
   };
@@ -314,6 +317,7 @@
   };
 
   return {
+    actions: actions,
     entities: entities,
     init: init,
     loop: loop,
@@ -324,6 +328,7 @@
     createCanvas: createCanvas,
     setScale: setScale,
     updateEntities: updateEntities,
+    drawEntities: drawEntities,
     followPlayer: followPlayer
   };
 

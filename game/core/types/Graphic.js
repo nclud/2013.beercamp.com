@@ -11,8 +11,6 @@
 	var Graphic = function(entity, img, client) {
     this.entity = entity;
 
-    var canvas = client.canvas[this.entity.state.private.class];
-
     // prepare Graphic canvas
     this.skin = document.createElement('canvas');
 
@@ -23,14 +21,13 @@
     window.addEventListener('resize', (function(event) {
       var resize = (function() {
         clearTimeout(resizeTimer);
-        this.updateCache(img, canvas);
-        this.entity.redraw = true;
+        this.updateCache(img, client.canvas);
       }).bind(this);
 
       resizeTimer = setTimeout(resize, 100);
     }).bind(this));
 
-    this.updateCache(img, canvas);
+    this.updateCache(img, client.canvas);
 
     return this;
 	};
@@ -41,35 +38,37 @@
     var state = this.entity.state.private;
 
     var ctx = this.skin.getContext('2d');
-    var SCALE = canvas.scale;
+    var scale = canvas.scale;
 
-    this.skin.width = state.width * SCALE;
-    this.skin.height = state.height * SCALE;
+    var ratio =  img.height / img.width;
+
+    this.skin.width = state.width * scale;
+    this.skin.height = state.width * ratio * scale;
 
     // render to offscreen canvas
-    var cached = this.cached = this.renderToCanvas(img, SCALE, false);
+    var cached = this.cached = this.renderToCanvas(img, scale, false);
 
     ctx.drawImage(cached, 0, 0, cached.width / 2, cached.height / 2);
   };
 
-  Graphic.prototype.renderToCanvas = function(img, SCALE, mirror) {
+  Graphic.prototype.renderToCanvas = function(img, scale, mirror) {
     var state = this.entity.state.private;
 
     var buffer = document.createElement('canvas');
     var ctx = buffer.getContext('2d');
 
-    var ratio = img.width / img.height;
+    var ratio =  img.height / img.width;
 
     // TODO: where is this 10 value coming from? is ratio being used correctly?
-    var width = buffer.width = state.width * SCALE * 2;
-    var height = buffer.height = state.height * SCALE * 2;
+    var width = buffer.width = state.width * scale * 2;
+    var height = buffer.height = state.width * ratio * scale * 2;
 
     ctx.drawImage(img, 0, 0, width, height);
 
     return buffer;
   };
 
-  Graphic.prototype.draw = function(ctx, x, y, SCALE) {
+  Graphic.prototype.draw = function(ctx, x, y, scale) {
     ctx.drawImage(this.skin, x, y);
   };
 

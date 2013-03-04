@@ -16,6 +16,14 @@
 
   var Player = types['Player'];
 
+  var skins = [
+    'images/char1.png',
+    'images/char2.png',
+    'images/char3.png',
+    'images/char4.png',
+    'images/char5.png'
+ ];
+
   var init = function(app, worker, channel) {
     var io = sio.listen(app);
 
@@ -40,7 +48,7 @@
       var player = new Player({
         x: Math.random() * 20,
         y: Math.random() * 10,
-        src: 'images/char1.png'
+        src: skins[4]
       });
       
       // set uuid and send to client
