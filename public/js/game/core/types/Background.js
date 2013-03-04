@@ -22,8 +22,6 @@
     
     Rectangle.call(this, properties, id, client);
 
-    // this.layer.lowerToBottom();
-
     return this;
 	};
 
@@ -31,7 +29,7 @@
   Background.prototype.constructor = Background;
 
   Background.prototype.drawType = function(ctx, scale) {
-    // Rectangle.prototype.drawType.call(this, canvas);
+    // Rectangle.prototype.drawType.call(this, ctx, scale);
 
     // round to whole pixel
     // interpolated x and y coords

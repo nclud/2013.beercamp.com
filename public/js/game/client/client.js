@@ -307,7 +307,7 @@
 
   var updateCamera = function(client) {
     // follow player with camera
-    // TODO: parallax background
+    // TODO: parallax background, interpolated camera movement
     var ctx = client.camera.ctx;
     var canvas = client.canvas;
 

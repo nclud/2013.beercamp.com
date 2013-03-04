@@ -34,26 +34,6 @@
 		if(properties) {
 			this.set(properties);
 
-      /*
-      if (client) {
-        var scale = client.canvas.scale;
-
-        var layer = this.layer = new CanvasLayers.Layer(
-          properties.x * scale,
-          properties.y * scale,
-          properties.width * scale,
-          properties.height * scale
-        );
-
-        layer.onRender = (function(layer, rect, ctx) {
-          layer.moveTo(layer.getRelativeX(), layer.getRelativeY());
-          this.draw(ctx, scale);
-        }).bind(this);
-
-        client.container.getChildren().add(layer);
-      }
-      */
-
       // Actor undefined on server
       // Image is function in Chrome and Firefox, object in Safari
       if (Actor && properties.sprite && properties.img) {

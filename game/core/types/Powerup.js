@@ -16,20 +16,20 @@
   }
 })(this, function(core, time, Rectangle) {
 
-	var Background = function(properties, id, client) {
+	var Powerup = function(properties, id, client) {
     properties = properties || {};
-    properties.class = properties.class || 'Background';
+    properties.class = properties.class || 'Powerup';
     
     Rectangle.call(this, properties, id, client);
 
     return this;
 	};
 
-	Background.prototype = new Rectangle();
-  Background.prototype.constructor = Background;
+	Powerup.prototype = new Rectangle();
+  Powerup.prototype.constructor = Powerup;
 
-  Background.prototype.drawType = function(ctx, scale) {
-    // Rectangle.prototype.drawType.call(this, ctx, scale);
+  Powerup.prototype.drawType = function(ctx, scale) {
+    Rectangle.prototype.drawType.call(this, ctx, scale);
 
     // round to whole pixel
     // interpolated x and y coords
@@ -51,6 +51,6 @@
     ctx.restore();
   }
 
-  return Background;
+  return Powerup;
 
 });

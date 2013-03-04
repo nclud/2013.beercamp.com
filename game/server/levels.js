@@ -137,7 +137,7 @@
     });
   };
 
-  var loadEnemies = function() {
+  var loadPowerup = function() {
 
     var enemies = [
       new Enemy(100, 25),
@@ -169,8 +169,7 @@
 
   return {
     init: init,
-    load: load,
-    loadEnemies: loadEnemies
+    load: load
   };
 
 });
