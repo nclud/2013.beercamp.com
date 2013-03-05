@@ -54,42 +54,42 @@
       { x: 24, y: 46.8, width: 48, height: 15, class: 'Background', src: 'images/disco.png' },
       { x: 24, y: 54, width: 48, height: 15, class: 'Background', src: 'images/brick.png' },
 
-      // brick
-      { x: 24, y: 60, width: 48, height: 1, class: 'Platform' },
-      { x: 8, y: 53, width: 16, height: 1, class: 'Platform' },
+      // brick platforms
+      { x: 24, y: 60, width: 48, height: 1, class: 'Platform' },  // Level 0
+      { x: 8, y: 53, width: 16, height: 1, class: 'Platform' },   // Level 1
       { x: 40, y: 53, width: 16, height: 1, class: 'Platform' },
 
-      // disco
-      { x: 3, y: 46, width: 5, height: 1, class: 'Platform' },
-      { x: 45, y: 46, width: 5, height: 1, class: 'Platform' },
+      // disco platforms
+      { x: 0, y: 46, width: 11, height: 1, class: 'Platform' },  // Level 2
+      { x: 47, y: 46, width: 9, height: 1, class: 'Platform' },
       { x: 24, y: 46, width: 18, height: 1, class: 'Platform' },
-      { x: 24, y: 39.7, width: 6, height: 1, class: 'Platform' },
-      { x: 5, y: 39.7, width: 8, height: 1, class: 'Platform' },
-      { x: 43, y: 39.7, width: 8, height: 1, class: 'Platform' },
+      { x: 24, y: 39.7, width: 6, height: 1, class: 'Platform' }, // Level 3
+      { x: 0, y: 39.7, width: 18, height: 1, class: 'Platform' },
+      { x: 44, y: 39.7, width: 10, height: 1, class: 'Platform' },
 
       // lounge
-      { x: 24, y: 33, width: 28, height: 1, class: 'Platform' },
-      { x: 13, y: 25.9, width: 26, height: 1, class: 'Platform' },
-      { x: 41, y: 25.9, width: 12, height: 1, class: 'Platform' },
+      { x: 24, y: 33, width: 28, height: 1, class: 'Platform' },    // Level 4
+      { x: 13, y: 25.9, width: 26, height: 1, class: 'Platform' },  // Level 5
+      { x: 42, y: 25.9, width: 14, height: 1, class: 'Platform' },
 
       // roof
-      { x: 13, y: 19, width: 26, height: 1, class: 'Platform',
+      { x: 13, y: 19, width: 26, height: 1, class: 'Platform', // Level 6
         color: { light: '#8b5428', dark: '#624130' }
       },
-      { x: 45, y: 19, width: 5, height: 1, class: 'Platform',
+      { x: 46, y: 19, width: 7, height: 1, class: 'Platform', // Level 6
         color: { light: '#8b5428', dark: '#624130' }
       },
-      { x: 27, y: 14.5, width: 1, height: 8.1, class: 'Platform',
+      { x: 27, y: 14.5, width: 1, height: 8.1, class: 'Platform', // Vertical
         perspective: 'right',
         color: { light: '#8b5428', dark: '#624130' }
       },
-      { x: 7, y: 12, width: 12, height: 1, class: 'Platform',
+      { x: 5, y: 12, width: 16, height: 1, class: 'Platform', // Level 7
         color: { light: '#8b5428', dark: '#624130' }
       },
-      { x: 23.5, y: 12, width: 4, height: 1, class: 'Platform',
+      { x: 23.5, y: 12, width: 4, height: 1, class: 'Platform',  // Level 7
         color: { light: '#8b5428', dark: '#624130' }
       },
-      { x: 41.5, y: 12, width: 12, height: 1, class: 'Platform',
+      { x: 42.5, y: 12, width: 14, height: 1, class: 'Platform',  // Level 7
         color: { light: '#8b5428', dark: '#624130' }
       },
       { x: 34, y: 18.4, width: 1, height: 14, class: 'Platform',
