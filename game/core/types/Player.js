@@ -188,6 +188,7 @@
           }
           break;
 
+        /*
         case 'spacebar':
           if (pressed['spacebar']) {
             // TODO: play throw animation
@@ -196,6 +197,7 @@
             this.fireButtonReleased = true;
           }
           break;
+        */
 
       }
     }
@@ -289,6 +291,7 @@
             }
             break;
 
+          /*
           case 'spacebar':
             if (pressed['spacebar']) {
               // TODO: play throw animation
@@ -297,6 +300,7 @@
               this.fireButtonReleased = true;
             }
             break;
+          */
 
         }
       }
