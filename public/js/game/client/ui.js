@@ -6,10 +6,13 @@
   }
 })(this, function() {
 
-  var init = function() {
+  var init = function(client) {
     // clicking the Timer triggers the end game screen.
     // TODO: remove this when actual game state can trigger end of game
-    $('.countdown').click(this.gameover);
+    $('.countdown').on('click', (function() {
+      var player = client.entities[client.uuid];
+      this.gameover(player);
+    }).bind(this));
 
     // animation of the Timer (this is currently just a demo)
     var archtype = Raphael('countdown', 200, 200);
@@ -103,7 +106,7 @@
 
   var gameover = function(player) {
     // this object should have all data needed to display gameover screen
-    if (player) console.log(player.state.public);
+    if (player) console.log(player);
 
     $('#gameover-container').show();
     $('#main').hide();
