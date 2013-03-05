@@ -144,7 +144,7 @@
       'msg': data
     });
 
-    for (var k = 0; k < 10; k++) {
+    for (var k = 0; k < 30; k++) {
       loadPowerup(worker);
     }
   };

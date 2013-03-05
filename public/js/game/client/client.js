@@ -49,7 +49,7 @@
       var data = event.detail;
 
       // update beer gauge level
-      var level = (data.intoxication * 5) - 500;
+      var level = Math.min((data.intoxication * 5), 500) - 500;
       document.getElementById('beer').style.bottom = level + 'px';
 
       // TODO: update timer

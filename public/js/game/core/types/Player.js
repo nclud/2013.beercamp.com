@@ -99,10 +99,10 @@
   Player.prototype.constructor = Player;
 
 	Player.prototype.drink = function() {
-    // TODO: handle beer powerup
+    // handle beer powerup
     this.state.public['beer']++;
     this.state.public['intoxication'] += 5;
-    console.log('Beer', this.state.public['beer'], 'Drunk', this.state.public['intoxication']);
+    // console.log('Beer', this.state.public['beer'], 'Drunk', this.state.public['intoxication']);
 	};
 
 	Player.prototype.sendImpulse = function(worker, degrees) {
