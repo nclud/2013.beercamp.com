@@ -4,10 +4,10 @@ body.gameover {background-color: #1a1a1a;}
 .gameover div.container {width: 500px; margin: 0 auto; overflow: visible; position: relative;}
 .gameover h1 {float: left; clear: none; margin-bottom: 20px;}
 .gameover .blackout h1 {background: transparent url(../images/Type_BlackOut.svg) no-repeat center center; width: 400px; height: 340px; font-size: 0; text-indent: -9999;}
-.gameover .schwasted h1 {background: transparent url(../images/Type_Schwasted.svg) no-repeat center center; width: 400px; height: 340px; font-size: 0; text-indent: -9999;}
+.gameover .schwasted h1 {background: transparent url(../images/Type_Schwasted.svg) no-repeat center center; width: 400px; height: 340px; font-size: 0; text-indent: -9999; background-size: 90%;}
 .gameover .buzzed h1 {background: transparent url(../images/Type_Buzzed.svg) no-repeat center center; width: 400px; height: 340px; font-size: 0; text-indent: -9999;}
-.gameover .tipsy h1 {background: transparent url(../images/Type_Tipsy.svg) no-repeat center center; width: 400px; height: 340px; font-size: 0; text-indent: -9999;}
-.gameover .sober h1 {background: transparent url(../images/Type_Sober.svg) no-repeat center center; width: 400px; height: 340px; font-size: 0; text-indent: -9999;}
+.gameover .tipsy h1 {background: transparent url(../images/Type_Tipsy.svg) no-repeat center center; width: 400px; height: 340px; font-size: 0; text-indent: -9999; background-size: 100%;}
+.gameover .sober h1 {background: transparent url(../images/Type_Sober.svg) no-repeat center center; width: 400px; height: 340px; font-size: 0; text-indent: -9999; background-size: 95%;} 
 .gameover a {display: block;}
 .gameover .tweet {float: left; background: transparent url(../images/Button_Tweet.svg) no-repeat center center; width: 250px; height: 120px;}
 .gameover .facebook {float: right; background: transparent url(../images/Button_Share.svg) no-repeat center center; width: 250px; height: 120px;}
@@ -24,12 +24,12 @@ body.gameover {background-color: #1a1a1a;}
 .gameover .burst.ok {background: transparent url(../images/Pin_Ok.svg) no-repeat center center;background-size: 100%;}
 .gameover .burst.dafuk {background: transparent url(../images/Pin_Dafuk.svg) no-repeat center center;background-size: 100%;}
 
-.gameover .pic {width: 369px; height: 280px; display: block; clear: both; margin: 0 auto;}
-.gameover .pic.one {background: transparent url(../images/char1.png) no-repeat left bottom;}
-.gameover .pic.two {background: transparent url(../images/char1.png) no-repeat left -1211px;}
-.gameover .pic.three {background: transparent url(../images/char1.png) no-repeat left -810px;}
-.gameover .pic.four {background: transparent url(../images/char1.png) no-repeat left -380px;}
-.gameover .pic.five {background: transparent url(../images/char1.png) no-repeat left top;}
+.gameover .pic {width: 200px; height: 200px; display: block; clear: both; margin: 0 auto; background-size: 1000%;}
+.gameover .pic.one {background: transparent url(../images/char1.png) no-repeat left bottom; background-size: 1000%}
+.gameover .pic.two {background: transparent url(../images/char1.png) no-repeat left -700px; background-size: 1000%}
+.gameover .pic.three {background: transparent url(../images/char1.png) no-repeat left -460px; background-size: 1000%}
+.gameover .pic.four {background: transparent url(../images/char1.png) no-repeat left -240px; background-size: 1000%}
+.gameover .pic.five {background: transparent url(../images/char1.png) no-repeat left top; background-size: 1000%}
 
 #gameover-container {
     display: none;
