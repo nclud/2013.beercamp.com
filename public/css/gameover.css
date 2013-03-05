@@ -26,9 +26,9 @@ body.gameover {background-color: #1a1a1a;}
 
 .gameover .pic {width: 369px; height: 280px; display: block; clear: both; margin: 0 auto;}
 .gameover .pic.one {background: transparent url(../images/char1.png) no-repeat left bottom;}
-.gameover .pic.two {background: transparent url(../images/char1.png) no-repeat left 1211px;}
-.gameover .pic.three {background: transparent url(../images/char1.png) no-repeat left 810px;}
-.gameover .pic.four {background: transparent url(../images/char1.png) no-repeat left 380px;}
+.gameover .pic.two {background: transparent url(../images/char1.png) no-repeat left -1211px;}
+.gameover .pic.three {background: transparent url(../images/char1.png) no-repeat left -810px;}
+.gameover .pic.four {background: transparent url(../images/char1.png) no-repeat left -380px;}
 .gameover .pic.five {background: transparent url(../images/char1.png) no-repeat left top;}
 
 #gameover-container {
