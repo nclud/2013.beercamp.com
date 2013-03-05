@@ -242,6 +242,12 @@
     client.ctx.clearRect(0, 0, client.canvas.width, client.canvas.height);
   };
 
+  var cameraHeight = function(){
+     var footer_height = 64;
+     var camara_height = window.innerHeight - footer_height;
+     return camara_height;
+  };
+
   var createCanvas = function() {
     var canvas = this.canvas = document.createElement('canvas');
     this.ctx = canvas.ctx = canvas.getContext('2d');
@@ -249,7 +255,7 @@
 
     var camera = this.camera = document.createElement('canvas');
     camera.ctx = camera.getContext('2d');
-    this.setScale(camera, window.innerWidth, window.innerHeight);
+    this.setScale(camera, window.innerWidth, this.cameraHeight());
 
     // throttle to only change after resizing complete
     var resizeTimer;
@@ -260,7 +266,7 @@
         clearTimeout(resizeTimer);
 
         var width = window.innerWidth;
-        var height = window.innerHeight;
+        var height = this.cameraHeight();
 
         this.setScale(this.canvas, width);
         this.setScale(this.camera, width, height);
@@ -274,10 +280,16 @@
     document.getElementById('main').appendChild(camera);
   };
 
+  // Canvas should fit within the HUD UI
   var setScale = function(canvas, width, height) {
-    canvas.scale = width / 48;
 
-    canvas.width = width;
+
+    // In pixels
+    var left_hud_width = 120;
+    var right_hud_width = 120;
+    var proposed_width = width - left_hud_width - right_hud_width
+    canvas.scale = proposed_width / 48;
+    canvas.width = proposed_width;
     canvas.height = height || 60 * canvas.scale;
   };
 
@@ -354,9 +366,9 @@
     var value;
 
     if (player) {
-      value = Math.min(player.state.private.y * canvas.scale, canvas.height - (window.innerHeight / 2));
+      value = Math.min(player.state.private.y * canvas.scale, canvas.height - (cameraHeight() / 2));
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      ctx.drawImage(canvas, 0, (window.innerHeight / 2) - value);
+      ctx.drawImage(canvas, 0, (cameraHeight() / 2) - value);
     }
   };
 
@@ -390,7 +402,8 @@
     setScale: setScale,
     updateEntities: updateEntities,
     drawEntities: drawEntities,
-    updateCamera: updateCamera
+    updateCamera: updateCamera,
+    cameraHeight: cameraHeight
   };
 
 });

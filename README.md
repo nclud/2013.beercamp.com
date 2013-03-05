@@ -33,12 +33,7 @@ Deploy using Capistrano, so you we will need Ruby installed. Then do the followi
 
 1. bundle install # This will install capistrano and it's dependencies.
 1. cap deploy
-1. ssh affric.browsermedia.com
-1. cd /var/www/vhosts/beercamp/current
-1. Run `./bin/beercamp-production # This will start the server
 1. Open http://affric.browsermedia.com
-
-The script has to run as sudo, which is probably not a good idea. It will also last only until you exit the script.
 
 ## Generate the public js assets
 
