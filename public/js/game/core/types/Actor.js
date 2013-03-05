@@ -31,8 +31,9 @@
         this.updateCache(img, sprite, client.canvas);
 
         var yStart = 0;
-        if (state['intoxication']) {
-          yStart = Math.floor(state['intoxication'] / 25);
+        var intoxication = this.entity.state.public['intoxication'];
+        if (intoxication) {
+          yStart = Math.floor(intoxication / 25);
         }
 
         this.drawFrame(yStart, client.canvas.scale);
@@ -190,10 +191,17 @@
 
   Actor.prototype.draw = function(ctx, x, y, scale) {
     var state = this.entity.state.public;
+
+    var yStart = 0;
+    var intoxication = state['intoxication'];
+    if (intoxication) {
+      yStart = Math.floor(intoxication / 25);
+    }
+
     var animation;
 
     // animation priority
-    if (state.isBlackout) {
+    if (state.isBlackout || intoxication >= 100) {
       this.sprite = this.map[0];
       animation = 'default';
     } else if (state.isHit) {
@@ -217,11 +225,6 @@
     if (this.animation !== animation) {
       this.animation = animation;
       this.t = 0;
-    }
-
-    var yStart = 0;
-    if (state['intoxication']) {
-      yStart = Math.floor(state['intoxication'] / 25);
     }
 
     switch(state.direction) {

@@ -118,8 +118,22 @@
   // TODO: pass in Web Worker to process input
 	Player.prototype.respondToInput = function(pressed, callback) {
 
+    if (this.end) return;
+
     // prevent movement if blacked out
-    if (this.state.public['isBlackout']) return;
+    if (this.state.public['isBlackout']) {
+      /*
+      // stop player movement
+      worker.send({
+        'cmd': 'setZero',
+        'uuid': this.uuid
+      });
+      */
+
+      this.end = true;
+
+      return;
+    }
 
     var fireButtonChanged = false;
     var input;
@@ -210,6 +224,21 @@
 	Player.prototype.processInput = function(move, worker) {
 
     process.nextTick((function() {
+      if (this.end) return;
+
+      // prevent movement if blacked out
+      if (this.state.public['isBlackout']) {
+        // stop player movement
+        worker.send({
+          'cmd': 'setZero',
+          'uuid': this.uuid
+        });
+
+        this.end = true;
+
+        return;
+      }
+
       var pressed = move.input;
 
       var delta = [];
