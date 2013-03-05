@@ -118,7 +118,7 @@
   // TODO: pass in Web Worker to process input
 	Player.prototype.respondToInput = function(pressed, callback) {
 
-    if (this.end) return;
+    if (this.gameover) return;
 
     // prevent movement if blacked out
     if (this.state.public['isBlackout']) {
@@ -130,7 +130,7 @@
       });
       */
 
-      this.end = true;
+      this.gameover = true;
 
       return;
     }

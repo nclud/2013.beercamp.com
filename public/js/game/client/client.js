@@ -5,10 +5,11 @@
       '../core/core',
       '../core/time',
       '../core/types',
-      './input'
+      './input',
+      './ui'
     ], factory);
   }
-})(this, function(core, time, types, input) {
+})(this, function(core, time, types, input, ui) {
 
   // init stats
   var stats = new Stats();
@@ -45,14 +46,22 @@
     ];
 
     // UI event listeners
-    document.addEventListener('hud', function(event) {
+    var listener = function(event) {
+      debugger;
+
       var data = event.detail;
       var player = client.entities[client.uuid];
+
+      // ignore if gameover
+      if (player && player.gameover) return;
 
       // update isBlackout
       var intoxication = Math.min(data.intoxication, 100);
       if (player && intoxication >= 100) {
         player.setPublic({ 'isBlackout': true });
+
+        // show end game screen
+        ui.gameover(player);
       } 
 
       // update beer gauge level
@@ -61,7 +70,9 @@
 
       // TODO: update timer
       // TODO: update ammo
-    });
+    }
+
+    document.addEventListener('hud', listener);
 
     // init UI event emitter
     // TODO: emit events on state change rather than interval?
