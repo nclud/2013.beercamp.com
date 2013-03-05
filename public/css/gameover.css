@@ -1,0 +1,23 @@
+
+/* Game Over Screen(s) */
+body.gameover {background-color: #1a1a1a;}
+.gameover div.container {width: 500px; margin: 0 auto; overflow: visible; position: relative;}
+.gameover h1 {float: left; clear: none; margin-bottom: 20px;}
+.gameover .blackout h1 {background: transparent url(../images/Type_BlackOut.svg) no-repeat center center; width: 400px; height: 340px; font-size: 0; text-indent: -9999;}
+.gameover a {display: block;}
+.gameover .tweet {float: left; background: transparent url(../images/Button_Tweet.svg) no-repeat center center; width: 250px; height: 120px;}
+.gameover .facebook {float: right; background: transparent url(../images/Button_Share.svg) no-repeat center center; width: 250px; height: 120px;}
+.gameover .replay {float: left; background: transparent url(../images/Button_Replay.svg) no-repeat center center; width: 238px; height: 90px;}
+.gameover .newchar {float: right; background: transparent url(../images/Button_CharacterSelect.svg) no-repeat center center; width: 238px; height: 90px;}
+
+.gameover .glass {width: 60px; height: 340px; float: left; clear: none; -webkit-transform:rotate(-7deg); -moz-transform:rotate(-7deg); -o-transform:rotate(-7deg); -ms-transform:rotate(-7deg); transform:rotate(-7deg); margin-left: 20px;}
+.gameover .burst {width: 100px; height: 100px; position: absolute; top: 280px; left: 20px; }
+.gameover .burst.congrats {background: transparent url(../images/Pin_Congrats.svg) no-repeat center center;background-size: 100%;}
+.gameover .glass.shitty {background: transparent url(../images/gameover-blackout.png) no-repeat center center;}
+
+.gameover .pic {width: 369px; height: 280px; display: block; clear: both; margin: 0 auto;}
+.gameover .pic.one {background: transparent url(../images/char1.png) no-repeat left bottom;}
+
+#gameover-container {
+    display: none;
+}

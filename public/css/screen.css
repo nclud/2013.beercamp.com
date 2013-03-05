@@ -11,13 +11,16 @@ html, body, #main > canvas {
 }
 
 body {
-  background-image: url('../images/background.jpg');
-  background-size: cover;
   -webkit-transition: top 0.1s ease;
-	-webkit-font-smoothing: antialiased;
-	font-family: sans-serif;
-	font-weight: bold;
-	text-align: center;
+    -webkit-font-smoothing: antialiased;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-align: center;
+}
+
+body.game {
+    background-image: url('../images/background.jpg');
+    background-size: cover;
 }
 
 a {
