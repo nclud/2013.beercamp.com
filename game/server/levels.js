@@ -36,9 +36,7 @@
       } else if (cmd === 'remove') {
         entities.remove(entities, data);
       } else if (cmd === 'beer') {
-        // TODO: handle beer powerup
-        entities.global[data].beer++;
-        console.log(data, 'Beer', entities.global[data].beer);
+        entities.global[data].drink();
       }
     });
 

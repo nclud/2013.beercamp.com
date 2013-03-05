@@ -44,6 +44,24 @@
       this.updateCamera
     ];
 
+    // UI event listeners
+    document.addEventListener('hud', function(event) {
+      var data = event.detail;
+
+      // update beer gauge level
+      var level = (data.intoxication * 5) - 500;
+      document.getElementById('beer').style.bottom = level + 'px';
+
+      // TODO: update timer
+      // TODO: update ammo
+    });
+
+    // init UI event emitter
+    // TODO: emit events on state change rather than interval?
+    setInterval(function() {
+      updateUI(client);
+    }, 1000);
+
     // socket.io client connection
     var socket = this.socket = io.connect();
 
@@ -295,7 +313,6 @@
 
       }
 
-      // entity.draw(client.ctx, client.canvas.scale);
     }
   };
 
@@ -340,6 +357,22 @@
       value = Math.min(player.state.private.y * canvas.scale, canvas.height - (window.innerHeight / 2));
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       ctx.drawImage(canvas, 0, (window.innerHeight / 2) - value);
+    }
+  };
+
+  var updateUI = function(client) {
+    // emit intoxication level event
+    var player = client.entities[client.uuid];
+
+    if (player) {
+      var state = player.state.public;
+      var hud = new CustomEvent('hud', {
+        detail: {
+          intoxication: state['intoxication']
+        }
+      });
+
+      document.dispatchEvent(hud);
     }
   };
 
