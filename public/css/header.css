@@ -34,7 +34,7 @@ header {
     bottom: 0;
     z-index: 9999;
 }
-#main + header {width: 100%;}
+header.cf {width: 100%;}
 header h1 {
     /*position:absolute;
      bottom:-70px;
