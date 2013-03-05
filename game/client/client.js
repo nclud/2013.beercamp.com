@@ -47,8 +47,6 @@
 
     // UI event listeners
     var listener = function(event) {
-      debugger;
-
       var data = event.detail;
       var player = client.entities[client.uuid];
 

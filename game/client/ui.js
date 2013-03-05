@@ -105,11 +105,10 @@
     // this object should have all data needed to display gameover screen
     if (player) console.log(player.state.public);
 
-    $('#gameover-container').fadeIn(4000, function() {
-      $('#main').hide();
-      $('#hud').hide();
-      $('body').removeClass('game').addClass('gameover');
-    });
+    $('#gameover-container').show();
+    $('#main').hide();
+    $('#hud').hide();
+    $('body').removeClass('game').addClass('gameover');
   };
 
   return {

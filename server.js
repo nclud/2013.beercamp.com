@@ -39,7 +39,7 @@ var socket = require('./game/server/socket').init(app, worker); //, channel);
 
 // init expire loop
 var levels = require('./game/server/levels.js').init(worker).load(worker);
-// var expire = require('./game/server/expire.js').init(channel.store);
+var expire = require('./game/server/expire.js').init(worker); //channel.store);
 
 // require server loops
 var input = require('./game/server/input').init(worker);
