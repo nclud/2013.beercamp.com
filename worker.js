@@ -15,7 +15,6 @@
 */
 
 console.log('Worker', process.pid, 'fired up! Status:', process.connected);
-// console.log('process.send', process.send);
 
 var Box2D = require('box2dweb-commonjs').Box2D;
 
@@ -52,62 +51,16 @@ function bTest(intervalRate, adaptive) {
   this.bodyDef = new b2BodyDef;
 }
 
+// TODO: refine this to handle beer can contacts
 bTest.prototype.addContactListener = function(callbacks) {
   var listener = new Box2D.Dynamics.b2ContactListener;
 
   if (callbacks.BeginContact) listener.BeginContact = function(contact) {
-    var fixtures = [contact.GetFixtureA(), contact.GetFixtureB()];
-    var length = fixtures.length;
-    var fixture;
-
-    for (var i = 0; i < length; i++) {
-      fixture = fixtures[i];
-      if (fixture.GetUserData() === 'feet') {
-        callbacks.BeginContact(
-          fixture.GetBody().GetUserData()
-        );
-      }
-
-    }
+    callbacks.BeginContact([contact.GetFixtureA(), contact.GetFixtureB()]);
   }
 
   if (callbacks.EndContact) listener.EndContact = function(contact) {
-    var fixtures = [contact.GetFixtureA(), contact.GetFixtureB()];
-    var length = fixtures.length;
-    var fixture;
-
-    for (var i = 0; i < length; i++) {
-      fixture = fixtures[i];
-
-      if (fixture.GetUserData() === 'feet') {
-        callbacks.EndContact(
-          fixture.GetBody().GetUserData()
-        );
-      }
-
-    }
-  }
-
-  if (callbacks.PostSolve) listener.PostSolve = function(contact, impulse) {
-    var fixtureA = contact.GetFixtureA();
-    var fixtureB = contact.GetFixtureB();
-
-    var fixtures = [fixtureA, fixtureB];
-    var length = fixtures.length;
-    var fixture;
-
-    for (var i = 0; i < length; i++) {
-      fixture = fixtures[i];
-
-      if (fixture.GetUserData() === 'feet') {
-        callbacks.PostSolve(
-          fixtureA.GetBody().GetUserData(),
-          fixtureB.GetBody().GetUserData(),
-          impulse.normalImpulses[0]
-        );
-      }
-
-    }
+    callbacks.EndContact([contact.GetFixtureA(), contact.GetFixtureB()]);
   }
 
   this.world.SetContactListener(listener);
@@ -181,9 +134,12 @@ bTest.prototype.sendUpdate = function() {
     }
   }
 
-  // postMessage(world);
-  process.send(world);
   // console.log(world);
+  // postMessage(world);
+  process.send({
+    cmd: 'update',
+    data: world
+  });
 }
 
 bTest.prototype.setBodies = function(bodyEntities) {
@@ -216,7 +172,11 @@ bTest.prototype.setBodies = function(bodyEntities) {
     this.bodyDef.userData = uuid;
 
     var body = this.bodies[uuid] = this.world.CreateBody(this.bodyDef);
+
+    this.fixDef.userData = entity.class;
     body.CreateFixture(this.fixDef);
+
+    this.fixDef.userData = null;
   }
 }
 
@@ -237,8 +197,10 @@ bTest.prototype.addPlayer = function(uuid, entity) {
   this.bodyDef.userData = uuid;
 
   var body = this.bodies[uuid] = this.world.CreateBody(this.bodyDef);
-  body.CreateFixture(this.fixDef);
   body.numFootContacts = 0;
+
+  this.fixDef.userData = entity.class;
+  body.CreateFixture(this.fixDef);
 
   // add foot sensor fixture
   this.fixDef.isSensor = true;
@@ -281,24 +243,67 @@ bTest.prototype.setZero = function(uuid) {
 var box = new bTest(15, false);
 
 box.addContactListener({
-  BeginContact: function(id) {
-    box.bodies[id].numFootContacts++;
-  },
-  EndContact: function(id) {
-    box.bodies[id].numFootContacts--;
-  },
-  PostSolve: function(idA, idB, impulse) {
-    // console.log(idA, idB, impulse);
+  BeginContact: function(fixtures) {
+    var length = fixtures.length;
+    var fixture;
+    var id;
 
-    if (impulse < 10) return; // playing with thresholds
+    for (var i = 0; i < length; i++) {
+      fixture = fixtures[i];
 
-    var entityA = box.bodies[idA];
-    var entityB = box.bodies[idB];
+      if (fixture.GetUserData() === 'feet') {
+        for (var j = 0; j < length; j++) {
+          if (fixtures[j].GetUserData() === 'Platform') {
+            id = fixture.GetBody().GetUserData();
+            box.bodies[id].numFootContacts++;
+          }
+        }
+      } else if (fixture.GetUserData() === 'Player') {
+        for (var k = 0; k < length; k++) {
+          if (fixtures[k].GetUserData() === 'Powerup') {
+            // remove powerup
+            box.removeBody(fixtures[k].GetBody().GetUserData());
+
+            // player id
+            id = fixture.GetBody().GetUserData();
+
+            // remove entity from server
+            process.send({
+              cmd: 'remove',
+              data: fixtures[k].GetBody().GetUserData()
+            });
+
+            // handle beer powerup
+            process.send({
+              cmd: 'beer',
+              data: id
+            });
+          }
+        }
+      }
+    }
+  },
+  EndContact: function(fixtures) {
+    var length = fixtures.length;
+    var fixture;
+    var id;
+
+    for (var i = 0; i < length; i++) {
+      fixture = fixtures[i];
+
+      if (fixture.GetUserData() === 'feet') {
+        for (var j = 0; j < length; j++) {
+          if (fixtures[j].GetUserData() === 'Platform') {
+            id = fixture.GetBody().GetUserData();
+            box.bodies[id].numFootContacts--;
+          }
+        }
+      }
+    }
   }
 });
 
 var loop = function() {
-  // console.log('Worker loop', Date.now(), 'Status:', process.connected);
   box.update();
 }
 

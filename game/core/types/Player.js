@@ -77,6 +77,9 @@
 
     Rectangle.call(this, properties, id, client);
 
+    // beer counter
+    this.beer = 0;
+
     // input sequence id
     this.seq = 0;
 

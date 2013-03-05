@@ -5,8 +5,6 @@ var child = require('child_process');
 var numCPUs = require('os').cpus().length;
 
 // child_process config
-var worker;
-
 console.log('CPUs:', numCPUs);
 
 // polyfill for nodejitsu compatibility
@@ -17,10 +15,7 @@ child.fork = function(file) {
   });
 }
 
-worker = child.spawn(process.execPath, [__dirname + '/worker.js'], {
-    stdio: ['pipe', 1, 2, 'ipc'],
-    env: process.env
-  });
+var worker = child.fork(__dirname + '/worker.js');
 
 console.log('Worker', worker.pid, worker.connected);
 // console.log('worker.send', worker.send);

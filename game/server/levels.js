@@ -14,23 +14,32 @@
   var Powerup = types['Powerup'];
 
   var init = function(worker) {
-    worker.on('message', function(data) {
-      // console.log('master', data);
+    worker.on('message', function(event) {
+      var cmd = event.cmd;
+      var data = event.data;
 
-      async.forEach(
-        Object.keys(data),
-        function(uuid, callback) {
-          var entity = entities.global[uuid];
+      if (cmd === 'update') {
+        async.forEach(
+          Object.keys(data),
+          function(uuid, callback) {
+            var entity = entities.global[uuid];
 
-          // TODO: race condition?
-          if (entity) {
-            entity.setPublic(data[uuid]);
+            // TODO: race condition?
+            if (entity) {
+              entity.setPublic(data[uuid]);
+            }
+
+            // notify async.forEach that function has completed
+            if (typeof callback === 'function') callback();
           }
-
-          // notify async.forEach that function has completed
-          if (typeof callback === 'function') callback();
-        }
-      );
+        );
+      } else if (cmd === 'remove') {
+        entities.remove(entities, data);
+      } else if (cmd === 'beer') {
+        // TODO: handle beer powerup
+        entities.global[data].beer++;
+        console.log(data, 'Beer', entities.global[data].beer);
+      }
     });
 
     return this;
@@ -118,6 +127,7 @@
         // passing full object throws DOM exception, can't pass DOM elements to worker
         // TODO: replace with getState method
         data[entity.uuid] = {
+          class: entity.state.private.class,
           type: entity.state.private.type,
           x: entity.state.private.x,
           y: entity.state.private.y,
@@ -146,17 +156,43 @@
     var data = {};
 
     var entity = new Powerup({
-      x: (Math.random() * 46) + 1,
-      y: Math.random() * 61
+      x: (Math.random() * 44) + 1,
+      y: Math.random() * 61,
+      src: 'images/beer.png',
+      sprite: {
+        direction: 'right',
+        width: 2,
+        height: 2,
+        x: 2,
+        y: 1,
+        scale: 1.2,
+        map: {
+
+          // default
+          0: {
+            start: 0,
+            end: 0
+          },
+
+          // crushed
+          1: {
+            start: 1,
+            end: 1
+          }
+        
+        }
+      }
     });
 
     data[entity.uuid] = {
+      class: entity.state.private.class,
       type: entity.state.private.type,
       x: entity.state.private.x,
       y: entity.state.private.y,
       angle: entity.state.private.angle,
       width: entity.state.private.width,
       height: entity.state.private.height,
+      src: entity.state.private.src,
       isSensor: entity.state.private.isSensor
     };
 
