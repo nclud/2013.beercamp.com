@@ -107,6 +107,8 @@
   var gameover = function(player) {
     // this object should have all data needed to display gameover screen
     if (player) console.log(player);
+    var intox = player.state.public.intoxication;
+    var pimage = player.state.public.src;
 
     $('#gameover-container').show();
     $('#main').hide();
