@@ -11,6 +11,7 @@
 })(this, function(types, entities, npcs, async) {
   
   var Platform = types['Platform'];
+  var Powerup = types['Powerup'];
 
   var init = function(worker) {
     worker.on('message', function(data) {
@@ -121,7 +122,6 @@
           x: entity.state.private.x,
           y: entity.state.private.y,
           angle: entity.state.private.angle,
-
           width: entity.state.private.width,
           height: entity.state.private.height
         };
@@ -135,41 +135,45 @@
       'cmd': 'add',
       'msg': data
     });
+
+    for (var k = 0; k < 10; k++) {
+      loadPowerup(worker);
+    }
   };
 
-  var loadPowerup = function() {
+  var loadPowerup = function(worker) {
 
-    var enemies = [
-      new Enemy(100, 25),
-      new Enemy(250, 25),
-      new Enemy(400, 25),
-      new Enemy(550, 25),
-      new Enemy(700, 25),
-      new Enemy(100, 80, -1),
-      new Enemy(250, 80, -1),
-      new Enemy(400, 80, -1),
-      new Enemy(550, 80, -1),
-      new Enemy(700, 80, -1)
-    ];
+    var data = {};
 
-    var length = enemies.length;
+    var entity = new Powerup({
+      x: (Math.random() * 46) + 1,
+      y: Math.random() * 61
+    });
 
-    var npc;
-    var uuid;
+    data[entity.uuid] = {
+      type: entity.state.private.type,
+      x: entity.state.private.x,
+      y: entity.state.private.y,
+      angle: entity.state.private.angle,
+      width: entity.state.private.width,
+      height: entity.state.private.height,
+      isSensor: entity.state.private.isSensor
+    };
 
-    for (var i = 0; i < length; i++) {
-      npc = enemies[i];
-      uuid = npc.uuid;
+    entities.global[entity.uuid] = entity;
+    entities.local.push(entity.uuid);
 
-      npcs.global[uuid] = npc;
-      npcs.local.push(uuid);
-    }
+    worker.send({
+      'cmd': 'add',
+      'msg': data
+    });
 
   };
 
   return {
     init: init,
-    load: load
+    load: load,
+    loadPowerup: loadPowerup
   };
 
 });

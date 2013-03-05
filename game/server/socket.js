@@ -44,7 +44,7 @@
     io.sockets.on('connection', function(socket) {
       socket.emit('game-loaded');
 
-      socket.on('add-player', function(data){
+      socket.on('add-player', function(data) {
         var character_id = parseInt(data['character-id']);
         if(isNaN(character_id) || character_id < 0 || character_id > 4){    
           console.log("Invalid Character '" + character_id + "'. Using default character instead.");      
@@ -55,8 +55,8 @@
 
         // switch from socket.id to Connect sessions?
         var player = new Player({
-          x: Math.random() * 20,
-          y: Math.random() * 10,
+          x: (Math.random() * 46) + 1,
+          y: Math.random() * 60,
           src: skins[character_id]
         });
         

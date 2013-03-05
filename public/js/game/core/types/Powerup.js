@@ -19,7 +19,14 @@
 	var Powerup = function(properties, id, client) {
     properties = properties || {};
     properties.class = properties.class || 'Powerup';
+    properties.type = properties.type || 'static';
     
+    properties.angle = properties.angle ||  0;
+    properties.width = properties.width ||  3;
+    properties.height = properties.height ||  3;
+    properties.fixed = properties.fixed ||  true;
+    properties.isSensor = properties.isSensor ||  true;
+
     Rectangle.call(this, properties, id, client);
 
     return this;

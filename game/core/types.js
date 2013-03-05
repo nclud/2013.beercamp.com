@@ -13,6 +13,7 @@
       './types/Background',
       './types/Graphic',
       './types/Platform',
+      './types/Powerup',
       './types/Player',
       './types/Actor'
     ], factory);
@@ -27,6 +28,7 @@
     Background: require('./types/Background'),
     Graphic: require('./types/Graphic'),
     Platform: require('./types/Platform'),
+    Powerup: require('./types/Powerup'),
     Player: require('./types/Player'),
     Actor: require('./types/Actor')
   };

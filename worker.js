@@ -199,6 +199,8 @@ bTest.prototype.setBodies = function(bodyEntities) {
         break;
     }
 
+    this.fixDef.isSensor = entity.isSensor || false;
+
     if (entity.radius) {
       this.fixDef.shape = new b2CircleShape(entity.radius);
     } else {
@@ -216,7 +218,6 @@ bTest.prototype.setBodies = function(bodyEntities) {
     var body = this.bodies[uuid] = this.world.CreateBody(this.bodyDef);
     body.CreateFixture(this.fixDef);
   }
-  // this.ready = true;
 }
 
 bTest.prototype.addPlayer = function(uuid, entity) {

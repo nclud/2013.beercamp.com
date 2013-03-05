@@ -227,7 +227,7 @@
   var createCanvas = function() {
     var canvas = this.canvas = document.createElement('canvas');
     this.ctx = canvas.ctx = canvas.getContext('2d');
-    this.setScale(canvas, window.innerWidth, window.innerWidth / 7 * 9);
+    this.setScale(canvas, window.innerWidth);
 
     var camera = this.camera = document.createElement('canvas');
     camera.ctx = camera.getContext('2d');
@@ -244,7 +244,7 @@
         var width = window.innerWidth;
         var height = window.innerHeight;
 
-        this.setScale(this.canvas, width, width / 7 * 9);
+        this.setScale(this.canvas, width);
         this.setScale(this.camera, width, height);
 
         this.updateCamera(this);
@@ -257,9 +257,10 @@
   };
 
   var setScale = function(canvas, width, height) {
-    canvas.width = width;
-    canvas.height = height;
     canvas.scale = width / 48;
+
+    canvas.width = width;
+    canvas.height = height || 60 * canvas.scale;
   };
 
   var updateEntities = function(client) {
@@ -302,6 +303,7 @@
     var order = [
       'Background',
       'Platform',
+      'Powerup',
       'Player'
     ];
 
