@@ -29,6 +29,7 @@
       var resize = (function() {
         clearTimeout(resizeTimer);
         this.updateCache(img, sprite, client.canvas);
+        this.drawFrame(client.canvas.scale);
       }).bind(this);
 
       resizeTimer = setTimeout(resize, 100);
@@ -104,25 +105,41 @@
   };
 
   Actor.prototype.setFrame = function(frame, scale) {
+    var state = this.entity.state.public;
+
+    var yStart = 0;
+    if (state['intoxication']) {
+      yStart = Math.floor(state['intoxication'] / 25);
+    }
+
     this.frame = frame;
 
     var skin = this.skin;
     var ctx = skin.getContext('2d');
 
     var cached = this.cached;
-    var shift = this.frame * cached.width / this.xMax / 2
+    var xShift = this.frame * cached.width / this.xMax / 2
+    var yShift = yStart * cached.height / this.yMax / 2;
 
     ctx.clearRect(0, 0, skin.width, skin.height);
-    ctx.drawImage(cached, -shift, 0, cached.width / 2, cached.height / 2);
+    ctx.drawImage(cached, -xShift, -yShift, cached.width / 2, cached.height / 2);
   };
 
   Actor.prototype.drawFrame = function(scale) {
+    var state = this.entity.state.public;
+
+    var yStart = 0;
+    if (state['intoxication']) {
+      yStart = Math.floor(state['intoxication'] / 25);
+    }
+
     var step = this.step;
 
     var skin = this.skin;
     var ctx = skin.getContext('2d');
 
-    var shift;
+    var xShift;
+    var yShift;
     var cached = this.cached;
 
     var start;
@@ -130,7 +147,7 @@
 
     ctx.clearRect(0, 0, skin.width, skin.height);
 
-    switch(this.entity.state.public.direction) {
+    switch(state.direction) {
       case 'right':
         start = this.sprite.start;
         delta = this.t / step;
@@ -142,8 +159,10 @@
     }
 
     this.frame = start + delta;
-    shift = this.frame * cached.width / this.xMax / 2;
-    ctx.drawImage(cached, -shift, 0, cached.width / 2, cached.height / 2);
+    xShift = this.frame * cached.width / this.xMax / 2;
+    yShift = yStart * cached.height / this.yMax / 2;
+
+    ctx.drawImage(cached, -xShift, -yShift, cached.width / 2, cached.height / 2);
   };
 
   Actor.prototype.update = function(scale) {

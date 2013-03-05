@@ -75,10 +75,13 @@
       }
     };
 
-    Rectangle.call(this, properties, id, client);
-
     // beer counter
-    this.beer = 0;
+    properties.beer = 0;
+
+    // drunk meter
+    properties.intoxication = 5;
+
+    Rectangle.call(this, properties, id, client);
 
     // input sequence id
     this.seq = 0;
@@ -94,6 +97,13 @@
 
 	Player.prototype = new Rectangle();
   Player.prototype.constructor = Player;
+
+	Player.prototype.drink = function() {
+    // handle beer powerup
+    this.state.public['beer']++;
+    this.state.public['intoxication'] += 5;
+    // console.log('Beer', this.state.public['beer'], 'Drunk', this.state.public['intoxication']);
+	};
 
 	Player.prototype.sendImpulse = function(worker, degrees) {
     worker.send({
