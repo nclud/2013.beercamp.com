@@ -47,9 +47,16 @@
     // UI event listeners
     document.addEventListener('hud', function(event) {
       var data = event.detail;
+      var player = client.entities[client.uuid];
+
+      // update isBlackout
+      var intoxication = Math.min(data.intoxication, 100);
+      if (player && intoxication >= 100) {
+        player.setPublic({ 'isBlackout': true });
+      } 
 
       // update beer gauge level
-      var level = Math.min((data.intoxication * 5), 500) - 500;
+      var level = (intoxication * 5) - 500;
       document.getElementById('beer').style.bottom = level + 'px';
 
       // TODO: update timer

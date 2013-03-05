@@ -29,7 +29,13 @@
       var resize = (function() {
         clearTimeout(resizeTimer);
         this.updateCache(img, sprite, client.canvas);
-        this.drawFrame(client.canvas.scale);
+
+        var yStart = 0;
+        if (state['intoxication']) {
+          yStart = Math.floor(state['intoxication'] / 25);
+        }
+
+        this.drawFrame(yStart, client.canvas.scale);
       }).bind(this);
 
       resizeTimer = setTimeout(resize, 100);
@@ -104,13 +110,8 @@
     return buffer;
   };
 
-  Actor.prototype.setFrame = function(frame, scale) {
+  Actor.prototype.setFrame = function(frame, yStart, scale) {
     var state = this.entity.state.public;
-
-    var yStart = 0;
-    if (state['intoxication']) {
-      yStart = Math.floor(state['intoxication'] / 25);
-    }
 
     this.frame = frame;
 
@@ -125,13 +126,8 @@
     ctx.drawImage(cached, -xShift, -yShift, cached.width / 2, cached.height / 2);
   };
 
-  Actor.prototype.drawFrame = function(scale) {
+  Actor.prototype.drawFrame = function(yStart, scale) {
     var state = this.entity.state.public;
-
-    var yStart = 0;
-    if (state['intoxication']) {
-      yStart = Math.floor(state['intoxication'] / 25);
-    }
 
     var step = this.step;
 
@@ -165,7 +161,7 @@
     ctx.drawImage(cached, -xShift, -yShift, cached.width / 2, cached.height / 2);
   };
 
-  Actor.prototype.update = function(scale) {
+  Actor.prototype.update = function(yStart, scale) {
     var state = this.entity.state.public;
 
     var skin = this.skin;
@@ -180,7 +176,7 @@
     if (!end) {
       // if at step, advance to next frame in animation
       if (this.t % step === 0) {
-        this.drawFrame(scale);
+        this.drawFrame(yStart, scale);
       }
       this.t++;
     } else if (this.sprite.repeat) {
@@ -188,7 +184,7 @@
     } else if (this.direction !== state.direction) {
       // redraw if this.entity.state.public.direction changes
       this.direction = state.direction;
-      this.drawFrame(scale);
+      this.drawFrame(yStart, scale);
     }
   };
 
@@ -197,7 +193,10 @@
     var animation;
 
     // animation priority
-    if (state.isHit) {
+    if (state.isBlackout) {
+      this.sprite = this.map[0];
+      animation = 'default';
+    } else if (state.isHit) {
       this.sprite = this.map[4];
       animation = 'isHit';
     } else if (state.isThrowing) {
@@ -220,14 +219,19 @@
       this.t = 0;
     }
 
+    var yStart = 0;
+    if (state['intoxication']) {
+      yStart = Math.floor(state['intoxication'] / 25);
+    }
+
     switch(state.direction) {
       case 'right':
         this.cached = this.right;
 
         if (this.sprite.start === this.sprite.end && this.frame !== this.sprite.start) {
-          this.setFrame(this.sprite.start, scale);
+          this.setFrame(this.sprite.start, yStart, scale);
         } else if (this.sprite.start !== this.sprite.end) {
-          this.update(scale);
+          this.update(yStart, scale);
         }
 
         break;
@@ -235,9 +239,9 @@
         this.cached = this.left;
 
         if (this.sprite.start === this.sprite.end && this.frame !== (this.xMax - this.sprite.start - 1)) {
-          this.setFrame(this.xMax - this.sprite.start - 1, scale);
+          this.setFrame(this.xMax - this.sprite.start - 1, yStart, scale);
         } else if (this.sprite.start !== this.sprite.end) {
-          this.update(scale);
+          this.update(yStart, scale);
         }
 
         break;

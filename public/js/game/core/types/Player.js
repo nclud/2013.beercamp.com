@@ -118,6 +118,9 @@
   // TODO: pass in Web Worker to process input
 	Player.prototype.respondToInput = function(pressed, callback) {
 
+    // prevent movement if blacked out
+    if (this.state.public['isBlackout']) return;
+
     var fireButtonChanged = false;
     var input;
 
@@ -142,6 +145,7 @@
     for (var i = 0; i < length; i++) {
       deltaKey = delta[i];
 
+      // TODO: disable movement on isBlackout
       switch(deltaKey) {
 
         case 'up':
