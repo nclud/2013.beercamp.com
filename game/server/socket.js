@@ -55,8 +55,8 @@
 
         // switch from socket.id to Connect sessions?
         var player = new Player({
-          x: (Math.random() * 46) + 1,
-          y: Math.random() * 60,
+          x: (Math.random() * 44) + 1,
+          y: 56, // always spawn on bottom level
           src: skins[character_id]
         });
         

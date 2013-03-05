@@ -152,10 +152,12 @@
   var loadPowerup = function(worker) {
 
     var data = {};
+    var spawn = [ 9, 16, 23, 30, 37, 43, 50, 57 ];
+    var pos = Math.floor(Math.random() * spawn.length);
 
     var entity = new Powerup({
       x: (Math.random() * 44) + 1,
-      y: Math.random() * 61,
+      y: spawn[pos],
       src: 'images/beer.png',
       sprite: {
         direction: 'right',
