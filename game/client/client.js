@@ -62,7 +62,7 @@
           player.setPublic({ 'isBlackout': true });
 
           // show end game screen
-          ui.gameover(player);
+          ui.gameover(client, player);
         } 
 
         // update beer gauge level
@@ -84,7 +84,7 @@
           player.gameover = true;
 
           // show end game screen
-          ui.gameover(player);
+          ui.gameover(client, player);
         }
 
         // TODO: update ammo
@@ -430,6 +430,11 @@
     }
   };
 
+  var disconnect = function(){
+    console.log("Game over! Thanks for playing.");
+    this.socket.disconnect();
+  }
+
   return {
     actions: actions,
     entities: entities,
@@ -446,7 +451,8 @@
     drawEntities: drawEntities,
     updateCamera: updateCamera,
     cameraHeight: cameraHeight,
-    currentPlayer: currentPlayer
+    currentPlayer: currentPlayer,
+    disconnect: disconnect
   };
 
 });

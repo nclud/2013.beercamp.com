@@ -70,7 +70,7 @@
     // TODO: remove this when actual game state can trigger end of game
     $('.countdown').on('click', (function() {
       var player = client.entities[client.uuid];
-      this.gameover(player);
+      this.gameover(client, player);
     }).bind(this));
 
     // load twitter widgets (may not be necessary)
@@ -91,7 +91,9 @@
     }
   };
 
-  var gameover = function(player) {
+  var gameover = function(client, player) {
+    client.disconnect();
+
     // this object should have all data needed to display gameover screen
     if (player) console.log(player);
 
