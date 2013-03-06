@@ -273,7 +273,7 @@ aside + div + aside {
 	margin:0 0 1em;
   /*-webkit-filter:drop-shadow(0 0 10px rgba(255,255,255,0.5));*/
 }
-.special-weapon.six-pack {
+/*.special-weapon.six-pack {
   background:url(../images/n/items.svg) no-repeat -4px -6px;
 }
 .special-weapon.wine {
@@ -303,6 +303,7 @@ aside + div + aside {
 .special-weapon.vodka {
   background:url(../images/n/items.svg) no-repeat -1226px -6px;
 }
+*/
 .special-weapon div {
   position:fixed;
   top:0;
