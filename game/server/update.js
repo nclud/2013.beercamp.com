@@ -3,15 +3,13 @@
     // Node.js
     module.exports = factory(
       require('./entities'),
-      require('./players'),
-      require('./npcs'),
       require('./levels'),
       require('async'),
       require('redis'),
       require('underscore')
     );
   }
-})(this, function(entities, players, npcs, levels, async, redis, _) {
+})(this, function(entities, levels, async, redis, _) {
 
   var init = function(socket) {
 

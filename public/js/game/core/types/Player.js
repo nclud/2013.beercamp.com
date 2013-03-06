@@ -92,6 +92,14 @@
     // current input state
     this.input = {};
 
+    // end game when timer expires
+    var start = Date.now();
+
+    this.timer = {
+      start: start,
+      end: start + 180000 // three minutes
+    };
+
     return this;
 	};
 

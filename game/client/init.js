@@ -13,7 +13,6 @@
   // game.debug = true;
   core.initGlobalVariables();
   input.init();
-  ui.init(client);
   client.createCanvas();
   client.init(client);
   client.play();

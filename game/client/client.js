@@ -37,6 +37,8 @@
       }
     };
 
+    var clock = ui.init(client).clock;
+
     // set methods to run every frame
     this.actions = [
       this.clearCanvas,
@@ -67,7 +69,20 @@
         var level = (intoxication * 5) - 500;
         document.getElementById('beer').style.bottom = level + 'px';
 
-        // TODO: update timer
+        // update timer
+        var now = Date.now()
+        var percent = 100 - ((player.timer.end - now) * 100 / (player.timer.end - player.timer.start));
+        clock.animate(percent);
+
+        // end game on timer expire
+        // TODO: make this update from server side
+        if (now > player.timer.end) {
+          player.gameover = true;
+
+          // show end game screen
+          ui.gameover(player);
+        }
+
         // TODO: update ammo
       }
     }
