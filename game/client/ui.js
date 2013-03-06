@@ -103,7 +103,8 @@
     var intox = player.state.public.intoxication;
     var pimage = player.state.public.src;
 
-    $('.gameover .pic').css('background-image',pimage);
+    $('.gameover .pic').css('background-image','url(../'+pimage+')');
+    
     if (intox < 25) {
       $('.gameover .sober').show();
     }
