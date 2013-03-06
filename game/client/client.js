@@ -50,24 +50,26 @@
       var data = event.detail;
       var player = client.entities[client.uuid];
 
-      // ignore if gameover
-      if (player && player.gameover) return;
+      if (player) {
+        // ignore if gameover
+        if (player.gameover) return;
 
-      // update isBlackout
-      var intoxication = Math.min(data.intoxication, 100);
-      if (player && intoxication >= 100) {
-        player.setPublic({ 'isBlackout': true });
+        // update isBlackout
+        var intoxication = Math.min(data.intoxication, 100);
+        if (intoxication >= 100) {
+          player.setPublic({ 'isBlackout': true });
 
-        // show end game screen
-        ui.gameover(player);
-      } 
+          // show end game screen
+          ui.gameover(player);
+        } 
 
-      // update beer gauge level
-      var level = (intoxication * 5) - 500;
-      document.getElementById('beer').style.bottom = level + 'px';
+        // update beer gauge level
+        var level = (intoxication * 5) - 500;
+        document.getElementById('beer').style.bottom = level + 'px';
 
-      // TODO: update timer
-      // TODO: update ammo
+        // TODO: update timer
+        // TODO: update ammo
+      }
     }
 
     document.addEventListener('hud', listener);

@@ -80,8 +80,8 @@ bTest.prototype.update = function() {
 
   this.world.Step(
     stepRate, // fixed time step
-    10, // velocity iterations
-    10 // position iterations
+    8, // velocity iterations
+    3 // position iterations
   );
 
   // iterate over bodies to destroy
@@ -112,6 +112,12 @@ bTest.prototype.update = function() {
 
         if (aabb.upperBound.x < 0) {
           b.SetPosition(new b2Vec2(48 - (width / 3), b.GetPosition().y));
+        }
+
+        // catch objects that have fallen through the world and respawn them
+        // HACK: kinda sloppy, prevent them from falling through in the first place
+        if (aabb.lowerBound.y > 70) {
+          b.SetPosition(new b2Vec2(b.GetPosition().x, 57));
         }
       }
 
