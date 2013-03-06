@@ -70,6 +70,9 @@
         document.getElementById('beer').style.bottom = level + 'px';
         ui.updateFace(player);
 
+        // update the Ammo Count
+        ui.updateAmmo(player);
+
         // update timer
         var now = Date.now()
         var percent = 100 - ((player.timer.end - now) * 100 / (player.timer.end - player.timer.start));
