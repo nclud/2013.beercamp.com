@@ -116,7 +116,7 @@ bTest.prototype.update = function() {
 
         // catch objects that have fallen through the world and respawn them
         if (aabb.lowerBound.y > 70) {
-          b.SetPosition(new b2Vec2(b.GetPosition().x, 55));
+          b.SetPosition(new b2Vec2(b.GetPosition().x, 58));
         }
       }
 

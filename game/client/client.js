@@ -300,15 +300,13 @@
 
   // Canvas should fit within the HUD UI
   var setScale = function(canvas, width, height) {
-
-
-    // In pixels
+    // in Box2D meters
     var left_hud_width = 120;
     var right_hud_width = 120;
     var proposed_width = width - left_hud_width - right_hud_width
     canvas.scale = proposed_width / 48;
     canvas.width = proposed_width;
-    canvas.height = height || 60 * canvas.scale;
+    canvas.height = height || 62 * canvas.scale;
   };
 
   var updateEntities = function(client) {

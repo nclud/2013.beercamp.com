@@ -49,54 +49,54 @@
     // TODO: rename this
     var objects = [
       // backgrounds
-      { x: 24, y: 15, width: 48, height: 10, class: 'Background', src: 'images/lights.png' },
-      { x: 24, y: 30, width: 48, height: 10, class: 'Background', src: 'images/lounge.png' },
-      { x: 24, y: 46.8, width: 48, height: 15, class: 'Background', src: 'images/disco.png' },
-      { x: 24, y: 54, width: 48, height: 15, class: 'Background', src: 'images/brick.png' },
+      { x: 24, y: 17, width: 48, height: 10, class: 'Background', src: 'images/lights.png' },
+      { x: 24, y: 32, width: 48, height: 10, class: 'Background', src: 'images/lounge.png' },
+      { x: 24, y: 48.8, width: 48, height: 15, class: 'Background', src: 'images/disco.png' },
+      { x: 24, y: 56, width: 48, height: 15, class: 'Background', src: 'images/brick.png' },
 
       // brick platforms
-      { x: 24, y: 60, width: 48, height: 1, class: 'Platform' },  // Level 0
-      { x: 8, y: 53, width: 16, height: 1, class: 'Platform' },   // Level 1
-      { x: 40, y: 53, width: 16, height: 1, class: 'Platform' },
+      { x: 24, y: 62, width: 48, height: 1, class: 'Platform' },  // Level 0
+      { x: 8, y: 55, width: 16, height: 1, class: 'Platform' },   // Level 1
+      { x: 40, y: 55, width: 16, height: 1, class: 'Platform' },
 
       // disco platforms
-      { x: 0, y: 46, width: 11, height: 1, class: 'Platform' },  // Level 2
-      { x: 47, y: 46, width: 9, height: 1, class: 'Platform' },
-      { x: 24, y: 46, width: 18, height: 1, class: 'Platform' },
-      { x: 24, y: 39.7, width: 6, height: 1, class: 'Platform' }, // Level 3
-      { x: 0, y: 39.7, width: 18, height: 1, class: 'Platform' },
-      { x: 44, y: 39.7, width: 10, height: 1, class: 'Platform' },
+      { x: 0, y: 48, width: 11, height: 1, class: 'Platform' },  // Level 2
+      { x: 47, y: 48, width: 9, height: 1, class: 'Platform' },
+      { x: 24, y: 48, width: 18, height: 1, class: 'Platform' },
+      { x: 24, y: 41.7, width: 6, height: 1, class: 'Platform' }, // Level 3
+      { x: 0, y: 41.7, width: 18, height: 1, class: 'Platform' },
+      { x: 44, y: 41.7, width: 10, height: 1, class: 'Platform' },
 
       // lounge
-      { x: 24, y: 33, width: 28, height: 1, class: 'Platform' },    // Level 4
-      { x: 13, y: 25.9, width: 26, height: 1, class: 'Platform' },  // Level 5
-      { x: 42, y: 25.9, width: 14, height: 1, class: 'Platform' },
+      { x: 24, y: 35, width: 28, height: 1, class: 'Platform' },    // Level 4
+      { x: 13, y: 27.9, width: 26, height: 1, class: 'Platform' },  // Level 5
+      { x: 42, y: 27.9, width: 14, height: 1, class: 'Platform' },
 
       // roof
-      { x: 13, y: 19, width: 26, height: 1, class: 'Platform', // Level 6
+      { x: 13, y: 21, width: 26, height: 1, class: 'Platform', // Level 6
         color: { light: '#8b5428', dark: '#624130' }
       },
-      { x: 46, y: 19, width: 7, height: 1, class: 'Platform', // Level 6
+      { x: 46, y: 21, width: 7, height: 1, class: 'Platform', // Level 6
         color: { light: '#8b5428', dark: '#624130' }
       },
-      { x: 27, y: 14.5, width: 1, height: 8.1, class: 'Platform', // Vertical
+      { x: 27, y: 16.5, width: 1, height: 8.1, class: 'Platform', // Vertical
         perspective: 'right',
         color: { light: '#8b5428', dark: '#624130' }
       },
-      { x: 5, y: 12, width: 16, height: 1, class: 'Platform', // Level 7
+      { x: 5, y: 14, width: 16, height: 1, class: 'Platform', // Level 7
         color: { light: '#8b5428', dark: '#624130' }
       },
-      { x: 23.5, y: 12, width: 4, height: 1, class: 'Platform',  // Level 7
+      { x: 23.5, y: 14, width: 4, height: 1, class: 'Platform',  // Level 7
         color: { light: '#8b5428', dark: '#624130' }
       },
-      { x: 42.5, y: 12, width: 14, height: 1, class: 'Platform',  // Level 7
+      { x: 42.5, y: 14, width: 14, height: 1, class: 'Platform',  // Level 7
         color: { light: '#8b5428', dark: '#624130' }
       },
-      { x: 34, y: 18.4, width: 1, height: 14, class: 'Platform',
+      { x: 34, y: 20.4, width: 1, height: 14, class: 'Platform',
         perspective: 'left',
         color: { light: '#8b5428', dark: '#624130' }
       },
-      { x: 41.5, y: 12, width: 12, height: 1, class: 'Platform',
+      { x: 41.5, y: 14, width: 12, height: 1, class: 'Platform',
         color: { light: '#8b5428', dark: '#624130' }
       }
     ];
@@ -152,7 +152,7 @@
   var loadPowerup = function(worker) {
 
     var data = {};
-    var spawn = [ 9, 16, 23, 30, 37, 43, 50, 57 ];
+    var spawn = [ 12, 19, 26, 33, 40, 46, 53, 60 ];
     var pos = Math.floor(Math.random() * spawn.length);
 
     var entity = new Powerup({
