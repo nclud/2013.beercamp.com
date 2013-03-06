@@ -40,6 +40,11 @@ function bTest(intervalRate, adaptive) {
     true //allow sleep
   );
 
+  // use information generated in the previous simulation timestep
+  // to help you come up with more accurate results,
+  // faster, in the current timestep
+  this.world.SetWarmStarting(true);
+
   this.bodies = {};
   this.graveyard = [];
 
@@ -75,8 +80,8 @@ bTest.prototype.update = function() {
 
   this.world.Step(
     stepRate, // fixed time step
-    8, // velocity iterations
-    3 // position iterations
+    10, // velocity iterations
+    10 // position iterations
   );
 
   // iterate over bodies to destroy
