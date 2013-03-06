@@ -115,9 +115,8 @@ bTest.prototype.update = function() {
         }
 
         // catch objects that have fallen through the world and respawn them
-        // HACK: kinda sloppy, prevent them from falling through in the first place
         if (aabb.lowerBound.y > 70) {
-          b.SetPosition(new b2Vec2(b.GetPosition().x, 57));
+          b.SetPosition(new b2Vec2(b.GetPosition().x, 55));
         }
       }
 
@@ -210,6 +209,8 @@ bTest.prototype.addPlayer = function(uuid, entity) {
   var body = this.bodies[uuid] = this.world.CreateBody(this.bodyDef);
   body.numFootContacts = 0;
 
+  // reset isSensor to false so Players don't fall through floor
+  this.fixDef.isSensor = false;
   this.fixDef.userData = entity.class;
   body.CreateFixture(this.fixDef);
 
