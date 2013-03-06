@@ -68,6 +68,7 @@
         // update beer gauge level
         var level = (intoxication * 5) - 500;
         document.getElementById('beer').style.bottom = level + 'px';
+        ui.updateFace(player);
 
         // update timer
         var now = Date.now()
@@ -403,6 +404,13 @@
     }
   };
 
+  var currentPlayer = function(){
+      var player = this.entities[this.uuid];
+      if (player) {
+          return player;
+      }
+  };
+
   var updateUI = function(client) {
     // emit intoxication level event
     var player = client.entities[client.uuid];
@@ -434,7 +442,8 @@
     updateEntities: updateEntities,
     drawEntities: drawEntities,
     updateCamera: updateCamera,
-    cameraHeight: cameraHeight
+    cameraHeight: cameraHeight,
+    currentPlayer: currentPlayer
   };
 
 });

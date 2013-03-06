@@ -385,6 +385,25 @@
     // Entity.prototype.draw.call(this, client);
   }
 
+      // Returns a string value which represents the level of intoxication for this character.
+  // @return [String] i.e. ['sober', 'tipsy', 'buzzed', 'schwasted', 'blackout']
+    Player.prototype.intoxicationLevel = function(){
+      var intox = this.state.public.intoxication;
+      if (intox < 25) {
+        return "sober";
+      }
+      if (intox >= 25 && intox < 50) {
+        return "tipsy";
+      }
+      if (intox >= 50 && intox < 75) {
+        return "buzzed";
+      }
+      if (intox >= 75 && intox < 100) {
+        return "schwasted";
+      }
+      return "blackout"
+  };
+
   return Player;
 
 });

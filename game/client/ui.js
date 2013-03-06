@@ -85,7 +85,7 @@
         }
     }(document, "script", "twitter-wjs");
     */
-    
+
     return {
       clock: timer.init()
     }
@@ -102,31 +102,52 @@
     $('html, body').css('overflow','visible');
     $('header').remove();
 
-    var intox = player.state.public.intoxication;
     var pimage = player.state.public.src;
 
     $('.gameover .pic').css('background-image','url(../'+pimage+')');
-    
-    if (intox < 25) {
-      $('.gameover .sober').show();
-    }
-    if (intox >= 25 && intox < 50) {
-      $('.gameover .tipsy').show();
-    }
-    if (intox >= 50 && intox < 75) {
-      $('.gameover .buzzed').show();
-    }
-    if (intox >= 75 && intox < 100) {
-      $('.gameover .schwasted').show();
-    }
-    if (intox >= 100) {
-      $('.gameover .blackout').show();
-    }
+    $('.gameover .' + player.intoxicationLevel()).show();
   };
 
+  var updateFace = function(player){
+      if (player) {
+          setPlayerIcon(player);
+          $("#user").removeClass("sober tipsy buzzed schwasted").addClass(player.intoxicationLevel());
+      }
+  };
+
+  // Sets the inital 'character class' for the player's timer.
+  // @param [Player] player Assumed to exist already.
+  var setPlayerIcon = function(player){
+    if($("#user").hasClass("user-face")){
+        //console.log("Assigned user character already. Skipping.");
+        return;
+    }
+    var pimage = player.state.public.src;
+    var character_css = "";
+    switch(pimage){
+      case("images/char1.png"):
+          character_css = "beardo";
+          break;
+      case("images/char2.png"):
+          character_css = "mohawk";
+          break;
+      case("images/char3.png"):
+          character_css = "glasses";
+          break;
+      case("images/char4.png"):
+          character_css = "psy";
+          break;
+      default:
+          character_css = "floyd";
+          break;
+    }
+    $('#user').addClass('user-face').addClass(character_css);
+  }
   return {
     init: init,
-    gameover: gameover
+    gameover: gameover,
+    updateFace: updateFace,
+    setPlayerIcon: setPlayerIcon
   };
 
 });
