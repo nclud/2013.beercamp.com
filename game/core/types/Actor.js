@@ -33,7 +33,7 @@
         var yStart = 0;
         var intoxication = this.entity.state.public['intoxication'];
         if (intoxication) {
-          yStart = Math.floor(intoxication / 25);
+          yStart = Math.min(Math.floor(intoxication / 25), 4);
         }
 
         this.drawFrame(yStart, client.canvas.scale);
@@ -195,7 +195,7 @@
     var yStart = 0;
     var intoxication = state['intoxication'];
     if (intoxication) {
-      yStart = Math.floor(intoxication / 25);
+      yStart = Math.min(Math.floor(intoxication / 25), 4);
     }
 
     var animation;

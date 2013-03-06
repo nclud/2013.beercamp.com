@@ -54,7 +54,7 @@
 
       if (player) {
         // ignore if gameover
-        if (player.gameover) return;
+        if (player.gameover || client.konami) return;
 
         // update isBlackout
         var intoxication = Math.min(data.intoxication, 100);
@@ -88,6 +88,10 @@
     }
 
     document.addEventListener('hud', listener);
+
+    document.addEventListener('konami', function(event) {
+      client.konami = true;
+    });
 
     // init UI event emitter
     // TODO: emit events on state change rather than interval?
@@ -360,10 +364,12 @@
   };
 
   var drawEntities = function(client) {
+    // only layers defined here will be drawn!
     var order = [
       'Background',
       'Platform',
       'Powerup',
+      'Projectile',
       'Player'
     ];
 

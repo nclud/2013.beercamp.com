@@ -3,9 +3,12 @@
     // AMD
     define(factory);
   }
-})(this, function(game) {
+})(this, function() {
 
   var pressed = {};
+
+  var history = [];
+  var konami = '38,38,40,40,37,39,37,39,66,65';
 
   var keys = {
     32: 'spacebar',
@@ -21,6 +24,16 @@
 
   var keyInteraction = function(event) {
     var code = event.keyCode;
+
+    if (event.type === 'keydown') {
+      // store last 10 keypresses
+      history = history.slice(-10);
+      history.push(code);
+      if (history.toString().indexOf(konami) === 0) {
+        document.dispatchEvent(new CustomEvent('konami'));
+      }
+    }
+
     if(keys[code]) {
       event.preventDefault();
       pressed[keys[code]] = (event.type === 'keydown') ? true : false;

@@ -4,17 +4,20 @@
     module.exports = factory(
       require('../core'),
       require('../time'),
-      require('./Rectangle')
+      require('./Rectangle'),
+      require('./Projectile'),
+      require('../../server/entities')
     );
   } else if (typeof define === 'function' && define.amd) {
     // AMD
     define([
       '../core',
       '../time',
-      './Rectangle'
+      './Rectangle',
+      './Projectile'
     ], factory);
   }
-})(this, function(core, time, Rectangle) {
+})(this, function(core, time, Rectangle, Projectile, entities) {
 
 	var Player = function(properties, id, client) {
     properties = properties || {};
@@ -108,10 +111,48 @@
 
 	Player.prototype.drink = function() {
     // handle beer powerup
-    this.state.public['beer']++;
-    this.state.public['intoxication'] += 5;
+    this.state.public.beer++;
+    this.state.public.intoxication += 5;
     // console.log('Beer', this.state.public['beer'], 'Drunk', this.state.public['intoxication']);
 	};
+
+  Player.prototype.fire = function(worker) {
+    var x = this.state.public.x;
+    var y = this.state.public.y;
+
+    var entity = new Projectile({
+      x: x,
+      y: y,
+      direction: this.state.public.direction
+    });
+
+    entities.global[entity.uuid] = entity;
+    entities.local.push(entity.uuid);
+
+    if (worker) {
+      var data = {
+        class: entity.state.private.class,
+        type: entity.state.private.type,
+        x: entity.state.private.x,
+        y: entity.state.private.y,
+        angle: entity.state.private.angle,
+        width: entity.state.private.width,
+        height: entity.state.private.height,
+        direction: entity.state.private.direction,
+        speed: entity.state.private.speed,
+        src: entity.state.private.src,
+        isSensor: entity.state.private.isSensor
+      };
+
+      worker.send({
+        'cmd': 'fire',
+        'msg': {
+          uuid: entity.uuid,
+          entity: data
+        }
+      });
+    }
+  };
 
 	Player.prototype.sendImpulse = function(worker, degrees) {
     worker.send({
@@ -196,16 +237,14 @@
           }
           break;
 
-        /*
         case 'spacebar':
           if (pressed['spacebar']) {
             // TODO: play throw animation
-            this.fire();
+            // this.fire(worker);
           } else {
             this.fireButtonReleased = true;
           }
           break;
-        */
 
       }
     }
@@ -299,16 +338,14 @@
             }
             break;
 
-          /*
           case 'spacebar':
             if (pressed['spacebar']) {
               // TODO: play throw animation
-              this.fire();
+              this.fire(worker);
             } else {
               this.fireButtonReleased = true;
             }
             break;
-          */
 
         }
       }

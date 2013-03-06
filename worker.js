@@ -227,6 +227,50 @@ bTest.prototype.addPlayer = function(uuid, entity) {
   this.fixDef.userData = null;
 }
 
+bTest.prototype.fire = function(uuid, entity) {
+  switch(entity.type) {
+    case 'dynamic':
+      this.bodyDef.type = b2Body.b2_dynamicBody;
+      break;
+    case 'static':
+      this.bodyDef.type =  b2Body.b2_staticBody;
+      break;
+    case 'kinematic':
+      this.bodyDef.type =  b2Body.b2_kinematicBody;
+      break;
+  }
+
+  this.fixDef.isSensor = entity.isSensor || false;
+
+  if (entity.radius) {
+    this.fixDef.shape = new b2CircleShape(entity.radius);
+  } else {
+    this.fixDef.shape = new b2PolygonShape;
+    this.fixDef.shape.SetAsBox(entity.width / 2, entity.height / 2);
+  }
+
+  this.bodyDef.position.x = entity.x;
+  this.bodyDef.position.y = entity.y;
+
+  this.bodyDef.fixedRotation = entity.fixed;
+
+  this.bodyDef.userData = uuid;
+
+  var body = this.bodies[uuid] = this.world.CreateBody(this.bodyDef);
+
+  this.fixDef.filter.groupIndex = -2;
+  this.fixDef.userData = entity.class;
+  body.CreateFixture(this.fixDef);
+
+  this.fixDef.userData = null;
+
+  // reset fixDef
+  this.fixDef.filter.groupIndex = 0;
+
+  var degrees = entity.direction === 'left' ? 180 : 0
+  box.impulse(uuid, degrees, entity.speed);
+}
+
 bTest.prototype.removeBody = function(uuid) {
   // add to queue to clean up after time step completes
   this.graveyard.push(uuid);

@@ -14,6 +14,7 @@
       './types/Graphic',
       './types/Platform',
       './types/Powerup',
+      './types/Projectile',
       './types/Player',
       './types/Actor'
     ], factory);
@@ -29,6 +30,7 @@
     Graphic: require('./types/Graphic'),
     Platform: require('./types/Platform'),
     Powerup: require('./types/Powerup'),
+    Projectile: require('./types/Projectile'),
     Player: require('./types/Player'),
     Actor: require('./types/Actor')
   };

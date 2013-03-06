@@ -99,6 +99,8 @@
     $('#main').hide();
     $('#hud').hide();
     $('body').removeClass('game').addClass('gameover');
+    $('html, body').css('overflow','visible');
+    $('header').remove();
 
     var intox = player.state.public.intoxication;
     var pimage = player.state.public.src;
