@@ -94,13 +94,32 @@
   var gameover = function(player) {
     // this object should have all data needed to display gameover screen
     if (player) console.log(player);
-    var intox = player.state.public.intoxication;
-    var pimage = player.state.public.src;
 
-    $('#gameover-container').show();
+    //$('#gameover-container').show();
     $('#main').hide();
     $('#hud').hide();
     $('body').removeClass('game').addClass('gameover');
+
+    var intox = player.state.public.intoxication;
+    var pimage = player.state.public.src;
+
+    $('.gameover .pic').css('background-image','url(../'+pimage+')');
+    
+    if (intox < 25) {
+      $('.gameover .sober').show();
+    }
+    if (intox >= 25 && intox < 50) {
+      $('.gameover .tipsy').show();
+    }
+    if (intox >= 50 && intox < 75) {
+      $('.gameover .buzzed').show();
+    }
+    if (intox >= 75 && intox < 100) {
+      $('.gameover .schwasted').show();
+    }
+    if (intox >= 100) {
+      $('.gameover .blackout').show();
+    }
   };
 
   return {
