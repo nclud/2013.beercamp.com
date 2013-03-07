@@ -75,7 +75,7 @@
             return;
           }
 
-          if (bouncer.connected.length < 1) {
+          if (bouncer.connected.length < 5) {
             // remove socket from queue and cancel interval
             clearInterval(wait);
             bouncer.queue.splice(index, 1);

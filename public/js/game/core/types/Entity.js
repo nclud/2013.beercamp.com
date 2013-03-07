@@ -173,7 +173,7 @@
 
     // round to whole pixel
     // interpolated x and y coords
-    // TODO: dont round until AFTER scale
+    // dont round until AFTER scale
     var x = (this.state.private.x * scale + 0.5) | 0;
     var y = (this.state.private.y * scale + 0.5) | 0;
 

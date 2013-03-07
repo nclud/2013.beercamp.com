@@ -52,7 +52,7 @@
     ctx.save();
 
     if (this.actor) {
-      this.actor.draw(ctx, x - halfWidth, y - halfHeight, scale);
+      this.actor.draw(ctx, x, y, scale);
     }
 
     ctx.restore();

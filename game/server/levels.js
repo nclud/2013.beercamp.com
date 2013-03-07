@@ -165,7 +165,7 @@
         height: 2,
         x: 2,
         y: 1,
-        scale: 1.2,
+        scale: 0.6,
         map: {
 
           // default

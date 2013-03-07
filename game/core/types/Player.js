@@ -22,10 +22,10 @@
     properties.type = properties.type || 'dynamic';
 
     properties.angle = properties.angle ||  0;
-    properties.width = properties.width ||  3;
-    properties.height = properties.height ||  3.4;
+    properties.width = properties.width ||  2.5;
+    properties.height = properties.height ||  3;
     properties.fixed = properties.fixed ||  true;
-    properties.speed = properties.speed ||  310;
+    properties.speed = properties.speed ||  240;
 
     properties.sprite = properties.sprite || {
       direction: 'right',
@@ -34,7 +34,7 @@
       x: 9,
       y: 5,
       step: 8,
-      scale: 10,
+      scale: 5,
       map: {
 
         // default
@@ -377,7 +377,7 @@
     ctx.save();
 
     if (this.actor) {
-      this.actor.draw(ctx, x - halfWidth, y - halfHeight, scale);
+      this.actor.draw(ctx, x, y, scale);
     }
 
     ctx.restore();
