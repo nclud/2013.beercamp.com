@@ -39,5 +39,5 @@ Deploy using Capistrano, so you we will need Ruby installed. Then do the followi
 
 ```
 sudo npm install -g requirejs
-r.js -o build.js
+r.js -o build.js && node server.js
 ```

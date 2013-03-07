@@ -387,21 +387,21 @@
 
       // Returns a string value which represents the level of intoxication for this character.
   // @return [String] i.e. ['sober', 'tipsy', 'buzzed', 'schwasted', 'blackout']
-    Player.prototype.intoxicationLevel = function(){
+    Player.prototype.intoxicationLevel = function(display_name){
       var intox = this.state.public.intoxication;
       if (intox < 25) {
-        return "sober";
+        return display_name ? "was stone cold sober" : "sober";
       }
       if (intox >= 25 && intox < 50) {
-        return "tipsy";
+          return display_name ? "got slightly tipsy" : "tipsy";
       }
       if (intox >= 50 && intox < 75) {
-        return "buzzed";
+        return display_name ? "got righteously buzzed" : "buzzed";
       }
       if (intox >= 75 && intox < 100) {
-        return "schwasted";
+        return display_name ? "got sooper dooper schwasted" : "schwasted";
       }
-      return "blackout"
+      return display_name ? "mutha-f-ing blacked out" : "blackout"
   };
 
   return Player;
