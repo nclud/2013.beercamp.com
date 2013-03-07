@@ -4,7 +4,7 @@
     module.exports = factory(
       require('../core'),
       require('../time'),
-      require('node-uuid')
+      require('idgen')
     );
   } else if (typeof define === 'function' && define.amd) {
     // AMD
@@ -16,11 +16,14 @@
       './Graphic'
     ], factory);
   }
-})(this, function(core, time, uuid, Actor, Graphic) {
+})(this, function(core, time, idgen, Actor, Graphic) {
 
 	var Entity = function(properties, id, client) {
-    if (uuid) {
-      this.uuid = uuid.v4 ? uuid.v4() : false;
+    if (idgen) {
+      // This generates a 4 byte id (Az09) rather that a UUID which is 32 bytes
+      // We can also use a custom character set (i.e. ABCDEFGHIJKLMNOPQRSTUVWYXZabcdefghijklmnopqrstuvwyxz0123456789*@#$%^&*()
+      // to decrease chance of generating duplicates.
+      this.uuid = idgen(4);
     } else if (id) {
       this.uuid = id;
     }
@@ -58,6 +61,7 @@
 		}
 	};
 
+    // @param [Hash] properties The state of an object.
 	Entity.prototype.setPublic = function(properties) {
 		for(var property in properties) {
 			this.state.public[property] = properties[property];
@@ -96,16 +100,18 @@
 
       // check for changed values and push key to delta array
       if (prev[key] !== next[key]) {
-        deltaKeys.push(key);
+        // Do deep comparison for objects (like velocity)
+        if(typeof(prev[key]) === 'object' && _.isEqual(prev[key], next[key])){
+        } else{
+          deltaKeys.push(key);
+        }
       }
     }
 
     // set changed values in data object
     if (deltaKeys.length) {
-      return {
-        uuid: this.uuid,
-        state: _.pick(next, deltaKeys)
-      };
+      var state = _.pick(next, deltaKeys);
+      return state;
     }
 
   };

@@ -27,7 +27,7 @@ var app = {
     "underscore": "1.4.x",
     "async": "0.1.x",
     "redis": "0.8.x",
-    "node-uuid": "1.4.x",
+    "idgen": "1.2.0",
     "box2dweb-commonjs": "2.1.x"
   },
   "analyze": true

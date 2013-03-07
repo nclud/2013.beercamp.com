@@ -108,6 +108,14 @@
 
     $('.gameover .pic').css('background-image','url(../'+pimage+')');
     $('.gameover .' + player.intoxicationLevel()).show();
+
+    var tweet_message = encodeURIComponent("I " + player.intoxicationLevel(true) + " at #beercamp! http://2013.beercamp.com");
+    var referrer = encodeURIComponent("http://2013.beercamp.com");
+    var url = "https://twitter.com/intent/tweet?original_referer=" + referrer + " &text=" + tweet_message;
+    $('.tweet').attr("href", url).attr("target", "_blank");
+
+    var facebook = "https://www.facebook.com/sharer/sharer.php?u=http://2013.beercamp.com";
+    $('.facebook').attr("href", facebook).attr("target", "_blank");
   };
 
   var updateFace = function(player){

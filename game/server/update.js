@@ -57,8 +57,10 @@
     // get delta update, emit to clients
     entities.delta(data, function() {
       data.time = Date.now();
-      socket.io.sockets.volatile.emit('state:delta', data);
-      // console.log('delta', data.entities);
+      // Don't send an update if no positions have been updated.
+      if(Object.keys(data.entities).length){
+          socket.io.sockets.volatile.emit('state:delta', data);
+      }
     });
 
   };
