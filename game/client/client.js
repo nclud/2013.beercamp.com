@@ -186,7 +186,7 @@
       time.client = time.server - core.offset;
 
       // update entities
-      var entities = Object.keys(data.entities);
+      var entities = Object.keys(data.entities); // This is a list of uuids of the entities
       var length = entities.length;
 
       var uuid;
@@ -201,7 +201,7 @@
         if (client.entities[uuid]) {
 
           // authoritatively set internal state if player exists on client
-          client.entities[uuid].setPublic(entity.state);
+          client.entities[uuid].setPublic(entity);
 
           // get full snapshot for interpolation
           // queue server updates for entity interpolation
