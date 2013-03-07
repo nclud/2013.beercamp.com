@@ -119,11 +119,35 @@
   };
 
   var updateFace = function(player){
-      if (player) {
-          setPlayerIcon(player);
-          $("#user").removeClass("sober tipsy buzzed schwasted").addClass(player.intoxicationLevel());
-      }
+    if (player) {
+      setPlayerIcon(player);
+      $("#user").removeClass("sober tipsy buzzed schwasted").addClass(player.intoxicationLevel());
+    }
   };
+
+  var queue = (function() {
+    var enter = function(position) {
+      $('#main').fadeOut();
+      $('#hud').fadeOut();
+      $('#queue').fadeIn().find('.number').text(position);
+    };
+
+    var update = function(position) {
+      $('#queue').find('.number').text(position);
+    };
+
+    var exit = function() {
+      $('#main').fadeIn();
+      $('#hud').fadeIn();
+      $('#queue').fadeOut();
+    };
+
+    return {
+      enter: enter,
+      update: update,
+      exit: exit
+    }
+  })();
 
 
   var updateAmmo = function(player){
@@ -169,6 +193,7 @@
     init: init,
     gameover: gameover,
     updateFace: updateFace,
+    queue: queue,
     setPlayerIcon: setPlayerIcon,
     updateAmmo: updateAmmo
   };

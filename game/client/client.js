@@ -108,11 +108,15 @@
     });
 
     // wait in queue
-    socket.on('queue:add', function(data) {
-      console.log('queue:add', data);
+    socket.on('queue:enter', function(data) {
+      ui.queue.enter(data);
 
-      socket.on('queue:position', function(data) {
-        console.log('queue:position', data);
+      socket.on('queue:update', function(data) {
+        ui.queue.update(data);
+      });
+
+      socket.on('queue:exit', function() {
+        ui.queue.exit();
       });
     });
 
