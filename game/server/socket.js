@@ -50,57 +50,68 @@
       socket.emit('game:load');
 
       socket.on('player:select', function(data) {
-        var character_id = parseInt(data['character-id']);
-        if(isNaN(character_id) || character_id < 0 || character_id > 4){    
-          // console.log("Invalid Character '" + character_id + "'. Using default character instead.");      
-          character_id = 0;
+        var character = parseInt(data['character-id']);
+        if(isNaN(character) || character < 0 || character > 4) {  
+          // console.log("Invalid Character '" + character + "'. Using default character instead.");      
+          character = 0;
         }
+
+        var wait;
+        var queueLength = 30;
 
         // queue sockets rather than ids, as Socket.io lacks a clean API
         // to get socket by id
-        bouncer.queue.push(socket);
-        socket.emit('queue:enter', bouncer.queue.indexOf(socket) + 1);
+        if (bouncer.connected.length >= queueLength) {
+          bouncer.queue.push(socket);
+          socket.emit('queue:enter', bouncer.queue.indexOf(socket) + 1);
 
-        var wait = setInterval(function() {
-          var index = bouncer.queue.indexOf(socket);
-          // console.log(index, socket.disconnected);
+          wait = setInterval(function() {
+            var index = bouncer.queue.indexOf(socket);
+            // console.log(index, socket.disconnected);
 
-          // remove disconnected sockets from queue
-          if (socket.disconnected) {
-            // remove socket from queue and cancel interval
-            clearInterval(wait);
-            bouncer.queue.splice(index, 1);
-            return;
-          }
+            // remove disconnected sockets from queue
+            if (socket.disconnected) {
+              // remove socket from queue and cancel interval
+              clearInterval(wait);
+              bouncer.queue.splice(index, 1);
+              return;
+            }
 
-          if (bouncer.connected.length < 1) {
-            // remove socket from queue and cancel interval
-            clearInterval(wait);
-            bouncer.queue.splice(index, 1);
-            bouncer.connected.push(socket);
-            socket.emit('queue:exit');
+            if (bouncer.connected.length < queueLength) {
+              // remove socket from queue and cancel interval
+              clearInterval(wait);
+              bouncer.queue.splice(index, 1);
+              bouncer.connected.push(socket);
+              socket.emit('queue:exit');
 
-            // switch from socket.id to Connect sessions?
-            var player = new Player({
-              x: (Math.random() * 44) + 1,
-              y: 58, // always spawn on bottom level
-              src: skins[character_id]
-            });
-            
-            // set uuid and send to client
-            socket.emit('uuid', player.uuid);
+              enterGame(character, socket, worker);
+            } else {
+              // update position in queue
+              socket.emit('queue:update', index + 1);
+            }
+          }, 2000);
+        } else {
+          enterGame(character, socket, worker);
+        }
 
-            addPlayer(socket, worker, player); 
-          } else {
-            // update position in queue
-            socket.emit('queue:update', index + 1);
-          }
-        }, 2000);
       });
     });
 
   };
 
+  var enterGame = function(character, socket, worker) {
+    // TODO: switch to Connect sessions?
+    var player = new Player({
+      x: (Math.random() * 44) + 1,
+      y: 58, // always spawn on bottom level
+      src: skins[character]
+    });
+    
+    // set uuid and send to client
+    socket.emit('uuid', player.uuid);
+
+    addPlayer(socket, worker, player); 
+  };
 
   var addPlayer = function(socket, worker, player) {
 

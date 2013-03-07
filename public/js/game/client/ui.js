@@ -97,25 +97,25 @@
     // this object should have all data needed to display gameover screen
     if (player) console.log(player);
 
-    //$('#gameover-container').show();
-    $('#main').hide();
-    $('#hud').hide();
-    $('body').removeClass('game').addClass('gameover');
-    $('html, body').css('overflow','visible');
-    $('header').remove();
+    $('.gameover').fadeIn(function() {
+      $('#main').hide();
+      $('#hud').hide();
+      $('header').remove();
 
-    var pimage = player.state.public.src;
+      var pimage = player.state.public.src;
 
-    $('.gameover .pic').css('background-image','url(../'+pimage+')');
-    $('.gameover .' + player.intoxicationLevel()).show();
+      $('.gameover .pic').css('background-image','url(../'+pimage+')');
+      $('.gameover .' + player.intoxicationLevel()).show();
 
-    var tweet_message = encodeURIComponent("I " + player.intoxicationLevel(true) + " at #beercamp! http://2013.beercamp.com");
-    var referrer = encodeURIComponent("http://2013.beercamp.com");
-    var url = "https://twitter.com/intent/tweet?original_referer=" + referrer + " &text=" + tweet_message;
-    $('.tweet').attr("href", url).attr("target", "_blank");
+      var tweet_message = encodeURIComponent("I " + player.intoxicationLevel(true) + " at #beercamp! http://2013.beercamp.com");
+      var referrer = encodeURIComponent("http://2013.beercamp.com");
+      var url = "https://twitter.com/intent/tweet?original_referer=" + referrer + " &text=" + tweet_message;
+      $('.tweet').attr("href", url).attr("target", "_blank");
 
-    var facebook = "https://www.facebook.com/sharer/sharer.php?u=http://2013.beercamp.com";
-    $('.facebook').attr("href", facebook).attr("target", "_blank");
+      var facebook = "https://www.facebook.com/sharer/sharer.php?u=http://2013.beercamp.com";
+      $('.facebook').attr("href", facebook).attr("target", "_blank");
+    });
+
   };
 
   var updateFace = function(player){
@@ -127,9 +127,9 @@
 
   var queue = (function() {
     var enter = function(position) {
-      $('#main').fadeOut();
-      $('#hud').fadeOut();
-      $('#queue').fadeIn().find('.number').text(position);
+      var $queue = $('#queue');
+      $queue.find('.number').text(position);
+      $queue.show();
     };
 
     var update = function(position) {
@@ -137,8 +137,6 @@
     };
 
     var exit = function() {
-      $('#main').fadeIn();
-      $('#hud').fadeIn();
       $('#queue').fadeOut();
     };
 

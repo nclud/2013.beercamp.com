@@ -1,7 +1,6 @@
 
 /* Game Over Screen(s) */
-body.gameover {background-color: #1a1a1a;}
-.gameover div.container {width: 500px; margin: 0 auto; overflow: visible; position: relative;}
+.gameover .container {width: 500px; margin: 0 auto; overflow: visible; position: relative; display:none;}
 .gameover h1 {float: left; clear: none; margin-bottom: 20px;}
 .gameover .blackout h1 {background: transparent url(../images/Type_BlackOut.svg) no-repeat center center; width: 400px; height: 340px; font-size: 0; text-indent: -9999;}
 .gameover .schwasted h1 {background: transparent url(../images/Type_Schwasted.svg) no-repeat center center; width: 400px; height: 340px; font-size: 0; text-indent: -9999; background-size: 90%;}
@@ -30,7 +29,3 @@ body.gameover {background-color: #1a1a1a;}
 .gameover .pic.three {background: transparent url(../images/char1.png) no-repeat left -460px; background-size: 1000%}
 .gameover .pic.four {background: transparent url(../images/char1.png) no-repeat left -240px; background-size: 1000%}
 .gameover .pic.five {background: transparent url(../images/char1.png) no-repeat left top; background-size: 1000%}
-
-#gameover-container {
-    display: none;
-}

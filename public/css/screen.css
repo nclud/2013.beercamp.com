@@ -1,11 +1,12 @@
 html, body {
-  height: 100%;
   overflow: hidden;
   position: relative;
 }
 
 html, body, #main  {
   width: 100%;
+  height: 100%;
+  min-height: 100%;
   margin: 0;
   padding: 0;
 }
@@ -51,20 +52,39 @@ canvas {
 
 }
 
-#Background {
-  z-index: 1;
-}
-
-#Platform {
-  z-index: 2;
-}
-
-#Player {
-  z-index: 5;
-}
-
 #stats {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.gameover, #queue {
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: none;
+  background-color: #1a1a1a;
+}
+
+#queue .container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  display: block;
+  clear: both;
+  margin: 0 auto;
+  background-size: 100%;
+}
+
+#queue .container img {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
