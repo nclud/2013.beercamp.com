@@ -16,6 +16,11 @@
 
   var Player = types['Player'];
 
+  // queue to enter game
+  var bouncer = {};
+  bouncer.queue = [];
+  bouncer.connected = [];
+
   var skins = [
     'images/char1.png',
     'images/char2.png',
@@ -42,28 +47,58 @@
 
     // socket.io client event listeners
     io.sockets.on('connection', function(socket) {
-      socket.emit('game-loaded');
+      socket.emit('game:load');
 
-      socket.on('add-player', function(data) {
+      socket.on('player:select', function(data) {
+        console.log('player:select', data);
+
         var character_id = parseInt(data['character-id']);
         if(isNaN(character_id) || character_id < 0 || character_id > 4){    
           console.log("Invalid Character '" + character_id + "'. Using default character instead.");      
           character_id = 0;
-
         }
-        console.log("Adding a new player to the game as character '" + character_id + "'.");
 
-        // switch from socket.id to Connect sessions?
-        var player = new Player({
-          x: (Math.random() * 44) + 1,
-          y: 58, // always spawn on bottom level
-          src: skins[character_id]
-        });
-        
-        // set uuid and send to client
-        socket.emit('uuid', player.uuid);
+        // queue sockets rather than ids, as Socket.io lacks a clean API
+        // to get socket by id
+        bouncer.queue.push(socket);
+        socket.emit('queue:add', bouncer.queue.indexOf(socket));
 
-        addPlayer(socket, worker, player); 
+        var wait = setInterval(function() {
+          var index = bouncer.queue.indexOf(socket);
+          // console.log(index, socket.disconnected);
+
+          // remove disconnected sockets from queue
+          if (socket.disconnected) {
+            // remove socket from queue and cancel interval
+            clearInterval(wait);
+            bouncer.queue.splice(index, 1);
+            return;
+          }
+
+          if (bouncer.connected.length < 1) {
+            // remove socket from queue and cancel interval
+            clearInterval(wait);
+            bouncer.queue.splice(index, 1);
+            bouncer.connected.push(socket);
+
+            console.log("Adding a new player to the game as character '" + character_id + "'.");
+
+            // switch from socket.id to Connect sessions?
+            var player = new Player({
+              x: (Math.random() * 44) + 1,
+              y: 58, // always spawn on bottom level
+              src: skins[character_id]
+            });
+            
+            // set uuid and send to client
+            socket.emit('uuid', player.uuid);
+
+            addPlayer(socket, worker, player); 
+          } else {
+            // update position in queue
+            socket.emit('queue:position', index);
+          }
+        }, 2000);
       });
     });
 
@@ -91,6 +126,9 @@
     });
 
     socket.on('disconnect', function() {
+      // remove player from connected array
+      bouncer.connected.splice(bouncer.connected.indexOf(socket), 1);
+
       // remove player from server
       entities.remove(entities, player.uuid);
 

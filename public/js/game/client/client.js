@@ -102,17 +102,24 @@
     // socket.io client connection
     var socket = this.socket = io.connect();
 
-    socket.on('game-loaded', function(data){
-      var character_id = getParameter("as");
-      socket.emit('add-player', { 'character-id' : character_id });
+    socket.on('game:load', function(data) {
+      var character_id = getParameter('as');
+      socket.emit('player:select', { 'character-id' : character_id });
+    });
+
+    // wait in queue
+    socket.on('queue:add', function(data) {
+      console.log('queue:add', data);
+
+      socket.on('queue:position', function(data) {
+        console.log('queue:position', data);
+      });
     });
 
     // set client.uuid
     socket.on('uuid', function(data) {
       client.uuid = data;
     });
-
-
 
     // listen for full state updates
     socket.on('state:full', function(data) {
