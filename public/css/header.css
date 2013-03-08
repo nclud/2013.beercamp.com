@@ -44,7 +44,6 @@ header.cf {
     float: right;
     margin: 5px 15px 0 0;
     height: 55px;
-    width: 450px;
 }
 
 header h1 {
@@ -87,7 +86,6 @@ header ul.header-location-meta {
 header li {
     display:inline;
     list-style:none;
-    padding:0 1em 0;
 }
 header li:first-child {
     padding-left:0;
@@ -101,28 +99,4 @@ header img {
     position:relative;
     top:.75em;
     margin:0 0 0 1em;
-}
-
-@media screen and (max-width: 1120px){
-
-    header h1{
-        font-size:230%;
-    }
-
-    header ul{
-        font: normal 105%/1 'Monstrrr-Serif', sans-serif;
-        top: 1.5em;
-    }
-}
-
-@media screen and (max-width: 1050px){
-    header img{
-        width:8%;
-        margin: 0 0 0 .5em;
-    }
-
-    header img[alt^="nclud"]{
-        width: 2.5%;
-    }
-
 }
