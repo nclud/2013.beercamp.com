@@ -259,7 +259,7 @@
     }
 
     if (this.entity.state.private.class === 'Player') {
-      ctx.drawImage(this.skin, x - halfWidth, y - halfHeight + (halfHeight / 5) + 0.5 | 0, width, height);
+      ctx.drawImage(this.skin, x - halfWidth, y - (halfHeight * 1.1) + 0.5 | 0, width, height);
     } else {
       ctx.drawImage(this.skin, x - halfWidth, y - halfHeight, width, height);
     }
