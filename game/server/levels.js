@@ -16,6 +16,7 @@
     worker.on('message', function(event) {
       var cmd = event.cmd;
       var data = event.data;
+      var entity;
 
       if (cmd === 'update') {
         async.forEach(
@@ -33,9 +34,17 @@
           }
         );
       } else if (cmd === 'remove') {
-        entities.remove(entities, data);
+        entity = entities.global[data];
+
+        if (entity) {
+          entities.remove(entities, data);
+        }
       } else if (cmd === 'beer') {
-        entities.global[data].drink();
+        entity = entities.global[data];
+
+        if (entity) {
+          entity.drink();
+        }
       }
     });
 
