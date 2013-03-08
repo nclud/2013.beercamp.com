@@ -148,7 +148,7 @@
         entity = data.entities[uuid];
 
         if (entity && client.entities[uuid]) {
-          // TODO: if defined on server and client, update state
+          // if defined on server and client, update state
           state = entity.state;
           client.entities[uuid].setPublic(state);
           client.entities[uuid].queue.server.push(client.entities[uuid].getState());
@@ -209,8 +209,7 @@
         uuid = entities[i];
         entity = data.entities[uuid];
 
-        if (client.entities[uuid]) {
-
+        if (entity && client.entities[uuid]) {
           // authoritatively set internal state if player exists on client
           client.entities[uuid].setPublic(entity);
 
@@ -220,7 +219,6 @@
 
           // remove all updates older than one second from interpolation queue
           client.entities[uuid].queue.server = client.entities[uuid].queue.server.filter(core.filterQueue);
-
         }
       }
 
@@ -395,7 +393,7 @@
         uuid = entities[j];
         entity = client.entities[uuid];
 
-        if (entity.state.private.class === order[i]) {
+        if (!entity.state.public.isDead && entity.state.private.class === order[i]) {
           entity.draw(client.ctx, client.canvas.scale);
         }
       }

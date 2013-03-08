@@ -101,8 +101,7 @@
       // check for changed values and push key to delta array
       if (prev[key] !== next[key]) {
         // Do deep comparison for objects (like velocity)
-        if(typeof(prev[key]) === 'object' && _.isEqual(prev[key], next[key])){
-        } else{
+        if(!(typeof(prev[key]) === 'object' && _.isEqual(prev[key], next[key]))){
           deltaKeys.push(key);
         }
       }
