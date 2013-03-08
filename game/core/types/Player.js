@@ -97,7 +97,7 @@
 
     this.timer = {
       start: start,
-      end: start + 180000 // three minutes
+      end: start + 120000 // two minutes
     };
 
     return this;
