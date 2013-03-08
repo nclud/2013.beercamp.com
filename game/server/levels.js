@@ -17,6 +17,8 @@
       var cmd = event.cmd;
       var data = event.data;
       var entity;
+      var player;
+      var beer;
 
       if (cmd === 'update') {
         async.forEach(
@@ -40,10 +42,15 @@
           entities.remove(entities, data);
         }
       } else if (cmd === 'beer') {
-        entity = entities.global[data];
+        player = entities.global[data.player];
+        beer = entities.global[data.beer];
 
-        if (entity) {
-          entity.drink();
+        if (player) {
+          player.drink();
+        }
+
+        if (beer) {
+          entities.remove(entities, data.beer);
         }
       }
     });

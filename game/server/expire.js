@@ -55,7 +55,6 @@
       */
     } else if (powerups.length > max) {
       extra = powerups.length - max;
-      :xa
 
       for (var i = 0; i < extra; i++) {
         uuid = powerups[i].uuid;

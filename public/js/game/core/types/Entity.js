@@ -73,11 +73,20 @@
     // this.state.private initialized as {} in Entity
     if (Object.keys(this.state.public).length) {
       return {
-        uuid: this.uuid,
         state: this.state.public,
         time: Date.now()
       }
     }
+  };
+
+  // Determines if this object can ever move during the game.
+  // Subclasses can override to optimize message communication
+  Entity.prototype.canEverMove = function() {
+    return true;
+  };
+
+  Entity.prototype.class = function() {
+    return this.state.private['class'];
   };
 
   Entity.prototype.getDelta = function(async, _) {
@@ -101,8 +110,7 @@
       // check for changed values and push key to delta array
       if (prev[key] !== next[key]) {
         // Do deep comparison for objects (like velocity)
-        if(typeof(prev[key]) === 'object' && _.isEqual(prev[key], next[key])){
-        } else{
+        if(!(typeof(prev[key]) === 'object' && _.isEqual(prev[key], next[key]))){
           deltaKeys.push(key);
         }
       }
