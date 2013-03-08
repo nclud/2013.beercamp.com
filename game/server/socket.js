@@ -30,6 +30,9 @@
     // turn off websocket debug spam
     io.set('log level', 1);
 
+    // websockets only
+    io.set('transports', ['websocket']);
+
     listen(io, worker);
 
     return {
