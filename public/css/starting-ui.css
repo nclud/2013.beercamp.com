@@ -271,10 +271,10 @@ nav {
 .splash {
   height: 100%;
   background: url(../images/bg-city.jpg) no-repeat center center fixed;
-  -webkit-background-size: 100%;
-  -moz-background-size: 100%;
-  -o-background-size: 100%;
-  background-size: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   -webkit-box-shadow: 0 0 100px 0 black inset;
   -moz-box-shadow: 0 0 100px 0 black inset;
   box-shadow: 0 0 100px 0 black inset;
