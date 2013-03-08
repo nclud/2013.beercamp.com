@@ -45,12 +45,12 @@
             <ul><li>March 9, 2013 @ 11:00pm - Iron Cactus, Austin TX</li></ul>
         </header>
         </div>
-	<!-- scripts -->
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script>
     $(function(){
-        $(".char").click(function(event){
-            var selected_character = $(event.target);
+        $(".char").on('click', function(e){
+            var selected_character = $(e.target);
             var character_id = selected_character.data('character-id');
             window.location = "game.html?as=" + character_id;
         });
