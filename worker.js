@@ -229,7 +229,9 @@ bTest.prototype.addPlayer = function(uuid, entity) {
 
 bTest.prototype.removeBody = function(uuid) {
   // add to queue to clean up after time step completes
-  this.graveyard.push(uuid);
+  if (this.bodies[uuid]) {
+    this.graveyard.push(uuid);
+  }
 }
 
 bTest.prototype.impulse = function(uuid, degrees, power) {

@@ -30,6 +30,9 @@
     // Math.log(0) === -Infinity
     var max = Math.max(5 + Math.floor(Math.log(players.length) * 5), 0);
 
+    var extra;
+    var uuid;
+
     // if fewer than five powerups per player, attempt to set lock and loadEnemies
     if (powerups.length < max) {
       levels.loadPowerup(worker);
@@ -52,9 +55,17 @@
       */
     } else if (powerups.length > max) {
       extra = powerups.length - max;
+      :xa
 
       for (var i = 0; i < extra; i++) {
-        entities.remove(entities, powerups[i].uuid);
+        uuid = powerups[i].uuid;
+
+        worker.send({
+          'cmd': 'remove',
+          'uuid': uuid
+        });
+
+        entities.remove(entities, uuid);
       }
     }
 
