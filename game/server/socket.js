@@ -6,20 +6,15 @@
       require('../core/types'),
       require('./update'),
       require('./entities'),
+      require('./bouncer'),
       require('async'),
       require('redis'),
-      require('socket.io'),
-      require('node-uuid')
+      require('socket.io')
     );
   }
-})(this, function(config, types, update, entities, async, redis, sio, uuid) {
+})(this, function(config, types, update, entities, bouncer, async, redis, sio) {
 
   var Player = types['Player'];
-
-  // queue to enter game
-  var bouncer = {};
-  bouncer.queue = [];
-  bouncer.connected = [];
 
   var skins = [
     'images/char1.png',
@@ -57,40 +52,33 @@
         }
 
         var wait;
-        var queueLength = 30;
-
         // queue sockets rather than ids, as Socket.io lacks a clean API
         // to get socket by id
-        if (bouncer.connected.length >= queueLength) {
-          bouncer.queue.push(socket);
-          socket.emit('queue:enter', bouncer.queue.indexOf(socket) + 1);
+        if (bouncer.isFull()) {
+          bouncer.add(socket);
+          socket.emit('queue:enter', bouncer.getIndex(socket) + 1);
 
           wait = setInterval(function() {
-            var index = bouncer.queue.indexOf(socket);
-            // console.log(index, socket.disconnected);
-
-            // remove disconnected sockets from queue
             if (socket.disconnected) {
-              // remove socket from queue and cancel interval
+              // clearInterval and remove disconnected socket from queue
               clearInterval(wait);
-              bouncer.queue.splice(index, 1);
+              bouncer.remove(socket);
               return;
             }
 
-            if (bouncer.connected.length < queueLength) {
-              // remove socket from queue and cancel interval
+            if (!bouncer.isFull()) {
+              // clearInterval, remove socket from queue and connect
               clearInterval(wait);
-              bouncer.queue.splice(index, 1);
-              bouncer.connected.push(socket);
-              socket.emit('queue:exit');
-
+              bouncer.connect(socket);
               enterGame(character, socket, worker);
+              socket.emit('queue:exit');
             } else {
               // update position in queue
-              socket.emit('queue:update', index + 1);
+              socket.emit('queue:update', bouncer.getIndex(socket) + 1);
             }
           }, 2000);
         } else {
+          bouncer.connect(socket);
           enterGame(character, socket, worker);
         }
 
@@ -135,7 +123,7 @@
 
     socket.on('disconnect', function() {
       // remove player from connected array
-      bouncer.connected.splice(bouncer.connected.indexOf(socket), 1);
+      bouncer.disconnect(socket);
 
       // remove player from server
       entities.remove(entities, player.uuid);

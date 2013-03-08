@@ -3,13 +3,14 @@
     // Node.js
     module.exports = factory(
       require('./entities'),
+      require('./bouncer'),
       require('./levels'),
       require('async'),
       require('redis'),
       require('underscore')
     );
   }
-})(this, function(entities, levels, async, redis, _) {
+})(this, function(entities, bouncer, levels, async, redis, _) {
 
   var init = function(socket) {
 
@@ -35,7 +36,14 @@
     // get full state, emit to clients
     entities.state(data, function() {
       data.time = Date.now();
-      socket.io.sockets.volatile.emit('state:full', data);
+
+      var connected = bouncer.connected;
+      var length = connected.length;
+
+      for (var i = 0; i < length; i++) {
+        connected[i].volatile.emit('state:full', data);
+      }
+
       // console.log('full', data.entities);
 
       /*
@@ -59,7 +67,12 @@
       data.time = Date.now();
       // Don't send an update if no positions have been updated.
       if(Object.keys(data.entities).length){
-          socket.io.sockets.volatile.emit('state:delta', data);
+        var connected = bouncer.connected;
+        var length = connected.length;
+
+        for (var i = 0; i < length; i++) {
+          connected[i].volatile.emit('state:delta', data);
+        }
       }
     });
 

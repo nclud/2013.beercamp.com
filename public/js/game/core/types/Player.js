@@ -25,7 +25,7 @@
     properties.width = properties.width ||  2.5;
     properties.height = properties.height ||  3;
     properties.fixed = properties.fixed ||  true;
-    properties.speed = properties.speed ||  240;
+    properties.speed = properties.speed ||  230;
 
     properties.sprite = properties.sprite || {
       direction: 'right',
