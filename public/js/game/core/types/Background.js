@@ -26,31 +26,37 @@
 	};
 
 	Background.prototype = new Rectangle();
-  Background.prototype.constructor = Background;
+    Background.prototype.constructor = Background;
 
-  Background.prototype.drawType = function(ctx, scale) {
-    // Rectangle.prototype.drawType.call(this, ctx, scale);
+    // Determines if this object can ever move during the game.
+    // Subclasses can override to optimize message communication
+    Background.prototype.canEverMove = function() {
+        return false;
+    };
 
-    // round to whole pixel
-    // interpolated x and y coords
-    var x = (this.state.private.x * scale + 0.5) | 0;
-    var y = (this.state.private.y * scale + 0.5) | 0;
+    Background.prototype.drawType = function(ctx, scale) {
+        // Rectangle.prototype.drawType.call(this, ctx, scale);
 
-    var width = ((this.state.private.width * scale) + 0.5) | 0;
-    var height = ((this.state.private.height * scale) + 0.5) | 0;
+        // round to whole pixel
+        // interpolated x and y coords
+        var x = (this.state.private.x * scale + 0.5) | 0;
+        var y = (this.state.private.y * scale + 0.5) | 0;
 
-    var halfWidth = ((this.state.private.width * scale / 2) + 0.5) | 0;
-    var halfHeight = ((this.state.private.height * scale / 2) + 0.5) | 0;
+        var width = ((this.state.private.width * scale) + 0.5) | 0;
+        var height = ((this.state.private.height * scale) + 0.5) | 0;
 
-    ctx.save();
+        var halfWidth = ((this.state.private.width * scale / 2) + 0.5) | 0;
+        var halfHeight = ((this.state.private.height * scale / 2) + 0.5) | 0;
 
-    if (this.actor) {
-      this.actor.draw(ctx, x - halfWidth, y - halfHeight, scale);
+        ctx.save();
+
+        if (this.actor) {
+          this.actor.draw(ctx, x - halfWidth, y - halfHeight, scale);
+        }
+
+        ctx.restore();
     }
 
-    ctx.restore();
-  }
-
-  return Background;
+    return Background;
 
 });

@@ -176,7 +176,9 @@
 
           msg[entity.uuid] = state;
         } else {
-          delete client.entities[uuid];
+          if(client.entities[uuid].canEverMove()){
+            delete client.entities[uuid];
+          }
         }
       }
 

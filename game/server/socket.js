@@ -98,7 +98,8 @@
     // set uuid and send to client
     socket.emit('uuid', player.uuid);
 
-    addPlayer(socket, worker, player); 
+    addPlayer(socket, worker, player);
+    update.sendClientGameworld(socket);
   };
 
   var addPlayer = function(socket, worker, player) {

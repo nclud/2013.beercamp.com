@@ -16,7 +16,7 @@
 
     // init full state update loop, fixed time step in milliseconds
     setInterval((function() {
-      state(socket);
+      state(socket, false);
     }), 1000);
 
     // init delta state update loop, fixed time step in milliseconds
@@ -28,20 +28,27 @@
 
   };
 
-  var state = function(socket) {
+  var sendClientGameworld = function(socket){
+    state(socket, true);
+  };
+  var state = function(socket, sendCompleteWorld) {
 
     var data = {};
     data.entities = {};
 
     // get full state, emit to clients
-    entities.state(data, function() {
+    entities.state(data, sendCompleteWorld, function() {
       data.time = Date.now();
 
       var connected = bouncer.connected;
       var length = connected.length;
 
       for (var i = 0; i < length; i++) {
-        connected[i].volatile.emit('state:full', data);
+        if(sendCompleteWorld){ // Clients need the whole gameworld the first go around.
+            connected[i].emit('state:full', data);
+        } else{
+           connected[i].volatile.emit('state:full', data);
+        }
       }
 
       // console.log('full', data.entities);
@@ -79,7 +86,8 @@
   };
 
   return {
-    init: init
+    init: init,
+    sendClientGameworld: sendClientGameworld
   };
 
 });

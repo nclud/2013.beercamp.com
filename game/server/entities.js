@@ -35,8 +35,7 @@
     }
   };
 
-  var state = function(data, callback) {
-
+  var state = function(data, sendCompleteWorld, callback) {
     async.forEach(
       this.local,
       (function(uuid, callback) {
@@ -48,7 +47,9 @@
         }
 
         if (state) {
-          data.entities[uuid] = state;
+          if(sendCompleteWorld || entity.canEverMove()){
+            data.entities[uuid] = state;
+          }
         }
 
         // notify async.forEach that function has completed

@@ -78,12 +78,12 @@ header ul {
     padding:1.45em 0 0 4em;
     font:normal 115%/1 'Monstrrr-Serif', sans-serif;*/
     margin: 0;
-	text-align: center;
-	padding: 0;
-	font: normal 115%/1 'Monstrrr-Serif', sans-serif;
-	top: 1.4em;
-	position: absolute;
-	left: 30%;
+    text-align: center;
+    padding: 0;
+    font: normal 115%/1 'Monstrrr-Serif', sans-serif;
+    top: 1.4em;
+    position: absolute;
+    left: 30%;
 }
 header li {
     display:inline;
@@ -109,24 +109,24 @@ header img {
 
 @media screen and (max-width: 1120px){
 
-	header h1{
-		font-size:230%;
-	}
+    header h1{
+        font-size:230%;
+    }
 
-	header ul{
-		font: normal 105%/1 'Monstrrr-Serif', sans-serif;
-		top: 1.5em;
-	}
+    header ul{
+        font: normal 105%/1 'Monstrrr-Serif', sans-serif;
+        top: 1.5em;
+    }
 }
 
 @media screen and (max-width: 1050px){
-	header img{
-		width:8%;
-		margin: 0 0 0 .5em;
-	}
+    header img{
+        width:8%;
+        margin: 0 0 0 .5em;
+    }
 
-	header img[alt^="nclud"]{
-		width: 2.5%;
-	}
+    header img[alt^="nclud"]{
+        width: 2.5%;
+    }
 
 }
