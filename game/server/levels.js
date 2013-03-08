@@ -142,10 +142,6 @@
       'cmd': 'add',
       'msg': data
     });
-
-    for (var k = 0; k < 10; k++) {
-      loadPowerup(worker);
-    }
   };
 
   var loadPowerup = function(worker) {
