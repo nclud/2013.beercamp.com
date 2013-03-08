@@ -34,35 +34,38 @@ header {
     bottom: 0;
     z-index: 9999;
 }
-header.cf {width: 100%;}
+
+header.cf {
+    width: 100%;
+    padding: 0;
+}
+
+.header-logos {
+    float: right;
+    margin: 5px 15px 0 0;
+    height: 55px;
+    width: 450px;
+}
+
 header h1 {
-    /*position:absolute;
-     bottom:-70px;
-     left:0;
-     text-align:center;
-     width:100%;
-     z-index:3;*/
     line-height:1;
     font-family:'Monstrrr-Bold', 'lucida grande', tahoma, verdana, arial, sans-serif;
     font-size:250%;
-    /*width:7.75em;
-    margin:0;
-    float:left;*/
     position:absolute;
     left:.5em;
     top:-.35em;
+    width: 290px;
 }
+
 h1 em {
     font:normal 32.5%/.7 'Monstrrr-Serif', sans-serif;
-    /*border:1px solid rgba(255,255,255,0.15);
-    padding:.5em .5em .25em;
-    background:rgba(0,0,0,0.35);*/
     display:inline-block;
     border-radius:4px;
     position:relative;
     top:-.65em;
     left:-.25em;
 }
+
 h1 em:before {
     content:"/";
     display:block;
@@ -70,26 +73,21 @@ h1 em:before {
     left:-.5em;
     top:0;
 }
-header ul {
-    /*float:right;
-    margin:0 auto;
-    width:100%;
-    text-align:center;
-    padding:1.45em 0 0 4em;
-    font:normal 115%/1 'Monstrrr-Serif', sans-serif;*/
-    margin: 0;
-    text-align: center;
+
+header ul.header-location-meta {
+    margin: 25px 0 0 0;
+    /*text-align: center;
+    top: 1.4em;*/
     padding: 0;
     font: normal 115%/1 'Monstrrr-Serif', sans-serif;
-    top: 1.4em;
     position: absolute;
     left: 30%;
 }
+
 header li {
     display:inline;
     list-style:none;
     padding:0 1em 0;
-    /*border-right:1px solid rgba(255,255,255,0.25);*/
 }
 header li:first-child {
     padding-left:0;
@@ -104,8 +102,6 @@ header img {
     top:.75em;
     margin:0 0 0 1em;
 }
-
-/* header things */
 
 @media screen and (max-width: 1120px){
 
