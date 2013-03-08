@@ -1,9 +1,11 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\000033}}
 html, body {
   overflow: hidden;
   position: relative;
 }
 
-html, body, #main  {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\000038}}
+html, body, #main {
   width: 100%;
   height: 100%;
   min-height: 100%;
@@ -11,47 +13,62 @@ html, body, #main  {
   padding: 0;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000316}}
 body {
-  -webkit-transition: top 0.1s ease;
-    -webkit-font-smoothing: antialiased;
-    font-family: sans-serif;
-    font-weight: bold;
-    text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-align: center;
+  -webkit-transition-property: top;
+  -moz-transition-property: top;
+  -o-transition-property: top;
+  transition-property: top;
+  -webkit-transition-duration: 0.1s;
+  -moz-transition-duration: 0.1s;
+  -o-transition-duration: 0.1s;
+  transition-duration: 0.1s;
+  -webkit-transition-timing-function: ease-in;
+  -moz-transition-timing-function: ease-in;
+  -o-transition-timing-function: ease-in;
+  transition-timing-function: ease-in;
+  -webkit-font-smoothing: antialiased;
 }
-
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000324}}
 body.game {
-    background-image: url('../images/background.jpg');
-    background-size: cover;
+  background-image: url("../images/background.jpg");
+  background-size: cover;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000330}}
 a {
-	color: #66cccc;
+  color: #66cccc;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000334}}
 #main:after {
-	background: rgba(255, 255, 255, 0.18);
-	content: '';
-	display: block;
-	height: 550px;
-	left: -150px;
-	position: absolute;
-	top: -400px;
-	width: 900px;
-	z-index: 2;
-	-webkit-transform: rotate(-20deg);
-	-moz-transform: rotate(-20deg);
-	-ms-transform: rotate(-20deg);
-	-o-transform: rotate(-20deg);
-	transform: rotate(-20deg);
+  background: rgba(255, 255, 255, 0.18);
+  content: '';
+  display: block;
+  height: 550px;
+  left: -150px;
+  position: absolute;
+  top: -400px;
+  width: 900px;
+  z-index: 2;
+  -webkit-transform: rotate(-20deg);
+  -moz-transform: rotate(-20deg);
+  -ms-transform: rotate(-20deg);
+  -o-transform: rotate(-20deg);
+  transform: rotate(-20deg);
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000347}}
 canvas {
   position: absolute;
   top: 0;
   left: 120px;
-
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000354}}
 #stats {
   position: absolute;
   top: 20px;
@@ -60,6 +77,7 @@ canvas {
   display: none;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000360}}
 .gameover, #queue {
   overflow: auto;
   position: absolute;
@@ -72,6 +90,7 @@ canvas {
   background-color: #1a1a1a;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000373}}
 #queue .container {
   width: 100%;
   height: 100%;
@@ -82,7 +101,7 @@ canvas {
   margin: 0 auto;
   background-size: 100%;
 }
-
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000382}}
 #queue .container img {
   width: 100%;
   position: absolute;
