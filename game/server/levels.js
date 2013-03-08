@@ -4,11 +4,10 @@
     module.exports = factory(
       require('../core/types'),
       require('./entities'),
-      require('./npcs'),
       require('async')
     );
   }
-})(this, function(types, entities, npcs, async) {
+})(this, function(types, entities, async) {
   
   var Platform = types['Platform'];
   var Powerup = types['Powerup'];
