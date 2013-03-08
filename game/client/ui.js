@@ -147,18 +147,18 @@
     }
   })();
 
-
-  var updateAmmo = function(player){
-      if (player) {
-          var beers =  player.state.public.beer;
-          for(var i = 8; i > beers; i--){
-            $('.weapon[data-count="' + i + '"]').removeClass('added');
-          }
-          for(var i = 1; i <= beers && i <= 8; i++){
-              $('.weapon[data-count="' + i + '"]').addClass('added');
-          }
+  var updateAmmo = function(player) {
+    if (player) {
+      var beers = player.state.public.beer;
+      for(var i = 8; i > beers; i--) {
+        $('.weapon[data-count="' + i + '"]').removeClass('added');
       }
+      for(var j = 1; j <= beers && j <= 8; j++) {
+        $('.weapon[data-count="' + j + '"]').addClass('added');
+      }
+    }
   };
+
   // Sets the initial 'character class' for the player's timer.
   // @param [Player] player Assumed to exist already.
   var setPlayerIcon = function(player){
