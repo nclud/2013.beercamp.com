@@ -1,0 +1,89 @@
+@import "compass";
+
+html, body {
+  overflow: hidden;
+  position: relative;
+}
+
+html, body, #main  {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+    font-family: sans-serif;
+    font-weight: bold;
+    text-align: center;
+    @include transition-property(top);
+    @include transition-duration(0.1s);
+    @include transition-timing-function(ease-in);
+    -webkit-font-smoothing: antialiased;
+    &.game {
+        background-image: url('../images/background.jpg');
+        background-size: cover;
+    }
+}
+
+a {
+    color: #66cccc;
+}
+
+#main:after {
+    background: rgba(255, 255, 255, 0.18);
+    content: '';
+    display: block;
+    height: 550px;
+    left: -150px;
+    position: absolute;
+    top: -400px;
+    width: 900px;
+    z-index: 2;
+    @include transform( rotate(-20deg) );
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 120px;
+
+}
+
+#stats {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.gameover, #queue {
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: none;
+  background-color: #1a1a1a;
+}
+
+#queue .container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  display: block;
+  clear: both;
+  margin: 0 auto;
+  background-size: 100%;
+}
+
+#queue .container img {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
