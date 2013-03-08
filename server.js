@@ -31,6 +31,11 @@ console.log('Server started, listening on port ' + config.port);
 
 // http config
 var static = require('node-static');
+
+// add custom mime types
+static.mime.addContentType('svgz', 'application/svg+xml');
+static.mime.addContentType('woff', 'application/font-woff');
+
 var file = new (static.Server)('./public');
 
 // require server game modules, init using dependency injection if required

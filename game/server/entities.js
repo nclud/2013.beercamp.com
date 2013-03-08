@@ -83,16 +83,16 @@
   /*
   var add = function(store, data, global, uuid, callback) {
 
-    store.hgetall('npc:' + uuid, function(err, res) {
+    store.hgetall('entity:' + uuid, function(err, res) {
       if (res) {
-        // init npc and add to global object
-        var npc = global[uuid] = new Enemy(parseInt(res.x), parseInt(res.y), parseInt(res.direction), uuid);
+        // init entity and add to global object
+        var entity = global[uuid] = new Enemy(parseInt(res.x), parseInt(res.y), parseInt(res.direction), uuid);
 
-        var state = npc.getState();
+        var state = entity.getState();
 
         // don't pass undefined state
         if (state) {
-          data.npcs[uuid] = state;
+          data.entities[uuid] = state;
         }
       }
 

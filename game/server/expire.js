@@ -27,9 +27,16 @@
       return entity.state.public.class === 'Powerup';
     });
 
+    // Math.log(0) === -Infinity
+    var max = Math.max(5 + Math.floor(Math.log(players.length) * 5), 0);
+
+    var extra;
+    var uuid;
+
     // if fewer than five powerups per player, attempt to set lock and loadEnemies
-    if (powerups.length < 5 * players.length) {
+    if (powerups.length < max) {
       levels.loadPowerup(worker);
+
       /*
       // set lock to prevent thundering herd
       store.setnx('lock:npc', Date.now() + 1000, function(err, res) {
@@ -46,6 +53,20 @@
         }
       });
       */
+    } else if (powerups.length > max) {
+      extra = powerups.length - max;
+      :xa
+
+      for (var i = 0; i < extra; i++) {
+        uuid = powerups[i].uuid;
+
+        worker.send({
+          'cmd': 'remove',
+          'uuid': uuid
+        });
+
+        entities.remove(entities, uuid);
+      }
     }
 
   };

@@ -21,6 +21,12 @@
 
   var keyInteraction = function(event) {
     var code = event.keyCode;
+
+    // toggle stats on ctrl-r
+    if (code === 82 && event.ctrlKey && (event.type === 'keydown')) {
+      $('#stats').toggle();
+    }
+
     if(keys[code]) {
       event.preventDefault();
       pressed[keys[code]] = (event.type === 'keydown') ? true : false;
