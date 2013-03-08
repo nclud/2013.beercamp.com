@@ -1,10 +1,8 @@
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\000033}}
 html, body {
   overflow: hidden;
   position: relative;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\000038}}
 html, body, #main {
   width: 100%;
   height: 100%;
@@ -13,7 +11,6 @@ html, body, #main {
   padding: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000316}}
 body {
   font-family: sans-serif;
   font-weight: bold;
@@ -32,18 +29,15 @@ body {
   transition-timing-function: ease-in;
   -webkit-font-smoothing: antialiased;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000324}}
 body.game {
   background-image: url("../images/background.jpg");
   background-size: cover;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000330}}
 a {
   color: #66cccc;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000334}}
 #main:after {
   background: rgba(255, 255, 255, 0.18);
   content: '';
@@ -61,23 +55,18 @@ a {
   transform: rotate(-20deg);
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000347}}
 canvas {
   position: absolute;
   top: 0;
   left: 120px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000354}}
 #stats {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 10;
-  display: none;
+  top: 0;
+  left: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000360}}
 .gameover, #queue {
   overflow: auto;
   position: absolute;
@@ -90,7 +79,6 @@ canvas {
   background-color: #1a1a1a;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000373}}
 #queue .container {
   width: 100%;
   height: 100%;
@@ -101,7 +89,6 @@ canvas {
   margin: 0 auto;
   background-size: 100%;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/beercamp\/public\/sass\/screen\.scss}line{font-family:\0000382}}
 #queue .container img {
   width: 100%;
   position: absolute;
