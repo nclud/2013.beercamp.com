@@ -138,7 +138,6 @@
       var entity;
 
       var state;
-      var sprite;
 
       var msg = {};
 
@@ -149,32 +148,17 @@
 
         if (entity && client.entities[uuid]) {
           // if defined on server and client, update state
-          state = entity.state;
+          state = entity;
           client.entities[uuid].setPublic(state);
           client.entities[uuid].queue.server.push(client.entities[uuid].getState());
         } else if (entity) {
           // if defined on server but not on client, create new Entity on client
-          state = entity.state;
-          sprite = state.sprite;
-
-          // TODO: create correct entity type
-          if (state.src) {
-            var img = new Image();
-
-            // encapsulate to keep correct state and uuid in callback
-            (function(state, uuid) {
-              img.addEventListener('load', function() {
-                state.img = this;
-                client.entities[uuid] = new types[state.class](state, uuid, client);
-              });
-            })(state, uuid, client);
-
-            img.src = state.src;
-          } else {
-            client.entities[uuid] = new types[state.class](state, uuid, client);
+          state = entity;
+          client.entities[uuid] = new types[state.etype](state, uuid, client);
+          if(client.entities[uuid].needsImage()){
+            client.entities[uuid].createImage(client);
           }
-
-          msg[entity.uuid] = state;
+          msg[uuid] = state;
         } else {
           if(client.entities[uuid].canEverMove()){
             delete client.entities[uuid];
@@ -395,7 +379,7 @@
         uuid = entities[j];
         entity = client.entities[uuid];
 
-        if (!entity.state.public.isDead && entity.state.private.class === order[i]) {
+        if (!entity.state.public.isDead && entity.shouldRenderAs(order[i])) {
           entity.draw(client.ctx, client.canvas.scale);
         }
       }

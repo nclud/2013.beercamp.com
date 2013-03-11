@@ -43,7 +43,7 @@
         var state;
 
         if (entity) {
-          state = entity.getState();
+          state = entity.serialize();
         }
 
         if (state) {

@@ -15,6 +15,7 @@
       './types/Platform',
       './types/Powerup',
       './types/Player',
+      './types/Beer',
       './types/Actor'
     ], factory);
   }
@@ -30,6 +31,7 @@
     Platform: require('./types/Platform'),
     Powerup: require('./types/Powerup'),
     Player: require('./types/Player'),
+    Beer: require('./types/Beer'),
     Actor: require('./types/Actor')
   };
 
