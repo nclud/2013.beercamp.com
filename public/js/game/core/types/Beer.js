@@ -55,7 +55,7 @@
 
   Beer.prototype.serialize = function() {
     var state = _.pick(this.state.public, "x", "y");
-    state.etype = 'Beer';
+    state.t = 'Beer';
 
     return state;
   };

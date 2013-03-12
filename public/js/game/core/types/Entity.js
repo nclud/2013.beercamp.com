@@ -4,7 +4,10 @@
     module.exports = factory(
       require('../core'),
       require('../time'),
-      require('idgen')
+      require('idgen'),
+      undefined,
+      undefined,
+      require('underscore')
     );
   } else if(typeof define === 'function' && define.amd) {
     // AMD
@@ -13,10 +16,11 @@
       '../time',
       undefined,
       './Actor',
-      './Graphic'
+      './Graphic',
+      'underscore'
     ], factory);
   }
-})(this, function(core, time, idgen, Actor, Graphic) {
+})(this, function(core, time, idgen, Actor, Graphic, _) {
 
   var Entity = function(properties, id, client) {
     if(idgen) {
@@ -91,8 +95,18 @@
     for(var property in properties) {
       this.state.public[property] = properties[property];
     }
+    this.updatePositionAndVelocity();
   };
 
+  Entity.prototype.updatePositionAndVelocity = function(){
+    // Positions/velocity should only be exact to a small level of precision.
+    this.state.public.x = core.toFixed(this.state.public.x);
+    this.state.public.y = core.toFixed(this.state.public.y);
+    if(this.state.public.velocity){
+      this.state.public.velocity.x = core.toFixed(this.state.public.velocity.x);
+      this.state.public.velocity.y = core.toFixed(this.state.public.velocity.y);
+    }
+  };
 
 
   // Used to render objects on the canvas.
@@ -105,7 +119,7 @@
   Entity.prototype.serialize = function() {
     var state = this.state.public;
     if(Object.keys(state).length) {
-      state.etype = state.class;  // Which type of class should be created during initialization (allows for subclasses)
+      state.t = state.class;  // Which type of class should be created during initialization (allows for subclasses)
       return state;
     }
   };

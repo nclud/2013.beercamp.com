@@ -4,17 +4,22 @@
     module.exports = factory(
       require('../core'),
       require('../time'),
-      require('./Rectangle')
+      require('./Rectangle'),
+      require('underscore'),
+      require('./Entity')
+
     );
   } else if (typeof define === 'function' && define.amd) {
     // AMD
     define([
       '../core',
       '../time',
+      './Rectangle',
+      'underscore',
       './Rectangle'
     ], factory);
   }
-})(this, function(core, time, Rectangle) {
+})(this, function(core, time, Rectangle, _, Entity) {
 
 	var Player = function(properties, id, client) {
     properties = properties || {};
@@ -112,6 +117,43 @@
     this.state.public['intoxication'] += 5;
     // console.log('Beer', this.state.public['beer'], 'Drunk', this.state.public['intoxication']);
 	};
+
+
+  // Override Entity.setPublic to convert from serialized attributes to better named ones.
+  Player.prototype.setPublic = function(properties) {
+    properties = _.defaults(properties, {
+      velocity: properties.v
+    });
+
+    if(properties.ix && !properties.intoxication){
+      properties.intoxication = properties.ix;
+    }
+    if(properties.j && !properties.isJumping){
+      properties.isJumping = properties.j;
+    }
+    if(properties.mv && !properties.isMoving){
+      properties.isMoving = properties.mv;
+    }
+    if(properties.d && !properties.direction){
+      properties.direction = properties.d;
+    }
+    Entity.prototype.setPublic.call(this, properties);
+  };
+
+  Player.prototype.serialize = function() {
+    return this.optimizeSerializedAttributes(this.state.public);
+  };
+
+  Player.prototype.optimizeSerializedAttributes = function(currentState){
+    var state = _.omit(currentState, "class", "type", "angle", "width", "height", "sprite", "fixed", "speed", "velocity", "intoxication", "isJumping", "isMoving", "direction");
+    state.v = currentState.velocity;
+    state.t = 'Player';
+    state.ix = currentState.intoxication ? currentState.intoxication : undefined;
+    state.j = !_.isUndefined(currentState.isJumping) ? currentState.isJumping : undefined;
+    state.mv = !_.isUndefined(currentState.isMoving) ? currentState.isMoving : undefined;
+    state.d = !_.isUndefined(currentState.direction) ? currentState.direction : undefined;
+    return state;
+  };
 
 	Player.prototype.sendImpulse = function(worker, degrees) {
     worker.send({

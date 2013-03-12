@@ -154,7 +154,7 @@
         } else if (entity) {
           // if defined on server but not on client, create new Entity on client
           state = entity;
-          client.entities[uuid] = new types[state.etype](state, uuid, client);
+          client.entities[uuid] = new types[state.t](state, uuid, client);
           if(client.entities[uuid].needsImage()){
             client.entities[uuid].createImage(client);
           }
