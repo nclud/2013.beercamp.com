@@ -74,13 +74,13 @@
         ui.updateAmmo(player);
 
         // update timer
-        var now = Date.now()
-        var percent = 100 - ((player.timer.end - now) * 100 / (player.timer.end - player.timer.start));
+        var percent = player.timer.update();
+        console.log(percent);
         clock.animate(percent);
 
         // end game on timer expire
         // TODO: make this update from server side
-        if (now > player.timer.end) {
+        if (player.timer.now > player.timer.stop - player.timer.start) {
           player.gameover = true;
 
           // show end game screen

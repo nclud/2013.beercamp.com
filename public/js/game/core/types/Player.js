@@ -104,10 +104,18 @@
 
     // end game when timer expires
     var start = Date.now();
+    var stop = start + 120000; // two minutes
 
     this.timer = {
       start: start,
-      end: start + 120000 // two minutes
+      stop: stop,
+      now: Date.now() - start,
+      update: function() {
+        // TODO: refactor to update timer.now from server
+        this.now = Date.now() - this.start;
+
+        return this.now * 100 / (this.stop - this.start);
+      }
     };
 
     return this;
