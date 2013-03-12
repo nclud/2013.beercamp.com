@@ -210,7 +210,7 @@ nav {
     clear: none;
     background-size: 1200%;
     position: relative;
-    background-position: 1%;
+    background-position-x: 1%;
 }
 
 .char:hover div:before, .controls + div:before {
