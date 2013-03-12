@@ -23,6 +23,23 @@
   };
   */
 
+  // Used to prevent sending overly precise numbers from server to client.
+  // Integers should not be given additional precision
+  var toFixed = function(number){
+    if(typeof number.toFixed !== 'function'){
+      number = parseFloat(number);
+    }
+    if(this.isInt(number)){
+      return number;
+    }
+    return number.toFixed(2);
+
+
+  };
+
+  var isInt = function(number) {
+     return number % 1 === 0;
+  };
   // linear interpolation
   var lerp = function(prev, next, time) {
     var _prev = Number(prev);
@@ -141,7 +158,9 @@
     initGlobalVariables: initGlobalVariables,
     isCollision: isCollision,
     loadScene: loadScene,
-    filterQueue: filterQueue
+    filterQueue: filterQueue,
+    toFixed:toFixed,
+    isInt:isInt
   };
 
 });
