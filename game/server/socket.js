@@ -54,6 +54,8 @@
           character = 0;
         }
 
+        var charName = data.name;
+
         var wait;
         // queue sockets rather than ids, as Socket.io lacks a clean API
         // to get socket by id
@@ -73,7 +75,7 @@
               // clearInterval, remove socket from queue and connect
               clearInterval(wait);
               bouncer.connect(socket);
-              enterGame(character, socket, worker);
+              enterGame(character, charName, socket, worker);
               socket.emit('queue:exit');
             } else {
               // update position in queue
@@ -82,7 +84,7 @@
           }, 2000);
         } else {
           bouncer.connect(socket);
-          enterGame(character, socket, worker);
+          enterGame(character, charName, socket, worker);
         }
 
       });
@@ -90,12 +92,13 @@
 
   };
 
-  var enterGame = function(character, socket, worker) {
+  var enterGame = function(character, charName, socket, worker) {
     // TODO: switch to Connect sessions?
     var player = new Player({
       x: (Math.random() * 44) + 1,
       y: 58, // always spawn on bottom level
-      src: skins[character]
+      src: skins[character],
+      name: charName
     });
     
     // set uuid and send to client

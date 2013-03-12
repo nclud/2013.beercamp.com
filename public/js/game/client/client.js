@@ -104,7 +104,9 @@
 
     socket.on('game:load', function(data) {
       var character_id = getParameter('as');
-      socket.emit('player:select', { 'character-id' : character_id });
+      var charName = getParameter('name');
+
+      socket.emit('player:select', { 'character-id' : character_id, name: charName });
     });
 
     // wait in queue
