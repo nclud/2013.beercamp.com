@@ -184,6 +184,11 @@
   };
 
   Player.prototype.fire = function(worker) {
+    if (!this.state.public.beer) return;
+
+    // consume beer
+    this.state.public.beer--;
+
     var x = this.state.public.x;
     var y = this.state.public.y;
 
