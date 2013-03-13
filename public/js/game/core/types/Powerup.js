@@ -16,11 +16,11 @@
   }
 })(this, function(core, time, Rectangle) {
 
-	var Powerup = function(properties, id, client) {
+  var Powerup = function(properties, id, client) {
     properties = properties || {};
     properties.class = properties.class || 'Powerup';
     properties.type = properties.type || 'static';
-    
+
     properties.angle = properties.angle || 0;
     properties.width = properties.width || 2;
     properties.height = properties.height || 1.2;
@@ -30,13 +30,14 @@
     Rectangle.call(this, properties, id, client);
 
     return this;
-	};
+  };
 
-	Powerup.prototype = new Rectangle();
+  Powerup.prototype = new Rectangle();
   Powerup.prototype.constructor = Powerup;
 
+
   Powerup.prototype.drawType = function(ctx, scale) {
-    Rectangle.prototype.drawType.call(this, ctx, scale);
+//    Rectangle.prototype.drawType.call(this, ctx, scale);
 
     // round to whole pixel
     // interpolated x and y coords
@@ -52,11 +53,11 @@
     ctx.save();
 
     if (this.actor) {
-      this.actor.draw(ctx, x - halfWidth, y - halfHeight, scale);
+      this.actor.draw(ctx, x, y, scale);
     }
 
     ctx.restore();
-  }
+  };
 
   return Powerup;
 

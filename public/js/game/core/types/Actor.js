@@ -64,8 +64,9 @@
     var ctx = this.skin.getContext('2d');
     var scale = canvas.scale;
 
-    this.skin.width = sprite.width * scale;
-    this.skin.height = sprite.height * scale;
+    var dpr = this.skin.dpr = window.devicePixelRatio;
+    this.skin.width = sprite.width * scale * dpr;
+    this.skin.height = sprite.height * scale * dpr;
     this.skin.scale = sprite.scale;
 
     // render to offscreen canvas
@@ -80,15 +81,13 @@
       this[mirror] = this.renderToCanvas(img, sprite, scale, true);
     }
 
-    // DEBUG: render full skin
     /*
-    if (this.entity.state.private.class === 'Platform') {
-      this.skin.width = cached.width;
-      this.skin.height = cached.height;
-    }
+    // DEBUG: render full skin
+    this.skin.width = cached.width;
+    this.skin.height = cached.height;
     */
 
-    ctx.drawImage(cached, 0, 0, cached.width / 2, cached.height / 2);
+    ctx.drawImage(cached, 0, 0);
   };
 
   Actor.prototype.renderToCanvas = function(img, sprite, scale, mirror) {
@@ -96,10 +95,12 @@
     var ctx = buffer.getContext('2d');
 
     var ratio = img.width / img.height;
+    var dpr = this.skin.dpr;
 
-    // TODO: where is this 10 value coming from? is ratio being used correctly?
-    var width = buffer.width = sprite.width * sprite.scale * ratio * scale;
-    var height = buffer.height = sprite.height * sprite.scale * scale;
+    // round to whole pixel
+    // TODO: what is the role of sprite.scale?
+    var width = buffer.width = (sprite.width * sprite.scale * ratio * scale * dpr) + 0.5 | 0;
+    var height = buffer.height = (sprite.height * sprite.scale * scale * dpr) + 0.5 | 0;
 
     if (mirror) {
       ctx.translate(width, 0);
@@ -120,11 +121,11 @@
     var ctx = skin.getContext('2d');
 
     var cached = this.cached;
-    var xShift = this.frame * cached.width / this.xMax / 2
-    var yShift = yStart * cached.height / this.yMax / 2;
+    var xShift = this.frame * cached.width / this.xMax;
+    var yShift = yStart * cached.height / this.yMax;
 
     ctx.clearRect(0, 0, skin.width, skin.height);
-    ctx.drawImage(cached, -xShift, -yShift, cached.width / 2, cached.height / 2);
+    ctx.drawImage(cached, -xShift, -yShift);
   };
 
   Actor.prototype.drawFrame = function(yStart, scale) {
@@ -156,10 +157,10 @@
     }
 
     this.frame = start + delta;
-    xShift = this.frame * cached.width / this.xMax / 2;
-    yShift = yStart * cached.height / this.yMax / 2;
+    xShift = this.frame * cached.width / this.xMax;
+    yShift = yStart * cached.height / this.yMax;
 
-    ctx.drawImage(cached, -xShift, -yShift, cached.width / 2, cached.height / 2);
+    ctx.drawImage(cached, -xShift, -yShift);
   };
 
   Actor.prototype.update = function(yStart, scale) {
@@ -191,6 +192,13 @@
 
   Actor.prototype.draw = function(ctx, x, y, scale) {
     var state = this.entity.state.public;
+
+    var dpr = this.skin.dpr;
+    var width = (this.skin.width / dpr) + 0.5 | 0;
+    var height = (this.skin.height / dpr) + 0.5 | 0;
+
+    var halfWidth = (this.skin.width / dpr / 2) + 0.5 | 0;
+    var halfHeight = (this.skin.height / dpr / 2) + 0.5 | 0;
 
     var yStart = 0;
     var intoxication = state['intoxication'];
@@ -250,7 +258,11 @@
         break;
     }
 
-    ctx.drawImage(this.skin, x, y);
+    if (this.entity.state.private.class === 'Player') {
+      ctx.drawImage(this.skin, x - halfWidth, y - (halfHeight * 1.1) + 0.5 | 0, width, height);
+    } else {
+      ctx.drawImage(this.skin, x - halfWidth, y - halfHeight, width, height);
+    }
   };
 
   return Actor;

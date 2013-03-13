@@ -16,20 +16,26 @@
   var local = [];
 
   var remove = function(server, uuid, callback) {
-    server.local = _.filter(server.local, function(npc) {
-      return npc !== uuid;
-    });
-
     if (server.global && server.global[uuid]) {
-      delete server.global[uuid];
+      // cleanup after pushing delta update
+      server.global[uuid].setPublic({ 'isDead': true });
     }
 
     // notify async.forEach that function has completed
     if (typeof callback === 'function') callback();
   };
 
-  var state = function(data, callback) {
+  var cleanup = function(server, uuid, callback) {
+    server.local = _.filter(server.local, function(entity) {
+      return entity !== uuid;
+    });
 
+    if (server.global && server.global[uuid]) {
+      delete server.global[uuid];
+    }
+  };
+
+  var state = function(data, sendCompleteWorld, callback) {
     async.forEach(
       this.local,
       (function(uuid, callback) {
@@ -37,11 +43,13 @@
         var state;
 
         if (entity) {
-          state = entity.getState();
+          state = entity.serialize();
         }
 
         if (state) {
-          data.entities[uuid] = state;
+          if(sendCompleteWorld || entity.canEverMove()){
+            data.entities[uuid] = state;
+          }
         }
 
         // notify async.forEach that function has completed
@@ -68,6 +76,9 @@
 
         if (delta) {
           data.entities[uuid] = delta;
+          if (this.global[uuid].state.private.isDead) {
+            cleanup(this, uuid);
+          }
         }
 
         // notify async.forEach that function has completed
@@ -83,16 +94,16 @@
   /*
   var add = function(store, data, global, uuid, callback) {
 
-    store.hgetall('npc:' + uuid, function(err, res) {
+    store.hgetall('entity:' + uuid, function(err, res) {
       if (res) {
-        // init npc and add to global object
-        var npc = global[uuid] = new Enemy(parseInt(res.x), parseInt(res.y), parseInt(res.direction), uuid);
+        // init entity and add to global object
+        var entity = global[uuid] = new Enemy(parseInt(res.x), parseInt(res.y), parseInt(res.direction), uuid);
 
-        var state = npc.getState();
+        var state = entity.getState();
 
         // don't pass undefined state
         if (state) {
-          data.npcs[uuid] = state;
+          data.entities[uuid] = state;
         }
       }
 

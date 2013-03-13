@@ -70,7 +70,7 @@
     // TODO: remove this when actual game state can trigger end of game
     $('.countdown').on('click', (function() {
       var player = client.entities[client.uuid];
-      this.gameover(player);
+      this.gameover(client, player);
     }).bind(this));
 
     // load twitter widgets (may not be necessary)
@@ -85,48 +85,115 @@
         }
     }(document, "script", "twitter-wjs");
     */
-    
+
     return {
       clock: timer.init()
     }
   };
 
-  var gameover = function(player) {
+  var gameover = function(client, player) {
+    client.disconnect();
+
     // this object should have all data needed to display gameover screen
     if (player) console.log(player);
 
-    //$('#gameover-container').show();
-    $('#main').hide();
-    $('#hud').hide();
-    $('body').removeClass('game').addClass('gameover');
-    $('html, body').css('overflow','visible');
-    $('header').remove();
+    $('.gameover').fadeIn(function() {
+      $('#main').hide();
+      $('#hud').hide();
+      $('header').remove();
 
-    var intox = player.state.public.intoxication;
-    var pimage = player.state.public.src;
+      var pimage = player.state.public.src;
 
-    $('.gameover .pic').css('background-image','url(../'+pimage+')');
-    
-    if (intox < 25) {
-      $('.gameover .sober').show();
-    }
-    if (intox >= 25 && intox < 50) {
-      $('.gameover .tipsy').show();
-    }
-    if (intox >= 50 && intox < 75) {
-      $('.gameover .buzzed').show();
-    }
-    if (intox >= 75 && intox < 100) {
-      $('.gameover .schwasted').show();
-    }
-    if (intox >= 100) {
-      $('.gameover .blackout').show();
+      $('.gameover .pic').css('background-image','url(../'+pimage+')');
+      $('.gameover .' + player.intoxicationLevel()).show();
+
+      var tweet_message = encodeURIComponent("I " + player.intoxicationLevel(true) + " at #beercamp! http://2013.beercamp.com via @nclud");
+      var referrer = encodeURIComponent("http://2013.beercamp.com");
+      var url = "https://twitter.com/intent/tweet?original_referer=" + referrer + " &text=" + tweet_message;
+      $('.tweet').attr("href", url).attr("target", "_blank");
+
+      var facebook = "https://www.facebook.com/sharer/sharer.php?u=http://2013.beercamp.com";
+      $('.facebook').attr("href", facebook).attr("target", "_blank");
+    });
+
+  };
+
+  var updateFace = function(player){
+    if (player) {
+      setPlayerIcon(player);
+      $("#user").removeClass("sober tipsy buzzed schwasted").addClass(player.intoxicationLevel());
     }
   };
 
+  var queue = (function() {
+    var enter = function(position) {
+      var $queue = $('#queue');
+      $queue.find('.number').text(position);
+      $queue.show();
+    };
+
+    var update = function(position) {
+      $('#queue').find('.number').text(position);
+    };
+
+    var exit = function() {
+      $('#queue').fadeOut();
+    };
+
+    return {
+      enter: enter,
+      update: update,
+      exit: exit
+    }
+  })();
+
+  var updateAmmo = function(player) {
+    if (player) {
+      var beers = player.state.public.beer;
+      for(var i = 8; i > beers; i--) {
+        $('.weapon[data-count="' + i + '"]').removeClass('added');
+      }
+      for(var j = 1; j <= beers && j <= 8; j++) {
+        $('.weapon[data-count="' + j + '"]').addClass('added');
+      }
+    }
+  };
+
+  // Sets the initial 'character class' for the player's timer.
+  // @param [Player] player Assumed to exist already.
+  var setPlayerIcon = function(player){
+    if($("#user").hasClass("user-face")){
+        //console.log("Assigned user character already. Skipping.");
+        return;
+    }
+    var pimage = player.state.public.src;
+    var character_css = "";
+    switch(pimage){
+      case("images/char1.png"):
+          character_css = "beardo";
+          break;
+      case("images/char2.png"):
+          character_css = "mohawk";
+          break;
+      case("images/char3.png"):
+          character_css = "glasses";
+          break;
+      case("images/char4.png"):
+          character_css = "psy";
+          break;
+      default:
+          character_css = "floyd";
+          break;
+    }
+    $('#user').addClass('user-face').addClass(character_css);
+  }
   return {
     init: init,
-    gameover: gameover
+    gameover: gameover,
+    updateFace: updateFace,
+    queue: queue,
+    setPlayerIcon: setPlayerIcon,
+    updateAmmo: updateAmmo
   };
 
 });

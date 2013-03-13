@@ -47,8 +47,14 @@
 	Platform.prototype = new Rectangle();
   Platform.prototype.constructor = Platform;
 
+    // Determines whether this type of object can ever move after the game setup.
+    // @override
+    Platform.prototype.canEverMove = function() {
+        return false;
+    }
+
   Platform.prototype.drawType = function(ctx, scale) {
-    Rectangle.prototype.drawType.call(this, ctx, scale);
+    // Rectangle.prototype.drawType.call(this, ctx, scale);
 
     // round to whole pixel
     // interpolated x and y coords

@@ -4,8 +4,10 @@
     module.exports = factory(
       require('../core'),
       require('../time'),
+      require('./Entity'),
       require('./Rectangle'),
       require('./Projectile'),
+      require('underscore'),
       require('../../server/entities')
     );
   } else if (typeof define === 'function' && define.amd) {
@@ -13,22 +15,29 @@
     define([
       '../core',
       '../time',
+      './Entity',
       './Rectangle',
-      './Projectile'
+      './Projectile',
+      'underscore'
     ], factory);
   }
-})(this, function(core, time, Rectangle, Projectile, entities) {
+})(this, function(core, time, Entity, Rectangle, Projectile, _, entities) {
 
-	var Player = function(properties, id, client) {
+  var Player = function(properties, id, client) {
     properties = properties || {};
+
+    properties.name = properties.name || this.defaultNameFor(properties.src);
+    if (properties.name.length > 10) {
+      properties.name = properties.name.substring(0, 10);
+    }
     properties.class = properties.class || 'Player';
     properties.type = properties.type || 'dynamic';
 
-    properties.angle = properties.angle ||  0;
-    properties.width = properties.width ||  3;
-    properties.height = properties.height ||  3.4;
-    properties.fixed = properties.fixed ||  true;
-    properties.speed = properties.speed ||  310;
+    properties.angle = properties.angle || 0;
+    properties.width = properties.width || 2.5;
+    properties.height = properties.height || 3;
+    properties.fixed = properties.fixed || true;
+    properties.speed = properties.speed || 230;
 
     properties.sprite = properties.sprite || {
       direction: 'right',
@@ -37,7 +46,7 @@
       x: 9,
       y: 5,
       step: 8,
-      scale: 10,
+      scale: 5,
       map: {
 
         // default
@@ -97,24 +106,82 @@
 
     // end game when timer expires
     var start = Date.now();
+    var stop = start + 120000; // two minutes
 
     this.timer = {
       start: start,
-      end: start + 180000 // three minutes
+      stop: stop,
+      now: Date.now() - start,
+      update: function() {
+        // TODO: refactor to update timer.now from server
+        this.now = Date.now() - this.start;
+
+        return this.now * 100 / (this.stop - this.start);
+      }
     };
 
     return this;
-	};
+  };
 
-	Player.prototype = new Rectangle();
+  Player.prototype = new Rectangle();
   Player.prototype.constructor = Player;
 
-	Player.prototype.drink = function() {
+  Player.prototype.drink = function() {
     // handle beer powerup
     this.state.public.beer++;
     this.state.public.intoxication += 5;
     // console.log('Beer', this.state.public['beer'], 'Drunk', this.state.public['intoxication']);
-	};
+  };
+
+  Player.prototype.defaultNameFor = function(imageName) {
+    if (imageName === 'images/char1.png') {
+      return 'Mike';
+    } else if (imageName === 'images/char2.png') {
+      return "Jeff";
+    } else if (imageName === 'images/char3.png') {
+      return "Tanya";
+    } else if (imageName === 'images/char4.png') {
+      return "KSnug";
+    } else if (imageName === 'images/char5.png') {
+      return "Floyd";
+    }
+  };
+
+  // Override Entity.setPublic to convert from serialized attributes to better named ones.
+  Player.prototype.setPublic = function(properties) {
+    properties = _.defaults(properties, {
+      velocity: properties.v
+    });
+
+    if (properties.ix && !properties.intoxication) {
+      properties.intoxication = properties.ix;
+    }
+    if (properties.j && !properties.isJumping) {
+      properties.isJumping = properties.j;
+    }
+    if (properties.mv && !properties.isMoving) {
+      properties.isMoving = properties.mv;
+    }
+    if (properties.d && !properties.direction) {
+      properties.direction = properties.d;
+    }
+    Entity.prototype.setPublic.call(this, properties);
+  };
+
+  Player.prototype.serialize = function() {
+    return this.optimizeSerializedAttributes(this.state.public);
+  };
+
+  Player.prototype.optimizeSerializedAttributes = function(currentState) {
+    var state = _.omit(currentState, "class", "type", "angle", "width", "height", "sprite", "fixed", "speed", "velocity", "intoxication", "isJumping", "isMoving", "direction");
+    state.v = currentState.velocity;
+    state.t = 'Player';
+    state.ix = currentState.intoxication ? currentState.intoxication : undefined;
+    state.j = !_.isUndefined(currentState.isJumping) ? currentState.isJumping : undefined;
+    state.mv = !_.isUndefined(currentState.isMoving) ? currentState.isMoving : undefined;
+    state.d = !_.isUndefined(currentState.direction) ? currentState.direction : undefined;
+    return state;
+  };
 
   Player.prototype.fire = function(worker) {
     var x = this.state.public.x;
@@ -154,7 +221,7 @@
     }
   };
 
-	Player.prototype.sendImpulse = function(worker, degrees) {
+  Player.prototype.sendImpulse = function(worker, degrees) {
     worker.send({
       'cmd': 'impulse',
       'uuid': this.uuid,
@@ -165,19 +232,19 @@
 
   // TODO: refactor respondToInput and processInput core into a shared function
   // TODO: pass in Web Worker to process input
-	Player.prototype.respondToInput = function(pressed, callback) {
+  Player.prototype.respondToInput = function(pressed, callback) {
 
     if (this.gameover) return;
 
     // prevent movement if blacked out
     if (this.state.public['isBlackout']) {
       /*
-      // stop player movement
-      worker.send({
-        'cmd': 'setZero',
-        'uuid': this.uuid
-      });
-      */
+       // stop player movement
+       worker.send({
+       'cmd': 'setZero',
+       'uuid': this.uuid
+       });
+       */
 
       this.gameover = true;
 
@@ -229,11 +296,11 @@
             this.state.public.isMoving = false;
 
             /*
-            worker.send({
-              'cmd': 'setZero',
-              'uuid': this.uuid
-            });
-            */
+             worker.send({
+             'cmd': 'setZero',
+             'uuid': this.uuid
+             });
+             */
           }
           break;
 
@@ -251,10 +318,10 @@
 
     // sendImpulse if key pressed but no velocity (from wall collision)
     /*
-    if (!pressed['left'] !== !pressed['right'] && this.state.public.velocity.x === 0) {
-      // this.sendImpulse(worker, vector['vx']);
-    }
-    */
+     if (!pressed['left'] !== !pressed['right'] && this.state.public.velocity.x === 0) {
+     // this.sendImpulse(worker, vector['vx']);
+     }
+     */
 
     if (delta.length) {
       input = {
@@ -268,9 +335,9 @@
       if (typeof callback === 'function') callback(input);
     }
 
-	};
+  };
 
-	Player.prototype.processInput = function(move, worker) {
+  Player.prototype.processInput = function(move, worker) {
 
     process.nextTick((function() {
       if (this.end) return;
@@ -352,10 +419,10 @@
 
       // sendImpulse if key pressed but no velocity (from wall collision)
       /*
-      if (!pressed['left'] !== !pressed['right'] && this.state.public.velocity.x === 0) {
-        this.sendImpulse(worker, vector['vx']);
-      }
-      */
+       if (!pressed['left'] !== !pressed['right'] && this.state.public.velocity.x === 0) {
+       this.sendImpulse(worker, vector['vx']);
+       }
+       */
 
       // if queue empty, stop looping
       if (!this.queue.input.length) return;
@@ -398,29 +465,78 @@
   };
 
   Player.prototype.drawType = function(ctx, scale) {
-    Rectangle.prototype.drawType.call(this, ctx, scale);
-
-    // round to whole pixel
-    // interpolated x and y coords
-    var x = (this.state.private.x * scale + 0.5) | 0;
-    var y = (this.state.private.y * scale + 0.5) | 0;
-
-    var width = ((this.state.private.width * scale) + 0.5) | 0;
-    var height = ((this.state.private.height * scale) + 0.5) | 0;
-
-    var halfWidth = ((this.state.private.width * scale / 2) + 0.5) | 0;
-    var halfHeight = ((this.state.private.height * scale / 2) + 0.5) | 0;
-
+//    Rectangle.prototype.drawType.call(this, ctx, scale);
+    var x = this.x(scale);
+    var y = this.y(scale);
     ctx.save();
-
     if (this.actor) {
-      this.actor.draw(ctx, x - halfWidth, y - halfHeight, scale);
+      this.actor.draw(ctx, x, y, scale);
     }
-
     ctx.restore();
+    this.drawName(ctx, scale, this.state.public.name);
 
     // Entity.prototype.draw.call(this, client);
-  }
+  };
+
+  Player.prototype.drawName = function(ctx, scale, name) {
+    var x = this.x(scale);
+    var y = this.y(scale);
+
+    var halfHeight = this.halfHeight(scale);
+
+    ctx.save();
+    var fontHeight = Math.max(14, parseInt(scale));
+    ctx.font = fontHeight + 'px Monstrrr-Serif';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'white';
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+    ctx.shadowColor = 'black';
+    ctx.fillText(name, x, y - halfHeight - fontHeight / 2);
+    ctx.restore();
+  };
+
+  Player.prototype.halfHeight = function(scale) {
+    return ((this.state.private.height * scale / 2) + 0.5) | 0;
+  };
+  Player.prototype.halfWidth = function(scale) {
+    return ((this.state.private.width * scale / 2) + 0.5) | 0;
+  };
+  Player.prototype.height = function(scale) {
+    return ((this.state.private.height * scale) + 0.5) | 0;
+  };
+  Player.prototype.width = function(scale) {
+    return ((this.state.private.height * scale) + 0.5) | 0;
+  };
+
+  // This should probably live on Entity.
+  Player.prototype.x = function(scale) {
+    return (this.state.private.x * scale + 0.5) | 0;
+  };
+
+  // This should probably live on Entity.
+  Player.prototype.y = function(scale) {
+    return (this.state.private.y * scale + 0.5) | 0;
+  };
+
+  // Returns a string value which represents the level of intoxication for this character.
+  // @return [String] i.e. ['sober', 'tipsy', 'buzzed', 'schwasted', 'blackout']
+  Player.prototype.intoxicationLevel = function(display_name) {
+    var intox = this.state.public.intoxication;
+    if (intox < 25) {
+      return display_name ? "was stone cold sober" : "sober";
+    }
+    if (intox >= 25 && intox < 50) {
+      return display_name ? "got slightly tipsy" : "tipsy";
+    }
+    if (intox >= 50 && intox < 75) {
+      return display_name ? "got righteously buzzed" : "buzzed";
+    }
+    if (intox >= 75 && intox < 100) {
+      return display_name ? "got sooper dooper schwasted" : "schwasted";
+    }
+    return display_name ? "mutha-f-ing blacked out" : "blackout"
+  };
 
   return Player;
 

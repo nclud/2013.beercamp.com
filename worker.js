@@ -273,7 +273,9 @@ bTest.prototype.fire = function(uuid, entity) {
 
 bTest.prototype.removeBody = function(uuid) {
   // add to queue to clean up after time step completes
-  this.graveyard.push(uuid);
+  if (this.bodies[uuid]) {
+    this.graveyard.push(uuid);
+  }
 }
 
 bTest.prototype.impulse = function(uuid, degrees, power) {
@@ -302,7 +304,8 @@ box.addContactListener({
   BeginContact: function(fixtures) {
     var length = fixtures.length;
     var fixture;
-    var id;
+    var player;
+    var beer;
 
     for (var i = 0; i < length; i++) {
       fixture = fixtures[i];
@@ -317,22 +320,19 @@ box.addContactListener({
       } else if (fixture.GetUserData() === 'Player') {
         for (var k = 0; k < length; k++) {
           if (fixtures[k].GetUserData() === 'Powerup') {
+            player = fixture.GetBody().GetUserData();
+            beer = fixtures[k].GetBody().GetUserData();
+
             // remove powerup
-            box.removeBody(fixtures[k].GetBody().GetUserData());
-
-            // player id
-            id = fixture.GetBody().GetUserData();
-
-            // remove entity from server
-            process.send({
-              cmd: 'remove',
-              data: fixtures[k].GetBody().GetUserData()
-            });
+            box.removeBody(beer);
 
             // handle beer powerup
             process.send({
               cmd: 'beer',
-              data: id
+              data: {
+                player: id,
+                beer: beer
+              }
             });
           }
         }

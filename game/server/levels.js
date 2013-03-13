@@ -4,19 +4,22 @@
     module.exports = factory(
       require('../core/types'),
       require('./entities'),
-      require('./npcs'),
       require('async')
     );
   }
-})(this, function(types, entities, npcs, async) {
+})(this, function(types, entities, async) {
   
   var Platform = types['Platform'];
   var Powerup = types['Powerup'];
+  var Beer = types['Beer'];
 
   var init = function(worker) {
     worker.on('message', function(event) {
       var cmd = event.cmd;
       var data = event.data;
+      var entity;
+      var player;
+      var beer;
 
       if (cmd === 'update') {
         async.forEach(
@@ -34,9 +37,22 @@
           }
         );
       } else if (cmd === 'remove') {
-        entities.remove(entities, data);
+        entity = entities.global[data];
+
+        if (entity) {
+          entities.remove(entities, data);
+        }
       } else if (cmd === 'beer') {
-        entities.global[data].drink();
+        player = entities.global[data.player];
+        beer = entities.global[data.beer];
+
+        if (player) {
+          player.drink();
+        }
+
+        if (beer) {
+          entities.remove(entities, data.beer);
+        }
       }
     });
 
@@ -143,46 +159,12 @@
       'cmd': 'add',
       'msg': data
     });
-
-    for (var k = 0; k < 10; k++) {
-      loadPowerup(worker);
-    }
   };
 
   var loadPowerup = function(worker) {
 
     var data = {};
-    var spawn = [ 12, 19, 26, 33, 40, 46, 53, 60 ];
-    var pos = Math.floor(Math.random() * spawn.length);
-
-    var entity = new Powerup({
-      x: (Math.random() * 44) + 1,
-      y: spawn[pos],
-      src: 'images/beer.png',
-      sprite: {
-        direction: 'right',
-        width: 2,
-        height: 2,
-        x: 2,
-        y: 1,
-        scale: 1.2,
-        map: {
-
-          // default
-          0: {
-            start: 0,
-            end: 0
-          },
-
-          // crushed
-          1: {
-            start: 1,
-            end: 1
-          }
-        
-        }
-      }
-    });
+    var entity = Beer.spawnRandom();
 
     data[entity.uuid] = {
       class: entity.state.private.class,

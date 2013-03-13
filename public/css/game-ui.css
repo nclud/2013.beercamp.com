@@ -69,76 +69,78 @@ body {
   left:0;
 }
 .user {
-	background:white;
+  background:white;
   height:100px;
   width:100px;
   border-radius:100%;
   z-index:1;
-  background:white url(../images/n/faces.svg) no-repeat -47px -156px;
 }
 
-.user.mohawk.buzzed, .user.mohawk.sober {
+.user-face {
+  background:white url(../images/n/faces.svg) no-repeat -47px -156px;
+}
+.user.mohawk.sober {
   background-position:-47px -156px;
 }
-.user.mohawk.happy {
+.user.mohawk.tipsy {
   background-position:-176px -156px;
 }
-.user.mohawk.drunkkk {
+.user.mohawk.buzzed {
   background-position:-301px -156px;
 }
-.user.mohawk.shitty {
+.user.mohawk.schwasted {
   background-position:-443px -156px;
 }
 
-.user.beardo.buzzed, .user.beardo.sober {
+.user.beardo.sober {
   background-position:-47px -54px;
 }
-.user.beardo.happy {
+.user.beardo.tipsy {
   background-position:-176px -54px;
 }
-.user.beardo.drunkkk {
+.user.beardo.buzzed {
   background-position:-301px -54px;
 }
-.user.beardo.shitty {
+.user.beardo.schwasted {
   background-position:-442px -54px;
 }
 
-.user.glasses.buzzed, .user.glasses.sober {
+.user.glasses.sober {
   background-position:-50px -262px;
 }
-.user.glasses.happy {
+.user.glasses.tipsy {
   background-position:-184px -265px;
 }
-.user.glasses.drunkkk {
+.user.glasses.buzzed {
   background-position:-306px -265px;
 }
-.user.glasses.shitty {
+.user.glasses.schwasted {
   background-position:-445px -262px;
 }
 
-.user.psy.buzzed, .user.psy.sober {
+.user.psy.sober {
   background-position:-47px -376px;
 }
-.user.psy.happy {
+.user.psy.tipsy {
   background-position:-176px -376px;
 }
-.user.psy.drunkkk {
+.user.psy.buzzed {
   background-position:-301px -376px;
 }
-.user.psy.shitty {
+.user.psy.schwasted {
   background-position:-443px -376px;
 }
 
-.user.floyd.buzzed, .user.floyd.sober {
+.user.floyd.sober {
   background-position:-48px -495px;
 }
-.user.floyd.happy {
+.user.floyd.tipsy {
   background-position:-178px -495px;
 }
-.user.floyd.drunkkk {
+.user.floyd.buzzed {
   background-position:-301px -495px;
 }
-.user.floyd.shitty {
+.user.floyd.schwasted {
   background-position:-443px -491px;
 }
 
@@ -159,7 +161,6 @@ body {
 
 /*** main ***/
 .main {
-	z-index:1;
   height:100%;
   width:100%;
   display:table-row;
@@ -273,7 +274,7 @@ aside + div + aside {
 	margin:0 0 1em;
   /*-webkit-filter:drop-shadow(0 0 10px rgba(255,255,255,0.5));*/
 }
-.special-weapon.six-pack {
+/*.special-weapon.six-pack {
   background:url(../images/n/items.svg) no-repeat -4px -6px;
 }
 .special-weapon.wine {
@@ -303,6 +304,7 @@ aside + div + aside {
 .special-weapon.vodka {
   background:url(../images/n/items.svg) no-repeat -1226px -6px;
 }
+*/
 .special-weapon div {
   position:fixed;
   top:0;

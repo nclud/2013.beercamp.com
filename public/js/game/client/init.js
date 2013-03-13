@@ -1,3 +1,12 @@
+require.config({
+  paths:{
+    underscore:"../../../vendor/underscore-min"
+  },
+  shim:{
+    underscore:{
+      exports:'_'
+    }
+  }});
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD

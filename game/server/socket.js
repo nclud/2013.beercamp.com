@@ -6,13 +6,13 @@
       require('../core/types'),
       require('./update'),
       require('./entities'),
+      require('./bouncer'),
       require('async'),
       require('redis'),
-      require('socket.io'),
-      require('node-uuid')
+      require('socket.io')
     );
   }
-})(this, function(config, types, update, entities, async, redis, sio, uuid) {
+})(this, function(config, types, update, entities, bouncer, async, redis, sio) {
 
   var Player = types['Player'];
 
@@ -30,6 +30,9 @@
     // turn off websocket debug spam
     io.set('log level', 1);
 
+    // websockets only
+    io.set('transports', ['websocket']);
+
     listen(io, worker);
 
     return {
@@ -42,33 +45,68 @@
 
     // socket.io client event listeners
     io.sockets.on('connection', function(socket) {
-      socket.emit('game-loaded');
+      socket.emit('game:load');
 
-      socket.on('add-player', function(data) {
-        var character_id = parseInt(data['character-id']);
-        if(isNaN(character_id) || character_id < 0 || character_id > 4){    
-          console.log("Invalid Character '" + character_id + "'. Using default character instead.");      
-          character_id = 0;
-
+      socket.on('player:select', function(data) {
+        var character = parseInt(data['character-id']);
+        if(isNaN(character) || character < 0 || character > 4) {  
+          // console.log("Invalid Character '" + character + "'. Using default character instead.");      
+          character = 0;
         }
-        console.log("Adding a new player to the game as character '" + character_id + "'.");
 
-        // switch from socket.id to Connect sessions?
-        var player = new Player({
-          x: (Math.random() * 44) + 1,
-          y: 58, // always spawn on bottom level
-          src: skins[character_id]
-        });
-        
-        // set uuid and send to client
-        socket.emit('uuid', player.uuid);
+        var charName = data.name;
 
-        addPlayer(socket, worker, player); 
+        var wait;
+        // queue sockets rather than ids, as Socket.io lacks a clean API
+        // to get socket by id
+        if (bouncer.isFull()) {
+          bouncer.add(socket);
+          socket.emit('queue:enter', bouncer.getIndex(socket) + 1);
+
+          wait = setInterval(function() {
+            if (socket.disconnected) {
+              // clearInterval and remove disconnected socket from queue
+              clearInterval(wait);
+              bouncer.remove(socket);
+              return;
+            }
+
+            if (!bouncer.isFull()) {
+              // clearInterval, remove socket from queue and connect
+              clearInterval(wait);
+              bouncer.connect(socket);
+              enterGame(character, charName, socket, worker);
+              socket.emit('queue:exit');
+            } else {
+              // update position in queue
+              socket.emit('queue:update', bouncer.getIndex(socket) + 1);
+            }
+          }, 2000);
+        } else {
+          bouncer.connect(socket);
+          enterGame(character, charName, socket, worker);
+        }
+
       });
     });
 
   };
 
+  var enterGame = function(character, charName, socket, worker) {
+    // TODO: switch to Connect sessions?
+    var player = new Player({
+      x: (Math.random() * 44) + 1,
+      y: 58, // always spawn on bottom level
+      src: skins[character],
+      name: charName
+    });
+    
+    // set uuid and send to client
+    socket.emit('uuid', player.uuid);
+
+    addPlayer(socket, worker, player);
+    update.sendClientGameworld(socket);
+  };
 
   var addPlayer = function(socket, worker, player) {
 
@@ -91,6 +129,9 @@
     });
 
     socket.on('disconnect', function() {
+      // remove player from connected array
+      bouncer.disconnect(socket);
+
       // remove player from server
       entities.remove(entities, player.uuid);
 

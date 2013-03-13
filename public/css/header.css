@@ -24,9 +24,9 @@
 header {
     text-shadow:0 1px 0 rgba(0,0,0,0.15), 0 2px 1px rgba(0,0,0,0.1), 0 3px 2px rgba(0,0,0,0.07), 0 3px 6px rgba(0,0,0,0.07);
     z-index:10;
-    color:#8b97a8;
+    color:#eee;
     width: 96%;
-    background:#0d164d;
+    background:#1a1a1a;
     padding: 0 2%;
     min-width: 960px;
     height: 64px;
@@ -34,62 +34,49 @@ header {
     bottom: 0;
     z-index: 9999;
 }
-header.cf {width: 100%;}
+
+header.cf {
+    width: 100%;
+    padding: 0;
+}
+
+.header-logos {
+    float: right;
+    margin: 5px 15px 0 0;
+    height: 55px;
+}
+
 header h1 {
-    /*position:absolute;
-     bottom:-70px;
-     left:0;
-     text-align:center;
-     width:100%;
-     z-index:3;*/
     line-height:1;
     font-family:'Monstrrr-Bold', 'lucida grande', tahoma, verdana, arial, sans-serif;
     font-size:250%;
-    /*width:7.75em;
-    margin:0;
-    float:left;*/
     position:absolute;
     left:.5em;
     top:-.35em;
 }
+
 h1 em {
     font:normal 32.5%/.7 'Monstrrr-Serif', sans-serif;
-    /*border:1px solid rgba(255,255,255,0.15);
-    padding:.5em .5em .25em;
-    background:rgba(0,0,0,0.35);*/
     display:inline-block;
     border-radius:4px;
     position:relative;
     top:-.65em;
     left:-.25em;
 }
-h1 em:before {
-    content:"/";
-    display:block;
-    position:absolute;
-    left:-.5em;
-    top:0;
+
+header ul.header-location-meta {
+    margin: 25px 0 0 0;
+    /*text-align: center;
+    top: 1.4em;*/
+    padding: 0;
+    font: normal 115%/1 'Monstrrr-Serif', sans-serif;
+    position: absolute;
+    left: 30%;
 }
-header ul {
-    /*float:right;
-    margin:0 auto;
-    width:100%;
-    text-align:center;
-    padding:1.45em 0 0 4em;
-    font:normal 115%/1 'Monstrrr-Serif', sans-serif;*/
-    margin: 0;
-	text-align: center;
-	padding: 0;
-	font: normal 115%/1 'Monstrrr-Serif', sans-serif;
-	top: 1.4em;
-	position: absolute;
-	left: 30%;
-}
+
 header li {
     display:inline;
     list-style:none;
-    padding:0 1em 0;
-    /*border-right:1px solid rgba(255,255,255,0.25);*/
 }
 header li:first-child {
     padding-left:0;
@@ -103,30 +90,4 @@ header img {
     position:relative;
     top:.75em;
     margin:0 0 0 1em;
-}
-
-/* header things */
-
-@media screen and (max-width: 1120px){
-
-	header h1{
-		font-size:230%;
-	}
-
-	header ul{
-		font: normal 105%/1 'Monstrrr-Serif', sans-serif;
-		top: 1.5em;
-	}
-}
-
-@media screen and (max-width: 1050px){
-	header img{
-		width:8%;
-		margin: 0 0 0 .5em;
-	}
-
-	header img[alt^="nclud"]{
-		width: 2.5%;
-	}
-
 }

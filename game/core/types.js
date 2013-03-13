@@ -16,6 +16,7 @@
       './types/Powerup',
       './types/Projectile',
       './types/Player',
+      './types/Beer',
       './types/Actor'
     ], factory);
   }
@@ -32,6 +33,7 @@
     Powerup: require('./types/Powerup'),
     Projectile: require('./types/Projectile'),
     Player: require('./types/Player'),
+    Beer: require('./types/Beer'),
     Actor: require('./types/Actor')
   };
 

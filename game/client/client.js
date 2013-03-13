@@ -62,25 +62,28 @@
           player.setPublic({ 'isBlackout': true });
 
           // show end game screen
-          ui.gameover(player);
+          ui.gameover(client, player);
         } 
 
         // update beer gauge level
         var level = (intoxication * 5) - 500;
         document.getElementById('beer').style.bottom = level + 'px';
+        ui.updateFace(player);
+
+        // update the Ammo Count
+        ui.updateAmmo(player);
 
         // update timer
-        var now = Date.now()
-        var percent = 100 - ((player.timer.end - now) * 100 / (player.timer.end - player.timer.start));
+        var percent = player.timer.update();
         clock.animate(percent);
 
         // end game on timer expire
         // TODO: make this update from server side
-        if (now > player.timer.end) {
+        if (player.timer.now > player.timer.stop - player.timer.start) {
           player.gameover = true;
 
           // show end game screen
-          ui.gameover(player);
+          ui.gameover(client, player);
         }
 
         // TODO: update ammo
@@ -102,17 +105,30 @@
     // socket.io client connection
     var socket = this.socket = io.connect();
 
-    socket.on('game-loaded', function(data){
-      var character_id = getParameter("as");
-      socket.emit('add-player', { 'character-id' : character_id });
+    socket.on('game:load', function(data) {
+      var character_id = getParameter('as');
+      var charName = getParameter('name');
+
+      socket.emit('player:select', { 'character-id' : character_id, name: charName });
+    });
+
+    // wait in queue
+    socket.on('queue:enter', function(data) {
+      ui.queue.enter(data);
+
+      socket.on('queue:update', function(data) {
+        ui.queue.update(data);
+      });
+
+      socket.on('queue:exit', function() {
+        ui.queue.exit();
+      });
     });
 
     // set client.uuid
     socket.on('uuid', function(data) {
       client.uuid = data;
     });
-
-
 
     // listen for full state updates
     socket.on('state:full', function(data) {
@@ -127,7 +143,6 @@
       var entity;
 
       var state;
-      var sprite;
 
       var msg = {};
 
@@ -137,35 +152,22 @@
         entity = data.entities[uuid];
 
         if (entity && client.entities[uuid]) {
-          // TODO: if defined on server and client, update state
-          state = entity.state;
+          // if defined on server and client, update state
+          state = entity;
           client.entities[uuid].setPublic(state);
           client.entities[uuid].queue.server.push(client.entities[uuid].getState());
         } else if (entity) {
           // if defined on server but not on client, create new Entity on client
-          state = entity.state;
-          sprite = state.sprite;
-
-          // TODO: create correct entity type
-          if (state.src) {
-            var img = new Image();
-
-            // encapsulate to keep correct state and uuid in callback
-            (function(state, uuid) {
-              img.addEventListener('load', function() {
-                state.img = this;
-                client.entities[uuid] = new types[state.class](state, uuid, client);
-              });
-            })(state, uuid, client);
-
-            img.src = state.src;
-          } else {
-            client.entities[uuid] = new types[state.class](state, uuid, client);
+          state = entity;
+          client.entities[uuid] = new types[state.t](state, uuid, client);
+          if(client.entities[uuid].needsImage()){
+            client.entities[uuid].createImage(client);
           }
-
-          msg[entity.uuid] = state;
+          msg[uuid] = state;
         } else {
-          delete client.entities[uuid];
+          if(client.entities[uuid].canEverMove()){
+            delete client.entities[uuid];
+          }
         }
       }
 
@@ -186,7 +188,7 @@
       time.client = time.server - core.offset;
 
       // update entities
-      var entities = Object.keys(data.entities);
+      var entities = Object.keys(data.entities); // This is a list of uuids of the entities
       var length = entities.length;
 
       var uuid;
@@ -198,10 +200,9 @@
         uuid = entities[i];
         entity = data.entities[uuid];
 
-        if (client.entities[uuid]) {
-
+        if (entity && client.entities[uuid]) {
           // authoritatively set internal state if player exists on client
-          client.entities[uuid].setPublic(entity.state);
+          client.entities[uuid].setPublic(entity);
 
           // get full snapshot for interpolation
           // queue server updates for entity interpolation
@@ -209,7 +210,6 @@
 
           // remove all updates older than one second from interpolation queue
           client.entities[uuid].queue.server = client.entities[uuid].queue.server.filter(core.filterQueue);
-
         }
       }
 
@@ -386,7 +386,7 @@
         uuid = entities[j];
         entity = client.entities[uuid];
 
-        if (entity.state.private.class === order[i]) {
+        if (!entity.state.public.isDead && entity.shouldRenderAs(order[i])) {
           entity.draw(client.ctx, client.canvas.scale);
         }
       }
@@ -409,6 +409,13 @@
     }
   };
 
+  var currentPlayer = function(){
+      var player = this.entities[this.uuid];
+      if (player) {
+          return player;
+      }
+  };
+
   var updateUI = function(client) {
     // emit intoxication level event
     var player = client.entities[client.uuid];
@@ -425,6 +432,11 @@
     }
   };
 
+  var disconnect = function(){
+    console.log("Game over! Thanks for playing.");
+    this.socket.disconnect();
+  }
+
   return {
     actions: actions,
     entities: entities,
@@ -440,7 +452,9 @@
     updateEntities: updateEntities,
     drawEntities: drawEntities,
     updateCamera: updateCamera,
-    cameraHeight: cameraHeight
+    cameraHeight: cameraHeight,
+    currentPlayer: currentPlayer,
+    disconnect: disconnect
   };
 
 });
