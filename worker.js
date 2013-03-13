@@ -275,9 +275,9 @@ bTest.prototype.fire = function(uuid, entity) {
   this.fixDef.userData = null;
   this.fixDef.filter.groupIndex = 0;
 
-  // ApplyImpulse
-  var degrees = entity.direction === 'left' ? 180 : 0;
-  box.impulse(uuid, degrees, entity.speed);
+  // set projectile velocity
+  var direction = entity.direction === 'left' ? -1 : 1;
+  body.GetLinearVelocity().x = entity.speed * direction;
 }
 
 bTest.prototype.removeBody = function(uuid) {

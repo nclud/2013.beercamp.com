@@ -19,14 +19,14 @@
 	var Projectile = function(properties, id, client) {
     properties = properties || {};
     properties.class = properties.class || 'Projectile';
-    properties.type = properties.type || 'dynamic';
+    properties.type = properties.type || 'kinematic';
     
     properties.angle = properties.angle || 0;
     properties.width = properties.width || 2;
     properties.height = properties.height || 1.2;
     properties.fixed = properties.fixed || false;
-    properties.isSensor = properties.isSensor || false;
-    properties.speed = properties.speed || 50;
+    properties.isSensor = properties.isSensor || true;
+    properties.speed = properties.speed || 30;
     properties.src = properties.src || 'images/beer.png';
 
     properties.sprite = properties.sprite || {

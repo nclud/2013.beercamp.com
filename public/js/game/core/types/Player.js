@@ -184,6 +184,8 @@
   };
 
   Player.prototype.fire = function(worker) {
+
+    // don't fire if no empty beer cans to throw
     if (!this.state.public.beer) return;
 
     // consume beer
@@ -222,6 +224,7 @@
         'entity': data
       });
     }
+
   };
 
   Player.prototype.sendImpulse = function(worker, degrees) {
