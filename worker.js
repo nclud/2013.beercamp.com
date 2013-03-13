@@ -257,6 +257,7 @@ bTest.prototype.fire = function(uuid, entity) {
   this.bodyDef.userData = uuid;
 
   var body = this.bodies[uuid] = this.world.CreateBody(this.bodyDef);
+  console.log(body);
 
   this.fixDef.filter.groupIndex = -2;
   this.fixDef.userData = entity.class;
@@ -267,7 +268,9 @@ bTest.prototype.fire = function(uuid, entity) {
   // reset fixDef
   this.fixDef.filter.groupIndex = 0;
 
-  var degrees = entity.direction === 'left' ? 180 : 0
+  var degrees = entity.direction === 'left' ? 180 : 0;
+  console.log(uuid, degrees, entity.speed);
+
   box.impulse(uuid, degrees, entity.speed);
 }
 

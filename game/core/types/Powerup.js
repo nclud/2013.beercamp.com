@@ -37,7 +37,7 @@
 
 
   Powerup.prototype.drawType = function(ctx, scale) {
-//    Rectangle.prototype.drawType.call(this, ctx, scale);
+    Rectangle.prototype.drawType.call(this, ctx, scale);
 
     // round to whole pixel
     // interpolated x and y coords
@@ -53,7 +53,7 @@
     ctx.save();
 
     if (this.actor) {
-      this.actor.draw(ctx, x, y, scale);
+      this.actor.draw(ctx, x, y + halfHeight * 0.6, scale);
     }
 
     ctx.restore();
