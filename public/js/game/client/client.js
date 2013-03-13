@@ -210,6 +210,19 @@
 
           // remove all updates older than one second from interpolation queue
           client.entities[uuid].queue.server = client.entities[uuid].queue.server.filter(core.filterQueue);
+        } else if (entity) {
+          // new Entities should send full state in first delta update
+          // if defined on server but not on client, create new Entity on client
+          state = entity;
+
+          if (state.t && types[state.t]) {
+            client.entities[uuid] = new types[state.t](state, uuid, client);
+            if (client.entities[uuid].needsImage()) {
+              client.entities[uuid].createImage(client);
+            }
+            // msg[uuid] = state;
+          }
+
         }
       }
 

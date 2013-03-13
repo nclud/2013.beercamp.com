@@ -107,11 +107,21 @@ bTest.prototype.update = function() {
 
       if (b.GetType() === b2Body.b2_dynamicBody) {
         if (aabb.lowerBound.x > 48) {
-          b.SetPosition(new b2Vec2(0 + (width / 3), b.GetPosition().y));
+          if (b.GetFixtureList().GetUserData() === 'Projectile') {
+            // destroy offscreen projectiles
+            box.remove(b.GetUserData());
+          } else {
+            b.SetPosition(new b2Vec2(0 + (width / 3), b.GetPosition().y));
+          }
         }
 
         if (aabb.upperBound.x < 0) {
-          b.SetPosition(new b2Vec2(48 - (width / 3), b.GetPosition().y));
+          if (b.GetFixtureList().GetUserData() === 'Projectile') {
+            // destroy offscreen projectiles
+            box.remove(b.GetUserData());
+          } else {
+            b.SetPosition(new b2Vec2(48 - (width / 3), b.GetPosition().y));
+          }
         }
 
         // catch objects that have fallen through the world and respawn them
@@ -240,8 +250,6 @@ bTest.prototype.fire = function(uuid, entity) {
       break;
   }
 
-  this.fixDef.isSensor = entity.isSensor || false;
-
   if (entity.radius) {
     this.fixDef.shape = new b2CircleShape(entity.radius);
   } else {
@@ -257,20 +265,18 @@ bTest.prototype.fire = function(uuid, entity) {
   this.bodyDef.userData = uuid;
 
   var body = this.bodies[uuid] = this.world.CreateBody(this.bodyDef);
-  console.log(body);
 
+  this.fixDef.isSensor = entity.isSensor || false;
   this.fixDef.filter.groupIndex = -2;
   this.fixDef.userData = entity.class;
   body.CreateFixture(this.fixDef);
 
-  this.fixDef.userData = null;
-
   // reset fixDef
+  this.fixDef.userData = null;
   this.fixDef.filter.groupIndex = 0;
 
+  // ApplyImpulse
   var degrees = entity.direction === 'left' ? 180 : 0;
-  console.log(uuid, degrees, entity.speed);
-
   box.impulse(uuid, degrees, entity.speed);
 }
 
@@ -279,6 +285,15 @@ bTest.prototype.removeBody = function(uuid) {
   if (this.bodies[uuid]) {
     this.graveyard.push(uuid);
   }
+}
+
+bTest.prototype.remove = function(uuid) {
+  this.removeBody(uuid);
+
+  process.send({
+    cmd: 'remove',
+    data: uuid
+  });
 }
 
 bTest.prototype.impulse = function(uuid, degrees, power) {
@@ -307,7 +322,7 @@ box.addContactListener({
   BeginContact: function(fixtures) {
     var length = fixtures.length;
     var fixture;
-    var player;
+    var id;
     var beer;
 
     for (var i = 0; i < length; i++) {
@@ -323,19 +338,16 @@ box.addContactListener({
       } else if (fixture.GetUserData() === 'Player') {
         for (var k = 0; k < length; k++) {
           if (fixtures[k].GetUserData() === 'Powerup') {
-            player = fixture.GetBody().GetUserData();
+            id = fixture.GetBody().GetUserData();
             beer = fixtures[k].GetBody().GetUserData();
 
             // remove powerup
-            box.removeBody(beer);
+            box.remove(beer);
 
             // handle beer powerup
             process.send({
-              cmd: 'beer',
-              data: {
-                player: id,
-                beer: beer
-              }
+              cmd: 'drink',
+              data: id
             });
           }
         }
@@ -384,6 +396,9 @@ process.on('message', function(data) {
       break;
     case 'impulse':
       box.impulse(data.uuid, data.degrees, data.power);
+      break;
+    case 'fire':
+      box.fire(data.uuid, data.entity);
       break;
     case 'setZero':
       box.setZero(data.uuid);

@@ -42,16 +42,11 @@
         if (entity) {
           entities.remove(entities, data);
         }
-      } else if (cmd === 'beer') {
-        player = entities.global[data.player];
-        beer = entities.global[data.beer];
+      } else if (cmd === 'drink') {
+        entity = entities.global[data];
 
-        if (player) {
-          player.drink();
-        }
-
-        if (beer) {
-          entities.remove(entities, data.beer);
+        if (entity) {
+          entity.drink();
         }
       }
     });

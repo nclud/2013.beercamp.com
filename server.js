@@ -8,12 +8,14 @@ var numCPUs = require('os').cpus().length;
 console.log('CPUs:', numCPUs);
 
 // polyfill for nodejitsu compatibility
+/*
 child.fork = function(file) {
   return this.spawn(process.execPath, [file], {
     stdio: ['pipe', 1, 2, 'ipc'],
     env: process.env
   });
 }
+*/
 
 var worker = child.fork(__dirname + '/worker.js');
 

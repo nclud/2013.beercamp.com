@@ -98,11 +98,12 @@
     this.updatePositionAndVelocity();
   };
 
-  Entity.prototype.updatePositionAndVelocity = function(){
+  Entity.prototype.updatePositionAndVelocity = function() {
     // Positions/velocity should only be exact to a small level of precision.
     this.state.public.x = core.toFixed(this.state.public.x);
     this.state.public.y = core.toFixed(this.state.public.y);
-    if(this.state.public.velocity){
+
+    if (this.state.public.velocity) {
       this.state.public.velocity.x = core.toFixed(this.state.public.velocity.x);
       this.state.public.velocity.y = core.toFixed(this.state.public.velocity.y);
     }

@@ -26,7 +26,7 @@
     properties.height = properties.height || 1.2;
     properties.fixed = properties.fixed || false;
     properties.isSensor = properties.isSensor || false;
-    properties.speed = properties.speed || 100;
+    properties.speed = properties.speed || 50;
     properties.src = properties.src || 'images/beer.png';
 
     properties.sprite = properties.sprite || {

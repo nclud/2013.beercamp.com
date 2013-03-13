@@ -213,10 +213,8 @@
 
       worker.send({
         'cmd': 'fire',
-        'msg': {
-          uuid: entity.uuid,
-          entity: data
-        }
+        'uuid': entity.uuid,
+        'entity': data
       });
     }
   };
