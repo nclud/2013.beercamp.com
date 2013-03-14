@@ -21,33 +21,41 @@
       var player;
       var beer;
 
-      if (cmd === 'update') {
-        async.forEach(
-          Object.keys(data),
-          function(uuid, callback) {
-            var entity = entities.global[uuid];
+      switch (cmd) {
+        case 'update':
+          async.forEach(
+            Object.keys(data),
+            function(uuid, callback) {
+              var entity = entities.global[uuid];
 
-            // TODO: race condition?
-            if (entity) {
-              entity.setPublic(data[uuid]);
+              if (entity) {
+                entity.setPublic(data[uuid]);
+              }
+
+              // notify async.forEach that function has completed
+              if (typeof callback === 'function') callback();
             }
-
-            // notify async.forEach that function has completed
-            if (typeof callback === 'function') callback();
+          );
+          break;
+        case 'remove':
+          if (entities.global[data]) {
+            entities.remove(entities, data);
           }
-        );
-      } else if (cmd === 'remove') {
-        entity = entities.global[data];
+          break;
+        case 'hit':
+          entity = entities.global[data];
 
-        if (entity) {
-          entities.remove(entities, data);
-        }
-      } else if (cmd === 'drink') {
-        entity = entities.global[data];
+          if (entity) {
+            entity.state.public.isHit = true;
+          }
+          break;
+        case 'drink':
+          entity = entities.global[data];
 
-        if (entity) {
-          entity.drink();
-        }
+          if (entity) {
+            entity.drink();
+          }
+          break;
       }
     });
 

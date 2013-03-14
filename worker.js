@@ -14,6 +14,10 @@
   limitations under the License.
 */
 
+/*
+  This file has been significantly modified from the original.
+*/
+
 console.log('Worker', process.pid, 'fired up! Status:', process.connected);
 
 var Box2D = require('box2dweb-commonjs').Box2D;
@@ -60,12 +64,16 @@ function bTest(intervalRate, adaptive) {
 bTest.prototype.addContactListener = function(callbacks) {
   var listener = new Box2D.Dynamics.b2ContactListener;
 
-  if (callbacks.BeginContact) listener.BeginContact = function(contact) {
-    callbacks.BeginContact([contact.GetFixtureA(), contact.GetFixtureB()]);
+  if (callbacks.BeginContact) {
+    listener.BeginContact = (function(contact) {
+      callbacks.BeginContact.call(this, [contact.GetFixtureA(), contact.GetFixtureB()]);
+    }).bind(this);
   }
 
-  if (callbacks.EndContact) listener.EndContact = function(contact) {
-    callbacks.EndContact([contact.GetFixtureA(), contact.GetFixtureB()]);
+  if (callbacks.EndContact) {
+    listener.EndContact = (function(contact) {
+      callbacks.EndContact.call(this, [contact.GetFixtureA(), contact.GetFixtureB()]);
+    }).bind(this);
   }
 
   this.world.SetContactListener(listener);
@@ -107,18 +115,18 @@ bTest.prototype.update = function() {
 
       if (b.GetType() === b2Body.b2_dynamicBody) {
         if (aabb.lowerBound.x > 48) {
-          if (b.GetFixtureList().GetUserData() === 'Projectile') {
+          if (b.GetUserData().class === 'Projectile') {
             // destroy offscreen projectiles
-            box.remove(b.GetUserData());
+            box.remove(b.GetUserData().uuid);
           } else {
             b.SetPosition(new b2Vec2(0 + (width / 3), b.GetPosition().y));
           }
         }
 
         if (aabb.upperBound.x < 0) {
-          if (b.GetFixtureList().GetUserData() === 'Projectile') {
+          if (b.GetUserData().class === 'Projectile') {
             // destroy offscreen projectiles
-            box.remove(b.GetUserData());
+            box.remove(b.GetUserData().uuid);
           } else {
             b.SetPosition(new b2Vec2(48 - (width / 3), b.GetPosition().y));
           }
@@ -143,8 +151,8 @@ bTest.prototype.sendUpdate = function() {
 
   var world = {};
   for (var b = this.world.GetBodyList(); b; b = b.m_next) {
-    if (typeof b.GetUserData() !== 'undefined' && b.GetUserData() != null) {
-      world[b.GetUserData()] = {
+    if (typeof b.GetUserData() !== 'undefined' && b.GetUserData() != null && b.GetUserData().uuid) {
+      world[b.GetUserData().uuid] = {
         x: b.GetPosition().x,
         y: b.GetPosition().y,
         angle: b.GetAngle(),
@@ -189,14 +197,13 @@ bTest.prototype.setBodies = function(bodyEntities) {
 
     this.bodyDef.fixedRotation = entity.fixed;
 
-    this.bodyDef.userData = uuid;
+    this.bodyDef.userData = {
+      uuid: uuid,
+      class: entity.class
+    };
 
     var body = this.bodies[uuid] = this.world.CreateBody(this.bodyDef);
-
-    this.fixDef.userData = entity.class;
     body.CreateFixture(this.fixDef);
-
-    this.fixDef.userData = null;
   }
 }
 
@@ -214,14 +221,16 @@ bTest.prototype.addPlayer = function(uuid, entity) {
 
   this.bodyDef.fixedRotation = entity.fixed;
 
-  this.bodyDef.userData = uuid;
+  this.bodyDef.userData = {
+    uuid: uuid,
+    class: entity.class
+  };
 
   var body = this.bodies[uuid] = this.world.CreateBody(this.bodyDef);
   body.numFootContacts = 0;
 
   // reset isSensor to false so Players don't fall through floor
   this.fixDef.isSensor = false;
-  this.fixDef.userData = entity.class;
   body.CreateFixture(this.fixDef);
 
   // add foot sensor fixture
@@ -234,7 +243,6 @@ bTest.prototype.addPlayer = function(uuid, entity) {
   // reset fixDef
   this.fixDef.filter.groupIndex = 0;
   this.fixDef.isSensor = false;
-  this.fixDef.userData = null;
 }
 
 bTest.prototype.fire = function(uuid, entity) {
@@ -262,17 +270,18 @@ bTest.prototype.fire = function(uuid, entity) {
 
   this.bodyDef.fixedRotation = entity.fixed;
 
-  this.bodyDef.userData = uuid;
+  this.bodyDef.userData = {
+    uuid: uuid,
+    class: entity.class
+  };
 
   var body = this.bodies[uuid] = this.world.CreateBody(this.bodyDef);
 
   this.fixDef.isSensor = entity.isSensor || false;
-  this.fixDef.filter.groupIndex = -2;
-  this.fixDef.userData = entity.class;
+  this.fixDef.filter.groupIndex = -1;
   body.CreateFixture(this.fixDef);
 
   // reset fixDef
-  this.fixDef.userData = null;
   this.fixDef.filter.groupIndex = 0;
 
   // set projectile velocity
@@ -292,6 +301,15 @@ bTest.prototype.remove = function(uuid) {
 
   process.send({
     cmd: 'remove',
+    data: uuid
+  });
+}
+
+bTest.prototype.hit = function(uuid, projectile) {
+  this.remove(projectile);
+
+  process.send({
+    cmd: 'hit',
     data: uuid
   });
 }
@@ -322,53 +340,83 @@ box.addContactListener({
   BeginContact: function(fixtures) {
     var length = fixtures.length;
     var fixture;
-    var id;
-    var beer;
+    var userData;
 
     for (var i = 0; i < length; i++) {
       fixture = fixtures[i];
+      userData = fixture.GetBody().GetUserData();
 
-      if (fixture.GetUserData() === 'feet') {
-        for (var j = 0; j < length; j++) {
-          if (fixtures[j].GetUserData() === 'Platform') {
-            id = fixture.GetBody().GetUserData();
-            box.bodies[id].numFootContacts++;
+      // filter fixture collisions
+      switch (fixture.GetUserData()) {
+        case 'feet':
+          for (var j = 0; j < length; j++) {
+            if (fixtures[j].GetBody().GetUserData().class === 'Platform') {
+              box.bodies[userData.uuid].numFootContacts++;
+            }
           }
-        }
-      } else if (fixture.GetUserData() === 'Player') {
-        for (var k = 0; k < length; k++) {
-          if (fixtures[k].GetUserData() === 'Powerup') {
-            id = fixture.GetBody().GetUserData();
-            beer = fixtures[k].GetBody().GetUserData();
+          break;
+      }
 
-            // remove powerup
-            box.remove(beer);
+      // filter body collisions
+      switch (userData.class) {
+        case 'Player':
+          for (var k = 0; k < length; k++) {
+            switch (fixtures[k].GetBody().GetUserData().class) {
+              case 'Projectile':
+                this.hit(userData.uuid, fixtures[k].GetBody().GetUserData().uuid);
+                break;
+              case 'Powerup':
+                // remove powerup
+                this.remove(fixtures[k].GetBody().GetUserData().uuid);
 
-            // handle beer powerup
-            process.send({
-              cmd: 'drink',
-              data: id
-            });
+                // handle beer powerup
+                process.send({
+                  cmd: 'drink',
+                  data: userData.uuid
+                });
+                break;
+            }
           }
-        }
+          break;
+        case 'Projectile':
+          // remove Projectile if it collides with a non-Player object
+          this.remove(userData.uuid);
+          break;
       }
     }
   },
   EndContact: function(fixtures) {
     var length = fixtures.length;
     var fixture;
-    var id;
+    var userData;
 
     for (var i = 0; i < length; i++) {
       fixture = fixtures[i];
+      userData = fixture.GetBody().GetUserData();
 
-      if (fixture.GetUserData() === 'feet') {
-        for (var j = 0; j < length; j++) {
-          if (fixtures[j].GetUserData() === 'Platform') {
-            id = fixture.GetBody().GetUserData();
-            box.bodies[id].numFootContacts--;
+      // filter fixture collisions
+      switch (fixture.GetUserData()) {
+        case 'feet':
+          for (var j = 0; j < length; j++) {
+            switch (fixtures[j].GetBody().GetUserData().class) {
+              case 'Platform':
+                box.bodies[userData.uuid].numFootContacts--;
+                break;
+            }
           }
-        }
+          break;
+      }
+
+      // filter body collisions
+      switch (userData.class) {
+        case 'Player':
+          for (var k = 0; k < length; k++) {
+            switch (fixtures[k].GetBody().GetUserData().class) {
+              case 'Projectile':
+                this.hit(userData.uuid, fixtures[k].GetBody().GetUserData().uuid);
+                break;
+            }
+          }
       }
     }
   }
