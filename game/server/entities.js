@@ -44,6 +44,12 @@
 
         if (entity) {
           state = entity.serialize();
+
+          // stop sending full state in delta
+          // after entity has been sent in full state update
+          entity.set({
+            'isNew': false
+          });
         }
 
         if (state) {
@@ -71,11 +77,17 @@
         var delta;
 
         if (entity) {
-          delta = entity.getDelta(async, _);
+          // send new objects in delta updates until sent by a full state update
+          if (entity.state.private.isNew) {
+            delta = entity.serialize();
+          } else {
+            delta = entity.getDelta(async, _);
+          }
         }
 
         if (delta) {
           data.entities[uuid] = delta;
+
           if (this.global[uuid].state.private.isDead) {
             cleanup(this, uuid);
           }

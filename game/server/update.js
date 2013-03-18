@@ -28,9 +28,10 @@
 
   };
 
-  var sendClientGameworld = function(socket){
+  var sendClientGameworld = function(socket) {
     state(socket, true);
   };
+
   var state = function(socket, sendCompleteWorld) {
 
     var data = {};
@@ -44,10 +45,10 @@
       var length = connected.length;
 
       for (var i = 0; i < length; i++) {
-        if(sendCompleteWorld){ // Clients need the whole gameworld the first go around.
-            connected[i].emit('state:full', data);
+        if (sendCompleteWorld) { // Clients need the whole gameworld the first go around.
+          connected[i].emit('state:full', data);
         } else{
-           connected[i].volatile.emit('state:full', data);
+          connected[i].volatile.emit('state:full', data);
         }
       }
 

@@ -216,6 +216,7 @@
           state = entity;
 
           if (state.t && types[state.t]) {
+            console.log(state.t, types[state.t]);
             client.entities[uuid] = new types[state.t](state, uuid, client);
             if (client.entities[uuid].needsImage()) {
               client.entities[uuid].createImage(client);

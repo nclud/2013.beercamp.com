@@ -43,6 +43,11 @@
       this.createActor(client);
     }
 
+    // send entity with delta updates until sent by full state update
+    this.set({
+      'isNew': true
+    });
+
     this.queue = {};
 
     // interpolation queue
