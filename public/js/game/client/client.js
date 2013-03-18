@@ -358,7 +358,7 @@
 
       if (interpolate) {
 
-        // interpolate position of other players
+        // interpolate position of other entities
         entity.interpolate();
 
       } else {

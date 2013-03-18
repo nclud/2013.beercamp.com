@@ -40,8 +40,8 @@ function bTest(intervalRate, adaptive) {
   this.lastTimestamp = Date.now();
 
   this.world = new b2World(
-    new b2Vec2(0, 50), //gravity
-    true //allow sleep
+    new b2Vec2(0, 0), // zero gravity
+    true // allow sleep
   );
 
   // use information generated in the previous simulation timestep
@@ -80,17 +80,6 @@ bTest.prototype.addContactListener = function(callbacks) {
 }
 
 bTest.prototype.update = function() {
-  // console.log('update', Date.now());
-
-  var now = Date.now();
-  var stepRate = (this.adaptive) ? (now - this.lastTimestamp) / 1000 : this.intervalRate / 1000;
-  this.lastTimestamp = now;
-
-  this.world.Step(
-    stepRate, // fixed time step
-    8, // velocity iterations
-    3 // position iterations
-  );
 
   // iterate over bodies to destroy
   var body;
@@ -108,12 +97,22 @@ bTest.prototype.update = function() {
 
   // wraparound world
   for (var b = this.world.GetBodyList(); b; b = b.GetNext()) {
-    if (b.GetFixtureList()) {
-      var aabb = b.GetFixtureList().GetAABB();
-      var width = aabb.lowerBound.x - aabb.upperBound.x;
-      var height = aabb.lowerBound.y - aabb.upperBound.y;
+    if (b.GetType() === b2Body.b2_dynamicBody) {
+      var gravity = b.GetUserData().gravity;
 
-      if (b.GetType() === b2Body.b2_dynamicBody) {
+      // apply gravity
+      if (gravity) {
+        b.ApplyForce(
+          new b2Vec2(0, gravity * b.GetMass()),
+          b.GetWorldCenter()
+        );
+      }
+
+      if (b.GetFixtureList()) {
+        var aabb = b.GetFixtureList().GetAABB();
+        var width = aabb.lowerBound.x - aabb.upperBound.x;
+        var height = aabb.lowerBound.y - aabb.upperBound.y;
+
         if (aabb.lowerBound.x > 48) {
           if (b.GetUserData().class === 'Projectile') {
             // destroy offscreen projectiles
@@ -140,6 +139,18 @@ bTest.prototype.update = function() {
 
     }
   }
+
+  // console.log('update', Date.now());
+
+  var now = Date.now();
+  var stepRate = (this.adaptive) ? (now - this.lastTimestamp) / 1000 : this.intervalRate / 1000;
+  this.lastTimestamp = now;
+
+  this.world.Step(
+    stepRate, // fixed time step
+    8, // velocity iterations
+    3 // position iterations
+  );
 
   this.world.ClearForces();
   this.sendUpdate();
@@ -223,7 +234,8 @@ bTest.prototype.addPlayer = function(uuid, entity) {
 
   this.bodyDef.userData = {
     uuid: uuid,
-    class: entity.class
+    class: entity.class,
+    gravity: entity.gravity
   };
 
   var body = this.bodies[uuid] = this.world.CreateBody(this.bodyDef);
@@ -245,7 +257,7 @@ bTest.prototype.addPlayer = function(uuid, entity) {
   this.fixDef.isSensor = false;
 }
 
-bTest.prototype.fire = function(uuid, entity) {
+bTest.prototype.fire = function(uuid, entity, owner) {
   switch(entity.type) {
     case 'dynamic':
       this.bodyDef.type = b2Body.b2_dynamicBody;
@@ -272,13 +284,14 @@ bTest.prototype.fire = function(uuid, entity) {
 
   this.bodyDef.userData = {
     uuid: uuid,
-    class: entity.class
+    class: entity.class,
+    owner: owner
   };
 
   var body = this.bodies[uuid] = this.world.CreateBody(this.bodyDef);
 
   this.fixDef.isSensor = entity.isSensor || false;
-  this.fixDef.filter.groupIndex = -1;
+  this.fixDef.filter.groupIndex = -2;
   body.CreateFixture(this.fixDef);
 
   // reset fixDef
@@ -363,7 +376,10 @@ box.addContactListener({
           for (var k = 0; k < length; k++) {
             switch (fixtures[k].GetBody().GetUserData().class) {
               case 'Projectile':
-                this.hit(userData.uuid, fixtures[k].GetBody().GetUserData().uuid);
+                // prevent collisions with owner
+                if (userData.uuid !== fixtures[k].GetBody().GetUserData().owner) {
+                  this.hit(userData.uuid, fixtures[k].GetBody().GetUserData().uuid);
+                }
                 break;
               case 'Powerup':
                 // remove powerup
@@ -379,9 +395,14 @@ box.addContactListener({
           }
           break;
         case 'Projectile':
-          // remove Projectile if it collides with a non-Player object
-          this.remove(userData.uuid);
-          break;
+          for (var j = 0; j < length; j++) {
+            switch (fixtures[j].GetBody().GetUserData().class) {
+              // remove Projectile if it collides with a Platform
+              case 'Platform':
+                this.remove(userData.uuid);
+                break;
+            }
+          }
       }
     }
   },
@@ -407,6 +428,7 @@ box.addContactListener({
           break;
       }
 
+      /*
       // filter body collisions
       switch (userData.class) {
         case 'Player':
@@ -418,6 +440,7 @@ box.addContactListener({
             }
           }
       }
+      */
     }
   }
 });
@@ -446,7 +469,7 @@ process.on('message', function(data) {
       box.impulse(data.uuid, data.degrees, data.power);
       break;
     case 'fire':
-      box.fire(data.uuid, data.entity);
+      box.fire(data.uuid, data.entity, data.owner);
       break;
     case 'setZero':
       box.setZero(data.uuid);

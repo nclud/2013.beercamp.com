@@ -235,7 +235,8 @@
 
   Player.prototype.hit = function() {
     this.setPublic({
-      'isHit': true
+      'isHit': true,
+      'intoxication': Math.max(this.state.public.intoxication - 5, 5)
     });
 
     // reset hitTimeout
