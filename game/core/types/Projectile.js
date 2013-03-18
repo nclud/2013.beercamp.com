@@ -19,7 +19,7 @@
 	var Projectile = function(properties, id, client) {
     properties = properties || {};
     properties.class = properties.class || 'Projectile';
-    properties.type = properties.type || 'kinematic';
+    properties.type = properties.type || 'dynamic';
     
     properties.angle = properties.angle || 0;
     properties.width = properties.width || 2;

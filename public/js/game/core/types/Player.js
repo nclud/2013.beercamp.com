@@ -38,6 +38,7 @@
     properties.height = properties.height || 3;
     properties.fixed = properties.fixed || true;
     properties.speed = properties.speed || 230;
+    properties.gravity = properties.gravity || 50;
 
     properties.sprite = properties.sprite || {
       direction: 'right',
@@ -156,6 +157,9 @@
     if (properties.ix && !properties.intoxication) {
       properties.intoxication = properties.ix;
     }
+    if (properties.h && !properties.isHit) {
+      properties.isHit = properties.h;
+    }
     if (properties.j && !properties.isJumping) {
       properties.isJumping = properties.j;
     }
@@ -173,10 +177,11 @@
   };
 
   Player.prototype.optimizeSerializedAttributes = function(currentState) {
-    var state = _.omit(currentState, "class", "type", "angle", "width", "height", "sprite", "fixed", "speed", "velocity", "intoxication", "isJumping", "isMoving", "direction");
+    var state = _.omit(currentState, "class", "type", "angle", "width", "height", "sprite", "fixed", "speed", "velocity", "intoxication", "isHit", "isJumping", "isMoving", "direction");
     state.v = currentState.velocity;
     state.t = 'Player';
     state.ix = currentState.intoxication ? currentState.intoxication : undefined;
+    state.h = !_.isUndefined(currentState.isHit) ? currentState.isHit : undefined;
     state.j = !_.isUndefined(currentState.isJumping) ? currentState.isJumping : undefined;
     state.mv = !_.isUndefined(currentState.isMoving) ? currentState.isMoving : undefined;
     state.d = !_.isUndefined(currentState.direction) ? currentState.direction : undefined;
@@ -221,10 +226,29 @@
       worker.send({
         'cmd': 'fire',
         'uuid': entity.uuid,
-        'entity': data
+        'entity': data,
+        'owner': this.uuid
       });
     }
 
+  };
+
+  Player.prototype.hit = function() {
+    this.setPublic({
+      'isHit': true
+    });
+
+    // reset hitTimeout
+    if(this.hitTimeout) {
+      clearTimeout(this.hitTimeout);
+    }
+
+    // revert to default state
+    this.hitTimeout = setTimeout((function() {
+      this.setPublic({
+        'isHit': false
+      });
+    }).bind(this), 400);
   };
 
   Player.prototype.sendImpulse = function(worker, degrees) {

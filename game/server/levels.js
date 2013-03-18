@@ -45,9 +45,10 @@
         case 'hit':
           entity = entities.global[data];
 
-          if (entity) {
-            entity.state.public.isHit = true;
+          if (entity && entity.hit) {
+            entity.hit();
           }
+
           break;
         case 'drink':
           entity = entities.global[data];
@@ -55,6 +56,7 @@
           if (entity) {
             entity.drink();
           }
+
           break;
       }
     });
