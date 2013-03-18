@@ -196,19 +196,36 @@
     // consume beer
     this.state.public.beer--;
 
-    var x = this.state.public.x;
-    var y = this.state.public.y;
-
-    var entity = new Projectile({
-      x: x,
-      y: y,
-      direction: this.state.public.direction
+    // play throwing animation
+    this.setPublic({
+      'isThrowing': true
     });
 
-    entities.global[entity.uuid] = entity;
-    entities.local.push(entity.uuid);
+    // reset hitTimeout
+    if(this.throwTimeout) {
+      clearTimeout(this.throwTimeout);
+    }
+
+    // revert to default state
+    this.throwTimeout = setTimeout((function() {
+      this.setPublic({
+        'isThrowing': false
+      });
+    }).bind(this), 600);
 
     if (worker) {
+      var x = this.state.public.x;
+      var y = this.state.public.y;
+
+      var entity = new Projectile({
+        x: x,
+        y: y,
+        direction: this.state.public.direction
+      });
+
+      entities.global[entity.uuid] = entity;
+      entities.local.push(entity.uuid);
+
       var data = {
         class: entity.state.private.class,
         type: entity.state.private.type,
@@ -249,7 +266,7 @@
       this.setPublic({
         'isHit': false
       });
-    }).bind(this), 400);
+    }).bind(this), 500);
   };
 
   Player.prototype.sendImpulse = function(worker, degrees) {
@@ -337,8 +354,7 @@
 
         case 'spacebar':
           if (pressed['spacebar']) {
-            // TODO: play throw animation
-            // this.fire(worker);
+            this.fire();
           } else {
             this.fireButtonReleased = true;
           }
