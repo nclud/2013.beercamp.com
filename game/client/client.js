@@ -6,7 +6,8 @@
       '../core/time',
       '../core/types',
       './input',
-      './ui'
+      './ui',
+      'stats'
     ], factory);
   }
 })(this, function(core, time, types, input, ui) {

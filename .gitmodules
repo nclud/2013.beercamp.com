@@ -1,9 +1,9 @@
-[submodule "public/vendor/rAF"]
-	path = public/vendor/rAF
-	url = git://gist.github.com/1579671.git
-[submodule "public/core/vendor/underscore"]
-	path = public/core/vendor/underscore
+[submodule "game/lib/underscore"]
+	path = game/lib/underscore
 	url = git://github.com/documentcloud/underscore.git
-[submodule "public/vendor/stats"]
-	path = public/vendor/stats
+[submodule "game/lib/stats"]
+	path = game/lib/stats
 	url = git://github.com/mrdoob/stats.js.git
+[submodule "game/lib/rAF"]
+	path = game/lib/rAF
+	url = git://gist.github.com/1579671.git

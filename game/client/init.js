@@ -1,12 +1,3 @@
-require.config({
-  paths:{
-    underscore:"../../../vendor/underscore-min"
-  },
-  shim:{
-    underscore:{
-      exports:'_'
-    }
-  }});
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD
@@ -14,10 +5,11 @@ require.config({
       '../core/core',
       './input',
       './ui',
-      './client'
+      './client',
+      'underscore'
     ], factory);
   }
-})(this, function(core, input, ui, client) {
+})(this, function(core, input, ui, client, _) {
 
   // game.debug = true;
   core.initGlobalVariables();
