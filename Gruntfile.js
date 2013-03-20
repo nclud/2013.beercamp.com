@@ -6,7 +6,8 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
-          {expand: true, cwd: 'html/', src: ['**/*.html'], dest: 'dist/', filter: 'isFile'}
+          {expand: true, cwd: 'html/', src: ['**/*.html'], dest: 'dist/', filter: 'isFile'},
+          {expand: true, cwd: 'public/', src: ['vendor/**/*.js'], dest: 'dist/', filter: 'isFile'}
         ]
       }
     }, 
@@ -119,7 +120,7 @@ module.exports = function(grunt) {
     'copy'
   ]);
 
-  grunt.registerTask('usemin', [
+  grunt.registerTask('default', [
     'clean',
     'copy',
     'useminPrepare',
@@ -129,16 +130,6 @@ module.exports = function(grunt) {
     'cssmin',
     'rev',
     'usemin'
-  ]);
-
-  grunt.registerTask('default', [
-    'clean',
-    'copy',
-    'requirejs',
-    'concat',
-    'uglify',
-    'cssmin',
-    'rev'
   ]);
 
 };
