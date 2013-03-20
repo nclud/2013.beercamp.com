@@ -3,16 +3,24 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     clean: ['dist'],
+    copy: {
+      main: {
+        files: [
+          {expand: true, cwd: 'html/', src: ['**/*.html'], dest: 'dist/', filter: 'isFile'}
+        ]
+      }
+    }, 
+    useminPrepare: {
+      html: 'dist/**/*.html'
+    },
     requirejs: {
       compile: {
         options: {
-          appDir: 'game',
-          baseUrl: 'client',
+          baseUrl: 'game/client',
           paths:{
             underscore: '../lib/underscore/underscore-min',
             stats: '../lib/stats/build/stats.min'
           },
-          dir: 'build',
           shim: {
             underscore: {
               exports: '_'
@@ -22,13 +30,8 @@ module.exports = function(grunt) {
             }
           },
           optimize: 'none',
-          removeCombined: true,
-          fileExclusionRegExp: /(^\.)|(server)/,
-          modules: [
-            {
-              name: 'init'
-            }
-          ]
+          name: 'init',
+          out: 'build/client/init.js'
         }
       }
     },
@@ -48,6 +51,16 @@ module.exports = function(grunt) {
         }
       }
     },
+    cssmin: {
+      options: {
+        report: 'min'
+      },
+      compress: {
+        files: {
+          'dist/css/<%= pkg.name %>.css': ['public/css/**/*.css']
+        }
+      }
+    },
     rev: {
       options: {
         algorithm: 'sha1',
@@ -59,10 +72,9 @@ module.exports = function(grunt) {
         ]
       }
     },
-    csslint: {
-      strict: {
-        src: ['public/css/*.css']
-      }
+    usemin: {
+      html: ['dist/**/*.html'],
+      css: ['dist/**/*.css']
     },
     jshint: {
       files: ['gruntfile.js', 'game/**/*.js', 'test/**/*.js'],
@@ -74,6 +86,11 @@ module.exports = function(grunt) {
           document: true
         }
       }
+    },
+    csslint: {
+      strict: {
+        src: ['public/css/**/*.css']
+      }
     }
   });
 
@@ -81,17 +98,47 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-csslint');
 
-  grunt.registerTask('test', ['csslint', 'jshint']);
+  grunt.registerTask('test', [
+    'jshint',
+    'csslint'
+  ]);
 
   // build
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-rev');
   grunt.loadNpmTasks('grunt-usemin');
   grunt.loadNpmTasks('grunt-manifest');
 
-  grunt.registerTask('default', ['clean', 'requirejs', 'concat', 'uglify', 'rev']);
+  grunt.registerTask('html', [
+    'clean',
+    'copy'
+  ]);
+
+  grunt.registerTask('usemin', [
+    'clean',
+    'copy',
+    'useminPrepare',
+    'requirejs',
+    'concat',
+    'uglify',
+    'cssmin',
+    'rev',
+    'usemin'
+  ]);
+
+  grunt.registerTask('default', [
+    'clean',
+    'copy',
+    'requirejs',
+    'concat',
+    'uglify',
+    'cssmin',
+    'rev'
+  ]);
 
 };
