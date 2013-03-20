@@ -6,21 +6,23 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
-          {expand: true, cwd: 'html/', src: ['**/*.html'], dest: 'dist/', filter: 'isFile'},
-          {expand: true, cwd: 'public/', src: ['vendor/**/*.js'], dest: 'dist/', filter: 'isFile'}
+          {expand: true, cwd: 'html/', src: ['**/*.html'], dest: 'dist/'},
+          {src: ['vendor/**/*.js'], dest: 'dist/js/'},
+          {expand: true, cwd: 'font/', src: ['**'], dest: 'dist/css'},
+          {src: ['images/**'], dest: 'dist/'}
         ]
       }
-    }, 
+    },
     useminPrepare: {
       html: 'dist/**/*.html'
     },
     requirejs: {
       compile: {
         options: {
-          baseUrl: 'game/client',
+          baseUrl: 'game',
           paths:{
-            underscore: '../lib/underscore/underscore-min',
-            stats: '../lib/stats/build/stats.min'
+            underscore: 'lib/underscore/underscore-min',
+            stats: 'lib/stats/build/stats.min'
           },
           shim: {
             underscore: {
@@ -31,34 +33,11 @@ module.exports = function(grunt) {
             }
           },
           optimize: 'none',
-          name: 'init',
-          out: 'build/client/init.js'
-        }
-      }
-    },
-    concat: {
-      options: {
-        separator: ';'
-      },
-      dist: {
-        src: ['build/**/*.js'],
-        dest: 'dist/js/<%= pkg.name %>.js'
-      }
-    },
-    uglify: {
-      dist: {
-        files: {
-          'dist/js/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
-        }
-      }
-    },
-    cssmin: {
-      options: {
-        report: 'min'
-      },
-      compress: {
-        files: {
-          'dist/css/<%= pkg.name %>.css': ['public/css/**/*.css']
+          name: 'lib/almond/almond',
+          include: ['client/init'],
+          insertRequire: ['client/init'],
+          out: 'dist/js/beercamp.min.js',
+          wrap: true
         }
       }
     },
@@ -69,13 +48,15 @@ module.exports = function(grunt) {
       },
       files: {
         src: [
-          'dist/**/*.{js,css,jpg,jpeg,gif,png,svg,eot,ttf,woff}'
+          // usemin does not currently replace references to versioned files in js
+          // 'dist/**/*.{js,css,jpg,jpeg,gif,png,svg,eot,ttf,woff}'
+          'dist/**/*.{js,css}'
         ]
       }
     },
     usemin: {
-      html: ['dist/**/*.html'],
-      css: ['dist/**/*.css']
+      html: ['dist/**/*.html']
+      // css: ['dist/**/*.css'] // not currently versioning image assets
     },
     jshint: {
       files: ['gruntfile.js', 'game/**/*.js', 'test/**/*.js'],
@@ -90,7 +71,7 @@ module.exports = function(grunt) {
     },
     csslint: {
       strict: {
-        src: ['public/css/**/*.css']
+        src: ['css/**/*.css']
       }
     }
   });
@@ -114,11 +95,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-rev');
   grunt.loadNpmTasks('grunt-usemin');
   grunt.loadNpmTasks('grunt-manifest');
-
-  grunt.registerTask('html', [
-    'clean',
-    'copy'
-  ]);
 
   grunt.registerTask('default', [
     'clean',

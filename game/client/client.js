@@ -22,6 +22,7 @@
   var init = function(client) {
 
     // init physics worker
+    /*
     var worker = new Worker('js/game/core/worker.js');
 
     // update predicted state from worker
@@ -37,6 +38,7 @@
         }
       }
     };
+    */
 
     var clock = ui.init(client).clock;
 
@@ -174,10 +176,12 @@
 
       if (Object.keys(msg).length) {
         // add entity to prediction worker
+        /*
         worker.postMessage({
           'cmd': 'add',
           'msg': msg
         });
+        */
       }
     });
 

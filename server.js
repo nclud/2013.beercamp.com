@@ -17,7 +17,7 @@ child.fork = function(file) {
 }
 */
 
-var worker = child.fork(__dirname + '/worker.js');
+var worker = child.fork(__dirname + '/game/core/worker.js');
 
 console.log('Worker', worker.pid, worker.connected);
 // console.log('worker.send', worker.send);
@@ -38,7 +38,7 @@ var static = require('node-static');
 static.mime.addContentType('svgz', 'application/svg+xml');
 static.mime.addContentType('woff', 'application/font-woff');
 
-var file = new (static.Server)('./public');
+var file = new (static.Server)('./dist');
 
 // require server game modules, init using dependency injection if required
 // var channel = require('./game/server/redis').init();

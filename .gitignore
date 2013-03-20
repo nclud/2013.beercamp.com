@@ -5,6 +5,3 @@ node_modules
 
 # cache
 public/.sass-cache
-
-build/
-dist/

@@ -4,23 +4,22 @@
     module.exports = factory(
       require('../core'),
       require('../time'),
-      require('idgen'),
       undefined,
       undefined,
-      require('underscore')
+      require('underscore'),
+      require('idgen')
     );
   } else if(typeof define === 'function' && define.amd) {
     // AMD
     define([
       '../core',
       '../time',
-      undefined,
       './Actor',
       './Graphic',
       'underscore'
     ], factory);
   }
-})(this, function(core, time, idgen, Actor, Graphic, _) {
+})(this, function(core, time, Actor, Graphic, _, idgen) {
 
   var Entity = function(properties, id, client) {
     if(idgen) {
