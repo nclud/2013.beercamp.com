@@ -17,6 +17,7 @@
     "box2dweb-commonjs": "2.1.x"
   },
   "devDependencies": {
+    "grunt": "~0.4.1",
     "grunt-contrib-jshint": "~0.3.0",
     "grunt-contrib-csslint": "~0.1.1",
     "grunt-contrib-clean": "~0.4.0",

@@ -1,43 +1,43 @@
 # beercamp
 
-Game server written in Node.js and JavaScript client using Socket.IO and Box2D.
+Realtime multiplayer game written in Node.js and JavaScript using Socket.IO and canvas. Client interpolation from authoritative server running Box2D physics simulation in a `child_process` fork.
 
 ## Getting setup
 
-Here are the steps required to run this project locally on a Mac. This assume you have homebrew installed.
+Here are the steps required to run this project locally on a Mac. This assumes you have `brew` installed.
 
 1. Clone this repo
-1. Install node.js (Use the installer found here: http://nodejs.org/)
-1. Run `npm install`
-1. Install the git submodules
-
-```
-git submodule init
-git submodule update
-```
-
-1. Run `node server.js`
-1. Open your Browser to http://localhost:4000
-1. Play!
+2. `git submodule update --init`
+3. Install Node.js (Use the installer at http://nodejs.org/)
+4. `npm install`
+5. `node server.js`
+6. Open http://localhost:4000
+7. Play!
 
 ## Redis
 
 Redis has been removed as a dependency for now, but here is how you can set that up if you need it.
 
-1. Install Redis (brew install redis). 
-1. Start the redis server (`redis-server /usr/local/etc/redis.conf`)
+1. Install Redis `brew install redis`
+2. Start the redis server `redis-server /usr/local/etc/redis.conf`
 
 ## Deploying to production
 
-Deploy using Capistrano, so you we will need Ruby installed. Then do the following:
+Deploy using Capistrano, so Ruby must be installed.
 
-1. bundle install # This will install capistrano and it's dependencies.
-1. cap deploy
-1. Open http://affric.browsermedia.com
+1. `bundle install` This will install capistrano and it's dependencies.
+2. `cap deploy`
+3. Open http://affric.browsermedia.com
 
-## Generate the public js assets
+## Generate the optimized client dist with concatenated, minified and cache-busting versioned assets
 
 ```
-sudo npm install -g requirejs
-r.js -o build.js && node server.js
+npm install -g grunt-cli
+grunt
+```
+
+## Run jshint and csslint
+
+```
+grunt test
 ```
