@@ -92,10 +92,23 @@
   };
 
   var gameover = function(client, player) {
+
+    // disconnect from server
     client.disconnect();
 
+    var time;
+    var seconds;
+    var timeString;
+
     // this object should have all data needed to display gameover screen
-    if (player) console.log(player);
+    if (player) {
+      time = new Date(player.timer.now);
+      seconds = time.getSeconds();
+      timeString = time.getMinutes() + ':' + (seconds < 10 ? '0' + seconds : seconds);
+    }
+
+    // display blackout time
+    $('.gameover .time .clock').text(timeString);
 
     $('.gameover').fadeIn(function() {
       $('#main').hide();

@@ -1,21 +1,21 @@
 @font-face {
     font-family: 'Monstrrr-Bold';
-    src: url('monstrrrbold-regular-webfont.eot');
-    src: url('monstrrrbold-regular-webfont.eot?#iefix') format('embedded-opentype'),
-    url('monstrrrbold-regular-webfont.woff') format('woff'),
-    url('monstrrrbold-regular-webfont.ttf') format('truetype'),
-    url('monstrrrbold-regular-webfont.svg#MonstrrrBoldRegular') format('svg');
+    src: url('../font/monstrrrbold-regular-webfont.eot');
+    src: url('../font/monstrrrbold-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/monstrrrbold-regular-webfont.woff') format('woff'),
+    url('../font/monstrrrbold-regular-webfont.ttf') format('truetype'),
+    url('../font/monstrrrbold-regular-webfont.svg#MonstrrrBoldRegular') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Monstrrr-Serif';
-    src: url('monstrrrserif-regular-webfont.eot');
-    src: url('monstrrrserif-regular-webfont.eot?#iefix') format('embedded-opentype'),
-    url('monstrrrserif-regular-webfont.woff') format('woff'),
-    url('monstrrrserif-regular-webfont.ttf') format('truetype'),
-    url('monstrrrserif-regular-webfont.svg#MonstrrrSerifRegular') format('svg');
+    src: url('../font/monstrrrserif-regular-webfont.eot');
+    src: url('../font/monstrrrserif-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/monstrrrserif-regular-webfont.woff') format('woff'),
+    url('../font/monstrrrserif-regular-webfont.ttf') format('truetype'),
+    url('../font/monstrrrserif-regular-webfont.svg#MonstrrrSerifRegular') format('svg');
     font-weight: normal;
     font-style: normal;
 }

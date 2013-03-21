@@ -23,9 +23,62 @@
 .gameover .burst.ok {background: transparent url(../images/Pin_Ok.svg) no-repeat center center;background-size: 100%;}
 .gameover .burst.dafuk {background: transparent url(../images/Pin_Dafuk.svg) no-repeat center center;background-size: 100%;}
 
-.gameover .pic {width: 200px; height: 200px; display: block; clear: both; margin: 0 auto; background-size: 1000%;}
-.gameover .pic.one {background: transparent url(../images/char1.png) no-repeat left bottom; background-size: 1000%}
-.gameover .pic.two {background: transparent url(../images/char1.png) no-repeat left -700px; background-size: 1000%}
-.gameover .pic.three {background: transparent url(../images/char1.png) no-repeat left -460px; background-size: 1000%}
-.gameover .pic.four {background: transparent url(../images/char1.png) no-repeat left -240px; background-size: 1000%}
-.gameover .pic.five {background: transparent url(../images/char1.png) no-repeat left top; background-size: 1000%}
+.gameover .character {
+  margin: 20px 0 50px;
+  clear: both;
+  overflow: hidden;
+}
+
+.gameover .character .charwrap {
+  width: 50%;
+  float: left;
+}
+
+.gameover .pic {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  background: transparent no-repeat;
+  display: block;
+  clear: both;
+}
+
+.gameover .pic.one {
+  background-position: left top;
+}
+
+.gameover .pic.two {
+  background-position: left -600px;
+}
+
+.gameover .pic.three {
+  background-position: left -400px;
+}
+
+.gameover .pic.four {
+  background-position: left -200px;
+}
+
+.gameover .pic.five {
+  margin-top: -60px;
+  background-position: left bottom;
+}
+
+.gameover .time {
+  width: 50%;
+  margin-top: 20px;
+  float: right;
+  color: #FCF990;
+  font-family: Futura, Arial, sans-serif;
+  font-weight: normal;
+}
+
+.gameover .time .clock {
+  font-size: 99px;
+  line-height: 1em;
+}
+
+.gameover .time .minutes {
+  font-size: 20px;
+  text-transform: uppercase;
+}
