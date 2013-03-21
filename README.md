@@ -1,6 +1,6 @@
 # beercamp
 
-Realtime multiplayer game written in Node.js and JavaScript using Socket.IO and canvas. Client interpolation from authoritative server running Box2D physics simulation in a `child_process` fork.
+Realtime multiplayer game written in Node.js and JavaScript using Socket.IO and canvas. Client interpolation from authoritative server running Box2D physics simulation in `child_process` fork.
 
 ## Getting setup
 
@@ -29,7 +29,8 @@ Deploy using Capistrano, so Ruby must be installed.
 2. `cap deploy`
 3. Open http://affric.browsermedia.com
 
-## Generate the optimized client dist with concatenated, minified and cache-busting versioned assets
+## Generate optimized client dist
+### Concatenated, minified and versioned assets
 
 ```
 npm install -g grunt-cli
