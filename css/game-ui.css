@@ -42,7 +42,7 @@ body {
 /*** new clearfix ***/
 .cf:before, .cf:after { content:""; display:table; }
 .cf:after, .clear { clear:both; }
-.cf { *zoom:1; }
+.cf { zoom:1; }
 
 .timer-wrap {
 	position:relative;

@@ -22,7 +22,8 @@ module.exports = function(grunt) {
           baseUrl: 'game',
           paths:{
             underscore: 'lib/underscore/underscore-min',
-            stats: 'lib/stats/build/stats.min'
+            stats: 'lib/stats/build/stats.min',
+            raf: 'lib/rAF/rAF'
           },
           shim: {
             underscore: {

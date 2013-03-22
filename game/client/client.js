@@ -7,7 +7,8 @@
       '../core/types',
       './input',
       './ui',
-      'stats'
+      'stats',
+      'raf'
     ], factory);
   }
 })(this, function(core, time, types, input, ui) {
@@ -427,11 +428,11 @@
     }
   };
 
-  var currentPlayer = function(){
-      var player = this.entities[this.uuid];
-      if (player) {
-          return player;
-      }
+  var currentPlayer = function() {
+    var player = this.entities[this.uuid];
+    if (player) {
+        return player;
+    }
   };
 
   var updateUI = function(client) {
@@ -450,8 +451,8 @@
     }
   };
 
-  var disconnect = function(){
-    console.log("Game over! Thanks for playing.");
+  var disconnect = function() {
+    // console.log("Game over! Thanks for playing.");
     this.socket.disconnect();
   }
 
