@@ -138,12 +138,11 @@ nav {
 
 .char {
   width: 200px;
-  height: 240px;
+  height: 220px;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
   overflow: hidden;
-  padding-top: 2.5%;
   cursor: pointer;
   display: block;
   float: left;
@@ -202,15 +201,13 @@ nav {
   background: -o-linear-gradient(top, #001134 0%, #001134 50%, rgba(0, 17, 52, 0) 100%);
   background: linear-gradient(top, #001134 0%, #001134 50%, rgba(0, 17, 52, 0) 100%);
 }
+
 .char div {
-    -webkit-filter: grayscale(100%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
-    width: 80%;
-    height: 90%;
-    margin: 0 auto;
-    clear: none;
-    background-size: 1200%;
-    position: relative;
-    background-position-x: 1%;
+  -webkit-filter: grayscale(100%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
+  width: 80%;
+  height: 90%;
+  margin: 0 auto;
+  background-position: 1%;
 }
 
 .char:hover div:before, .controls + div:before {
@@ -226,15 +223,16 @@ nav {
 }
 
 .char:hover div {
-    -webkit-filter: grayscale(0%);
-    -webkit-animation: play .6s steps(3,start) infinite;
-    -moz-animation: play .6s steps(3,start) infinite;
-    -ms-animation: play .6s steps(3,start) infinite;
-    -o-animation: play .6s steps(3,start) infinite;
-    animation: play .6s steps(3,start) infinite;
+  -webkit-filter: grayscale(0%);
+  -webkit-animation: play .6s steps(3,start) infinite;
+  -moz-animation: play .6s steps(3,start) infinite;
+  -ms-animation: play .6s steps(3,start) infinite;
+  -o-animation: play .6s steps(3,start) infinite;
+  animation: play .6s steps(3,start) infinite;
 }
 
 .home form {
+  margin-bottom: 3em;
   text-align: center;
 }
 
@@ -244,7 +242,7 @@ nav {
   color: #FFF;
   font-family: "Monstrrr-Serif";
   font-size: 24px;
-  padding: 5px;
+  padding: 10px 15px 5px;
   text-shadow: -1px 1px black;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -438,10 +436,11 @@ nav {
 .controls ul li + li {
   margin-top: 10px;
 }
-.controls ul li span {
+
+.controls ul li .col span {
   display: inline-block;
   border-radius: 5px;
-  padding: 5px;
+  padding: 7px 6px 1px 7px;
   background-color: #0c1b44;
   min-width: 20px;
   min-height: 20px;
@@ -470,7 +469,7 @@ nav {
 }
 
 .charfloat + div {
-  width: 188px;
+  width: 200px;
   margin: 0 auto;
 }
 
@@ -485,10 +484,9 @@ nav {
   border: 2px solid #fff;
   text-decoration: none;
   margin-top: 30px;
-  padding: 5px 10px 0 36px;
+  padding: 5px 9px 0 36px;
   line-height: 180%;
   float: left;
-  clear: both;
   display: block;
   background: #83b557 url(../images/btn-arrow.png) no-repeat 10px center;
   text-align: center;
