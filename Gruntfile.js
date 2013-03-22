@@ -23,7 +23,7 @@ module.exports = function(grunt) {
           paths:{
             underscore: 'lib/underscore/underscore-min',
             stats: 'lib/stats/build/stats.min',
-            raf: 'lib/rAF/rAF'
+            raf: 'lib/rAF'
           },
           shim: {
             underscore: {

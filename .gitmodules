@@ -4,9 +4,6 @@
 [submodule "game/lib/stats"]
 	path = game/lib/stats
 	url = git://github.com/mrdoob/stats.js.git
-[submodule "game/lib/rAF"]
-	path = game/lib/rAF
-	url = git://gist.github.com/1579671.git
 [submodule "game/lib/almond"]
 	path = game/lib/almond
 	url = git://github.com/jrburke/almond.git
