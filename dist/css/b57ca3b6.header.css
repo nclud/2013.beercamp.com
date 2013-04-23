@@ -15,7 +15,6 @@
 }
 
 /*** header ***/
-/* line 24, ../sass/header.scss */
 header {
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), 0 2px 1px rgba(0, 0, 0, 0.1), 0 3px 2px rgba(0, 0, 0, 0.07), 0 3px 6px rgba(0, 0, 0, 0.07);
   z-index: 10;
@@ -30,20 +29,17 @@ header {
   z-index: 9999;
 }
 
-/* line 38, ../sass/header.scss */
 header.cf {
   width: 100%;
   padding: 0;
 }
 
-/* line 43, ../sass/header.scss */
 .header-logos {
   float: right;
   margin: 5px 15px 0 0;
   height: 55px;
 }
 
-/* line 49, ../sass/header.scss */
 header h1 {
   line-height: 1;
   font-family: 'Monstrrr-Bold', 'lucida grande', tahoma, verdana, arial, sans-serif;
@@ -53,7 +49,6 @@ header h1 {
   top: -.35em;
 }
 
-/* line 58, ../sass/header.scss */
 h1 em {
   font: normal 32.5%/.7 'Monstrrr-Serif', sans-serif;
   display: inline-block;
@@ -63,7 +58,6 @@ h1 em {
   left: -.25em;
 }
 
-/* line 67, ../sass/header.scss */
 header ul.header-location-meta {
   margin: 25px 0 0 0;
   /*text-align: center;
@@ -74,24 +68,20 @@ header ul.header-location-meta {
   left: 30%;
 }
 
-/* line 77, ../sass/header.scss */
 header li {
   display: inline;
   list-style: none;
 }
 
-/* line 81, ../sass/header.scss */
 header li:first-child {
   padding-left: 0;
 }
 
-/* line 84, ../sass/header.scss */
 header li:last-child {
   padding-right: 0;
   border: 0;
 }
 
-/* line 88, ../sass/header.scss */
 header img {
   float: right;
   position: relative;

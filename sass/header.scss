@@ -1,0 +1,93 @@
+@font-face {
+    font-family: 'Monstrrr-Bold';
+    src: url('../font/monstrrrbold-regular-webfont.eot');
+    src: url('../font/monstrrrbold-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/monstrrrbold-regular-webfont.woff') format('woff'),
+    url('../font/monstrrrbold-regular-webfont.ttf') format('truetype'),
+    url('../font/monstrrrbold-regular-webfont.svg#MonstrrrBoldRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Monstrrr-Serif';
+    src: url('../font/monstrrrserif-regular-webfont.eot');
+    src: url('../font/monstrrrserif-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/monstrrrserif-regular-webfont.woff') format('woff'),
+    url('../font/monstrrrserif-regular-webfont.ttf') format('truetype'),
+    url('../font/monstrrrserif-regular-webfont.svg#MonstrrrSerifRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*** header ***/
+header {
+    text-shadow:0 1px 0 rgba(0,0,0,0.15), 0 2px 1px rgba(0,0,0,0.1), 0 3px 2px rgba(0,0,0,0.07), 0 3px 6px rgba(0,0,0,0.07);
+    z-index:10;
+    color:#eee;
+    width: 96%;
+    background:#1a1a1a;
+    padding: 0 2%;
+    min-width: 960px;
+    height: 64px;
+    position: absolute;
+    bottom: 0;
+    z-index: 9999;
+}
+
+header.cf {
+    width: 100%;
+    padding: 0;
+}
+
+.header-logos {
+    float: right;
+    margin: 5px 15px 0 0;
+    height: 55px;
+}
+
+header h1 {
+    line-height:1;
+    font-family:'Monstrrr-Bold', 'lucida grande', tahoma, verdana, arial, sans-serif;
+    font-size:250%;
+    position:absolute;
+    left:.5em;
+    top:-.35em;
+}
+
+h1 em {
+    font:normal 32.5%/.7 'Monstrrr-Serif', sans-serif;
+    display:inline-block;
+    border-radius:4px;
+    position:relative;
+    top:-.65em;
+    left:-.25em;
+}
+
+header ul.header-location-meta {
+    margin: 25px 0 0 0;
+    /*text-align: center;
+    top: 1.4em;*/
+    padding: 0;
+    font: normal 115%/1 'Monstrrr-Serif', sans-serif;
+    position: absolute;
+    left: 30%;
+}
+
+header li {
+    display:inline;
+    list-style:none;
+}
+header li:first-child {
+    padding-left:0;
+}
+header li:last-child {
+    padding-right:0;
+    border:0;
+}
+header img {
+    float:right;
+    position:relative;
+    top:.75em;
+    margin:0 0 0 1em;
+}

@@ -1,5 +1,4 @@
 /* ==|== non-semantic helper classes ======================================== */
-/* line 2, ../sass/starting-ui.scss */
 .ir {
   display: block;
   border: 0;
@@ -12,18 +11,15 @@
   line-height: 0;
 }
 
-/* line 14, ../sass/starting-ui.scss */
 .ir br {
   display: none;
 }
 
-/* line 18, ../sass/starting-ui.scss */
 .hidden {
   display: none !important;
   visibility: hidden;
 }
 
-/* line 23, ../sass/starting-ui.scss */
 .visuallyhidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -35,7 +31,6 @@
   width: 1px;
 }
 
-/* line 34, ../sass/starting-ui.scss */
 .visuallyhidden.focusable:active, .visuallyhidden.focusable:focus {
   clip: auto;
   height: auto;
@@ -45,73 +40,60 @@
   width: auto;
 }
 
-/* line 43, ../sass/starting-ui.scss */
 .invisible {
   visibility: hidden;
 }
 
-/* line 47, ../sass/starting-ui.scss */
 .required {
   color: red;
 }
 
-/* line 51, ../sass/starting-ui.scss */
 .floatl {
   float: left;
   margin: 0;
   padding: 0 10px 10px 0;
 }
 
-/* line 57, ../sass/starting-ui.scss */
 .floatr {
   float: right;
   margin: 0;
   padding: 0 0 10px 10px;
 }
 
-/* line 63, ../sass/starting-ui.scss */
 .clearfix:before, .clearfix:after {
   content: "";
   display: table;
 }
 
-/* line 68, ../sass/starting-ui.scss */
 .clearfix:after {
   clear: both;
 }
 
-/* line 72, ../sass/starting-ui.scss */
 .clearfix {
   zoom: 1;
 }
 
-/* line 76, ../sass/starting-ui.scss */
 ::-moz-selection {
   background: #1fb9e7;
   color: #fff;
   text-shadow: none;
 }
 
-/* line 82, ../sass/starting-ui.scss */
 ::selection {
   background: #1fb9e7;
   color: #fff;
   text-shadow: none;
 }
 
-/* line 88, ../sass/starting-ui.scss */
 html {
   height: 100%;
 }
 
-/* line 92, ../sass/starting-ui.scss */
 body {
   margin: 0;
   padding: 0;
   height: 100%;
 }
-
-/* line 97, ../sass/starting-ui.scss */
 body.home {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #10193d), color-stop(100%, #313976));
   background: -webkit-linear-gradient(top, #10193d, #313976);
@@ -123,7 +105,6 @@ body.home {
   min-width: 960px;
 }
 
-/* line 108, ../sass/starting-ui.scss */
 .logo {
   height: 120px;
   width: 128px;
@@ -134,21 +115,18 @@ body.home {
   text-indent: -9999px;
 }
 
-/* line 118, ../sass/starting-ui.scss */
 .twitter-share-button {
   float: right;
   position: relative;
   top: 1em;
 }
 
-/* line 124, ../sass/starting-ui.scss */
 h2 {
   font-size: 350%;
   font-weight: normal;
   text-align: center;
 }
 
-/* line 130, ../sass/starting-ui.scss */
 nav {
   height: 50%;
   position: relative;
@@ -158,7 +136,6 @@ nav {
   width: 1000px;
 }
 
-/* line 139, ../sass/starting-ui.scss */
 .char {
   width: 200px;
   height: 220px;
@@ -173,91 +150,50 @@ nav {
 }
 
 @-webkit-keyframes play {
-  /* line 153, ../sass/starting-ui.scss */
-  from {
-    background-position: 1%;
-  }
-
-  /* line 154, ../sass/starting-ui.scss */
-  to {
-    background-position: 38%;
-  }
+   from { background-position:   1%; }
+     to { background-position:  38%; }
 }
 
 @-moz-keyframes play {
-  /* line 158, ../sass/starting-ui.scss */
-  from {
-    background-position: 1%;
-  }
-
-  /* line 159, ../sass/starting-ui.scss */
-  to {
-    background-position: 38%;
-  }
+   from { background-position:   1%; }
+     to { background-position:  38%; }
 }
 
 @-ms-keyframes play {
-  /* line 163, ../sass/starting-ui.scss */
-  from {
-    background-position: 1%;
-  }
-
-  /* line 164, ../sass/starting-ui.scss */
-  to {
-    background-position: 38%;
-  }
+   from { background-position:   1%; }
+     to { background-position:  38%; }
 }
 
 @-o-keyframes play {
-  /* line 168, ../sass/starting-ui.scss */
-  from {
-    background-position: 1%;
-  }
-
-  /* line 169, ../sass/starting-ui.scss */
-  to {
-    background-position: 38%;
-  }
+   from { background-position:   1%; }
+     to { background-position:  38%; }
 }
 
 @keyframes play {
-  /* line 173, ../sass/starting-ui.scss */
-  from {
-    background-position: 1%;
-  }
-
-  /* line 174, ../sass/starting-ui.scss */
-  to {
-    background-position: 38%;
-  }
+   from { background-position :  1%; }
+     to { background-position:  38%; }
 }
 
-/* line 177, ../sass/starting-ui.scss */
 #char1 {
-  background-image: url(../images/char1.png);
+    background-image: url(../images/char1.png);
 }
 
-/* line 181, ../sass/starting-ui.scss */
 #char2 {
-  background-image: url(../images/char2.png);
+    background-image: url(../images/char2.png);
 }
 
-/* line 185, ../sass/starting-ui.scss */
 #char3 {
-  background-image: url(../images/char3.png);
+    background-image: url(../images/char3.png);
 }
 
-/* line 189, ../sass/starting-ui.scss */
 #char4 {
-  background-image: url(../images/char4.png);
+    background-image: url(../images/char4.png);
 }
 
-/* line 193, ../sass/starting-ui.scss */
 #char5 {
-  background-image: url(../images/char5.png);
+    background-image: url(../images/char5.png);
 }
 
-/* line 197, ../sass/starting-ui.scss */
 .char:hover {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #001134), color-stop(50%, #001134), color-stop(100%, rgba(0, 17, 52, 0)));
   background: -webkit-linear-gradient(top, #001134 0%, #001134 50%, rgba(0, 17, 52, 0) 100%);
@@ -266,17 +202,14 @@ nav {
   background: linear-gradient(top, #001134 0%, #001134 50%, rgba(0, 17, 52, 0) 100%);
 }
 
-/* line 205, ../sass/starting-ui.scss */
 .char div {
-  -webkit-filter: grayscale(100%);
-  /* Chrome 19+, Safari 6+, Safari 6+ iOS */
+  -webkit-filter: grayscale(100%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
   width: 80%;
   height: 90%;
   margin: 0 auto;
   background-position: 1%;
 }
 
-/* line 213, ../sass/starting-ui.scss */
 .char:hover div:before, .controls + div:before {
   content: '';
   position: absolute;
@@ -289,23 +222,20 @@ nav {
   box-shadow: 0 25px 25px #000000;
 }
 
-/* line 225, ../sass/starting-ui.scss */
 .char:hover div {
   -webkit-filter: grayscale(0%);
-  -webkit-animation: play 0.6s steps(3, start) infinite;
-  -moz-animation: play 0.6s steps(3, start) infinite;
-  -ms-animation: play 0.6s steps(3, start) infinite;
-  -o-animation: play 0.6s steps(3, start) infinite;
-  animation: play 0.6s steps(3, start) infinite;
+  -webkit-animation: play .6s steps(3,start) infinite;
+  -moz-animation: play .6s steps(3,start) infinite;
+  -ms-animation: play .6s steps(3,start) infinite;
+  -o-animation: play .6s steps(3,start) infinite;
+  animation: play .6s steps(3,start) infinite;
 }
 
-/* line 234, ../sass/starting-ui.scss */
 .home form {
   margin-bottom: 3em;
   text-align: center;
 }
 
-/* line 239, ../sass/starting-ui.scss */
 .home input[type=text] {
   background-color: #223359;
   border: 0 none;
@@ -319,12 +249,10 @@ nav {
   border-radius: 5px;
 }
 
-/* line 252, ../sass/starting-ui.scss */
 .home input[type=text]:focus {
   outline: none;
 }
 
-/* line 256, ../sass/starting-ui.scss */
 .home input[type=submit] {
   font-family: "Monstrrr-Serif";
   font-size: 24px;
@@ -338,7 +266,6 @@ nav {
   border-radius: 5px;
 }
 
-/* line 269, ../sass/starting-ui.scss */
 .splash {
   height: 100%;
   background: url(../images/bg-city.jpg) no-repeat center center fixed;
@@ -351,7 +278,6 @@ nav {
   box-shadow: 0 0 100px 0 black inset;
 }
 
-/* line 281, ../sass/starting-ui.scss */
 .container {
   position: relative;
   margin: 0 auto;
@@ -360,7 +286,6 @@ nav {
   height: 100%;
 }
 
-/* line 289, ../sass/starting-ui.scss */
 .home .container {
   background: url(../images/burst-gradient.svg) no-repeat center center;
   -webkit-background-size: cover;
@@ -369,7 +294,6 @@ nav {
   background-size: cover;
 }
 
-/* line 297, ../sass/starting-ui.scss */
 .splashbg {
   width: 818px;
   height: 468px;
@@ -379,24 +303,20 @@ nav {
   z-index: 8888;
 }
 
-/* line 306, ../sass/starting-ui.scss */
 .splash img {
   max-width: 100%;
 }
 
 @-webkit-keyframes in1 {
-  /* line 311, ../sass/starting-ui.scss */
   0% {
     -webkit-transform: translate(0, -1000%);
   }
 
-  /* line 315, ../sass/starting-ui.scss */
   100% {
     -webkit-transform: translate(0, 0);
   }
 }
 
-/* line 320, ../sass/starting-ui.scss */
 .splash .title {
   width: 83.6%;
   height: 31.2%;
@@ -416,18 +336,15 @@ nav {
 }
 
 @-webkit-keyframes in2 {
-  /* line 339, ../sass/starting-ui.scss */
   0% {
     -webkit-transform: translate(0, 300%);
   }
 
-  /* line 343, ../sass/starting-ui.scss */
   100% {
     -webkit-transform: translate(0, 0);
   }
 }
 
-/* line 348, ../sass/starting-ui.scss */
 .splash .btn-start {
   width: 38.8%;
   height: 16.7%;
@@ -446,7 +363,6 @@ nav {
   cursor: pointer;
 }
 
-/* line 366, ../sass/starting-ui.scss */
 .splash .btn-start:active {
   -webkit-filter: none;
   width: 38.3%;
@@ -463,18 +379,15 @@ nav {
 }
 
 @-webkit-keyframes canFly {
-  /* line 382, ../sass/starting-ui.scss */
   0% {
     -webkit-transform: translate(0, 0);
   }
 
-  /* line 386, ../sass/starting-ui.scss */
   100% {
     -webkit-transform: translate(400%, -40%);
   }
 }
 
-/* line 391, ../sass/starting-ui.scss */
 #splashcan {
   left: 55%;
   top: 40%;
@@ -487,7 +400,6 @@ nav {
   display: block;
 }
 
-/* line 403, ../sass/starting-ui.scss */
 .coverup {
   background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
@@ -499,15 +411,12 @@ nav {
   z-index: 8001;
 }
 
-/* line 414, ../sass/starting-ui.scss */
 .controls {
   background-color: #21496c;
   border-radius: 10px;
   padding: 20px;
   float: left;
 }
-
-/* line 420, ../sass/starting-ui.scss */
 .controls ul {
   margin: 0;
   padding: 0 20px 0 0;
@@ -515,8 +424,6 @@ nav {
   float: left;
   clear: none;
 }
-
-/* line 427, ../sass/starting-ui.scss */
 .controls ul li {
   margin: 0;
   padding: 0;
@@ -526,13 +433,10 @@ nav {
   display: block;
   line-height: 28px;
 }
-
-/* line 436, ../sass/starting-ui.scss */
 .controls ul li + li {
   margin-top: 10px;
 }
 
-/* line 440, ../sass/starting-ui.scss */
 .controls ul li .col span {
   display: inline-block;
   border-radius: 5px;
@@ -544,13 +448,9 @@ nav {
   line-height: 20px;
   margin-right: 10px;
 }
-
-/* line 451, ../sass/starting-ui.scss */
 .controls ul li span.space {
   padding: 5px 20px;
 }
-
-/* line 454, ../sass/starting-ui.scss */
 .controls p {
   float: left;
   clear: none;
@@ -558,38 +458,28 @@ nav {
   padding: 0;
   text-align: center;
 }
-
-/* line 461, ../sass/starting-ui.scss */
 .controls + .charfloat {
   float: right;
   position: relative;
   width: 140px;
   clear: right;
 }
-
-/* line 467, ../sass/starting-ui.scss */
 .controls + .charfloat img {
   -webkit-filter: drop-shadow(-2px 2px 2px rgba(0, 0, 0, 0.5));
 }
 
-/* line 471, ../sass/starting-ui.scss */
 .charfloat + div {
   width: 200px;
   margin: 0 auto;
 }
 
-/* line 476, ../sass/starting-ui.scss */
 .instructions {
   width: 450px;
   margin: 0px auto;
 }
-
-/* line 480, ../sass/starting-ui.scss */
 .instructions a {
   color: #fff;
 }
-
-/* line 483, ../sass/starting-ui.scss */
 .instructions a.btn-start {
   border: 2px solid #fff;
   text-decoration: none;
@@ -606,8 +496,6 @@ nav {
   -moz-box-shadow: -5px 5px 0 0 rgba(0, 0, 0, 0.5);
   box-shadow: -5px 5px 0 0 rgba(0, 0, 0, 0.5);
 }
-
-/* line 499, ../sass/starting-ui.scss */
 .instructions a.btn-start:active {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;

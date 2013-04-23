@@ -74,6 +74,77 @@ module.exports = function(grunt) {
       strict: {
         src: ['css/**/*.css']
       }
+    },
+    compass: {
+      dev: {
+        options: {
+          sassDir: 'sass',
+          cssDir: 'css',
+          imagesDir: 'images',
+          fontsDir: 'font',
+          relativeAssets: false,
+          noLineComments: false,
+          outputStyle: 'expanded'
+        }
+      },
+      prod: {
+        options: {
+          sassDir: 'sass',
+          cssDir: 'dist/css',
+          imagesDir: 'images',
+          fontsDir: 'font',
+          noLineComments: true,
+          outputStyle: 'expanded'
+        }
+      }
+    },
+    templatePath: 'html/templates',
+    distPath: 'dist/html',
+    htmlbuild: {
+        charselect: {
+            src: 'html/charselect.html',
+            dest: '<%= distPath %>',
+            options: {
+                sections: {
+                    banner:    '<%= templatePath %>/banner.html',
+                    analytics: '<%= templatePath %>/analytics.html',
+                    styles:    '<%= templatePath %>/styles.html'
+                }
+            }
+        },
+        game: {
+            src: 'html/game.html',
+            dest: '<%= distPath %>',
+            options: {
+                sections: {
+                    banner:    '<%= templatePath %>/banner.html',
+                    analytics: '<%= templatePath %>/analytics.html',
+                    styles:    '<%= templatePath %>/styles.html'
+                }
+            }
+        },
+        index: {
+            src: 'html/index.html',
+            dest: '<%= distPath %>',
+            options: {
+                sections: {
+                    banner:    '<%= templatePath %>/banner.html',
+                    analytics: '<%= templatePath %>/analytics.html',
+                    styles:    '<%= templatePath %>/styles.html'
+                }
+            }
+        },
+        instructions: {
+            src: 'html/instructions.html',
+            dest: '<%= distPath %>',
+            options: {
+                sections: {
+                    banner:    '<%= templatePath %>/banner.html',
+                    analytics: '<%= templatePath %>/analytics.html',
+                    styles:    '<%= templatePath %>/styles.html'
+                }
+            }
+        },
     }
   });
 
@@ -96,10 +167,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-rev');
   grunt.loadNpmTasks('grunt-usemin');
   grunt.loadNpmTasks('grunt-manifest');
+  grunt.loadNpmTasks('grunt-html-build');
+  grunt.loadNpmTasks('grunt-contrib-compass');
 
   grunt.registerTask('default', [
     'clean',
     'copy',
+    'compass',
+    'htmlbuild',
     'useminPrepare',
     'requirejs',
     'concat',

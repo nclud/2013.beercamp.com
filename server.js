@@ -35,8 +35,8 @@ console.log('Server started, listening on port ' + config.port);
 var static = require('node-static');
 
 // add custom mime types
-static.mime.addContentType('svgz', 'application/svg+xml');
-static.mime.addContentType('woff', 'application/font-woff');
+// static.mime.addContentType('svgz', 'application/svg+xml');
+// static.mime.addContentType('woff', 'application/font-woff');
 
 var file = new (static.Server)('./dist');
 

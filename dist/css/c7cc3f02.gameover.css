@@ -1,5 +1,4 @@
 /* Game Over Screen(s) */
-/* line 3, ../sass/gameover.scss */
 .gameover .container {
   width: 500px;
   margin: 0 auto;
@@ -8,14 +7,12 @@
   display: none;
 }
 
-/* line 4, ../sass/gameover.scss */
 .gameover h1 {
   float: left;
   clear: none;
   margin-bottom: 20px;
 }
 
-/* line 5, ../sass/gameover.scss */
 .gameover .blackout h1 {
   background: transparent url(../images/Type_BlackOut.svg) no-repeat center center;
   width: 400px;
@@ -24,7 +21,6 @@
   text-indent: -9999;
 }
 
-/* line 6, ../sass/gameover.scss */
 .gameover .schwasted h1 {
   background: transparent url(../images/Type_Schwasted.svg) no-repeat center center;
   width: 400px;
@@ -34,7 +30,6 @@
   background-size: 90%;
 }
 
-/* line 7, ../sass/gameover.scss */
 .gameover .buzzed h1 {
   background: transparent url(../images/Type_Buzzed.svg) no-repeat center center;
   width: 400px;
@@ -43,7 +38,6 @@
   text-indent: -9999;
 }
 
-/* line 8, ../sass/gameover.scss */
 .gameover .tipsy h1 {
   background: transparent url(../images/Type_Tipsy.svg) no-repeat center center;
   width: 400px;
@@ -53,7 +47,6 @@
   background-size: 100%;
 }
 
-/* line 9, ../sass/gameover.scss */
 .gameover .sober h1 {
   background: transparent url(../images/Type_Sober.svg) no-repeat center center;
   width: 400px;
@@ -63,12 +56,10 @@
   background-size: 95%;
 }
 
-/* line 10, ../sass/gameover.scss */
 .gameover a {
   display: block;
 }
 
-/* line 11, ../sass/gameover.scss */
 .gameover .tweet {
   float: left;
   background: transparent url(../images/Button_Tweet.svg) no-repeat center center;
@@ -76,7 +67,6 @@
   height: 120px;
 }
 
-/* line 12, ../sass/gameover.scss */
 .gameover .facebook {
   float: right;
   background: transparent url(../images/Button_Share.svg) no-repeat center center;
@@ -84,7 +74,6 @@
   height: 120px;
 }
 
-/* line 13, ../sass/gameover.scss */
 .gameover .replay {
   float: left;
   background: transparent url(../images/Button_Replay.svg) no-repeat center center;
@@ -92,7 +81,6 @@
   height: 90px;
 }
 
-/* line 14, ../sass/gameover.scss */
 .gameover .newchar {
   float: right;
   background: transparent url(../images/Button_CharacterSelect.svg) no-repeat center center;
@@ -100,7 +88,6 @@
   height: 90px;
 }
 
-/* line 16, ../sass/gameover.scss */
 .gameover .glass {
   width: 60px;
   height: 340px;
@@ -114,12 +101,10 @@
   margin-left: 20px;
 }
 
-/* line 17, ../sass/gameover.scss */
 .gameover .glass.shitty {
   background: transparent url(../images/gameover-blackout.png) no-repeat center center;
 }
 
-/* line 19, ../sass/gameover.scss */
 .gameover .burst {
   width: 100px;
   height: 100px;
@@ -128,50 +113,42 @@
   left: 20px;
 }
 
-/* line 20, ../sass/gameover.scss */
 .gameover .burst.congrats {
   background: transparent url(../images/Pin_Congrats.svg) no-repeat center center;
   background-size: 100%;
 }
 
-/* line 21, ../sass/gameover.scss */
 .gameover .burst.superb {
   background: transparent url(../images/Pin_Superb.svg) no-repeat center center;
   background-size: 100%;
 }
 
-/* line 22, ../sass/gameover.scss */
 .gameover .burst.nice {
   background: transparent url(../images/Pin_Nice.svg) no-repeat center center;
   background-size: 100%;
 }
 
-/* line 23, ../sass/gameover.scss */
 .gameover .burst.ok {
   background: transparent url(../images/Pin_Ok.svg) no-repeat center center;
   background-size: 100%;
 }
 
-/* line 24, ../sass/gameover.scss */
 .gameover .burst.dafuk {
   background: transparent url(../images/Pin_Dafuk.svg) no-repeat center center;
   background-size: 100%;
 }
 
-/* line 26, ../sass/gameover.scss */
 .gameover .character {
   margin: 20px 0 50px;
   clear: both;
   overflow: hidden;
 }
 
-/* line 32, ../sass/gameover.scss */
 .gameover .character .charwrap {
   width: 50%;
   float: left;
 }
 
-/* line 37, ../sass/gameover.scss */
 .gameover .pic {
   width: 200px;
   height: 200px;
@@ -181,33 +158,27 @@
   clear: both;
 }
 
-/* line 46, ../sass/gameover.scss */
 .gameover .pic.one {
   background-position: left top;
 }
 
-/* line 50, ../sass/gameover.scss */
 .gameover .pic.two {
   background-position: left -600px;
 }
 
-/* line 54, ../sass/gameover.scss */
 .gameover .pic.three {
   background-position: left -400px;
 }
 
-/* line 58, ../sass/gameover.scss */
 .gameover .pic.four {
   background-position: left -200px;
 }
 
-/* line 62, ../sass/gameover.scss */
 .gameover .pic.five {
   margin-top: -60px;
   background-position: left bottom;
 }
 
-/* line 67, ../sass/gameover.scss */
 .gameover .time {
   width: 50%;
   margin-top: 20px;
@@ -217,13 +188,11 @@
   font-weight: normal;
 }
 
-/* line 76, ../sass/gameover.scss */
 .gameover .time .clock {
   font-size: 99px;
   line-height: 1em;
 }
 
-/* line 81, ../sass/gameover.scss */
 .gameover .time .minutes {
   font-size: 20px;
   text-transform: uppercase;

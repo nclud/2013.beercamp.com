@@ -1,4 +1,3 @@
-/* line 1, ../sass/style.scss */
 html, body {
   height: 100%;
   margin: 0;
@@ -6,18 +5,15 @@ html, body {
   color: #B3D88C;
 }
 
-/* line 8, ../sass/style.scss */
 p {
   margin: 0;
 }
 
-/* line 12, ../sass/style.scss */
 #main {
   height: 100%;
   -webkit-perspective: 600;
 }
 
-/* line 17, ../sass/style.scss */
 #action {
   position: absolute;
   top: 50%;
@@ -26,7 +22,6 @@ p {
   font-size: 72px;
 }
 
-/* line 25, ../sass/style.scss */
 #panel {
   width: 50%;
   height: 50%;
@@ -38,14 +33,12 @@ p {
   -webkit-transition: all .1s ease;
 }
 
-/* line 36, ../sass/style.scss */
 #gyroscope {
   position: fixed;
   bottom: 0;
   left: 0;
 }
 
-/* line 42, ../sass/style.scss */
 #accelerometer {
   position: fixed;
   bottom: 0;
