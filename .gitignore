@@ -2,6 +2,7 @@
 *.swp
 node_modules
 .rvmrc
+.sass-cache
 
 # cache
 public/.sass-cache

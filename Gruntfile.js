@@ -99,7 +99,7 @@ module.exports = function(grunt) {
       }
     },
     templatePath: 'html/templates',
-    distPath: 'dist/html',
+    distPath: 'dist',
     htmlbuild: {
         charselect: {
             src: 'html/charselect.html',
@@ -178,7 +178,7 @@ module.exports = function(grunt) {
     'useminPrepare',
     'requirejs',
     'concat',
-    'uglify',
+    // 'uglify',
     'cssmin',
     'rev',
     'usemin'

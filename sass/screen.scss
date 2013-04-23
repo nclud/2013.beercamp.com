@@ -1,3 +1,5 @@
+@import 'compass';
+
 html, body {
   overflow: hidden;
   position: relative;
@@ -15,18 +17,9 @@ body {
   font-family: sans-serif;
   font-weight: bold;
   text-align: center;
-  -webkit-transition-property: top;
-  -moz-transition-property: top;
-  -o-transition-property: top;
-  transition-property: top;
-  -webkit-transition-duration: 0.1s;
-  -moz-transition-duration: 0.1s;
-  -o-transition-duration: 0.1s;
-  transition-duration: 0.1s;
-  -webkit-transition-timing-function: ease-in;
-  -moz-transition-timing-function: ease-in;
-  -o-transition-timing-function: ease-in;
-  transition-timing-function: ease-in;
+  @include transition-property(top);
+  @include transition-duration(0.1s);
+  @include transition-timing-function(ease-in);
   -webkit-font-smoothing: antialiased;
 }
 body.game {
@@ -48,11 +41,7 @@ a {
   top: -400px;
   width: 900px;
   z-index: 2;
-  -webkit-transform: rotate(-20deg);
-  -moz-transform: rotate(-20deg);
-  -ms-transform: rotate(-20deg);
-  -o-transform: rotate(-20deg);
-  transform: rotate(-20deg);
+  @include rotate(-20deg);
 }
 
 canvas {
