@@ -31,18 +31,18 @@ a {
   color: #66cccc;
 }
 
-#main:after {
-  background: rgba(255, 255, 255, 0.18);
-  content: '';
-  display: block;
-  height: 550px;
-  left: -150px;
-  position: absolute;
-  top: -400px;
-  width: 900px;
-  z-index: 2;
-  @include rotate(-20deg);
-}
+// #main:after {
+//     background: rgba(255, 255, 255, 0.18);
+//     content: '';
+//     display: block;
+//     height: 550px;
+//     left: -150px;
+//     position: absolute;
+//     top: -400px;
+//     width: 900px;
+//     z-index: 2;
+//     @include rotate(-20deg);
+// }
 
 canvas {
   position: absolute;

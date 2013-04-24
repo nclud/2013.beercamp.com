@@ -433,15 +433,14 @@ body {
   top: 1em;
 }
 
-/*** main ***/
-/* line 178, ../sass/game-ui.scss */
+/* line 177, ../sass/game-ui.scss */
 .main {
   height: 100%;
   width: 100%;
   display: table-row;
 }
 
-/* line 184, ../sass/game-ui.scss */
+/* line 183, ../sass/game-ui.scss */
 aside {
   background: rgba(0, 0, 0, 0.5);
   width: 120px;
@@ -454,20 +453,20 @@ aside {
   z-index: 3;
 }
 
-/* line 196, ../sass/game-ui.scss */
+/* line 195, ../sass/game-ui.scss */
 aside + div + aside {
   left: auto;
   right: 0;
 }
 
-/* line 201, ../sass/game-ui.scss */
+/* line 200, ../sass/game-ui.scss */
 .holder-wrap {
   width: 100%;
   height: 100%;
   display: table;
 }
 
-/* line 207, ../sass/game-ui.scss */
+/* line 206, ../sass/game-ui.scss */
 .holder {
   width: 100%;
   height: 100%;
@@ -475,21 +474,21 @@ aside + div + aside {
   display: table-cell;
 }
 
-/* line 214, ../sass/game-ui.scss */
+/* line 213, ../sass/game-ui.scss */
 .contents {
   width: 100%;
   height: 600px;
 }
 
 /*** gameeee ***/
-/* line 220, ../sass/game-ui.scss */
+/* line 219, ../sass/game-ui.scss */
 .game-wrap {
   height: 100%;
   width: 100%;
   padding: 0 120px;
 }
 
-/* line 226, ../sass/game-ui.scss */
+/* line 225, ../sass/game-ui.scss */
 .score-updates {
   padding: .25em 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
@@ -499,7 +498,7 @@ aside + div + aside {
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), 0 2px 1px rgba(0, 0, 0, 0.1), 0 3px 2px rgba(0, 0, 0, 0.07), 0 3px 6px rgba(0, 0, 0, 0.07);
 }
 
-/* line 234, ../sass/game-ui.scss */
+/* line 233, ../sass/game-ui.scss */
 .weapon-updates {
   padding: 0;
   margin: 0;
@@ -509,7 +508,7 @@ aside + div + aside {
   cursor: pointer;
 }
 
-/* line 242, ../sass/game-ui.scss */
+/* line 241, ../sass/game-ui.scss */
 .weapon {
   background: url(../images/n/can.svg) no-repeat 12px 0;
   height: 49px;
@@ -519,12 +518,12 @@ aside + div + aside {
 }
 
 @-webkit-keyframes added {
-  /* line 251, ../sass/game-ui.scss */
+  /* line 250, ../sass/game-ui.scss */
   from {
     opacity: 0;
   }
 
-  /* line 254, ../sass/game-ui.scss */
+  /* line 253, ../sass/game-ui.scss */
   to {
     opacity: 1;
     -webkit-filter: drop-shadow(0 0 3px rgba(0, 255, 255, 0.5));
@@ -532,12 +531,12 @@ aside + div + aside {
 }
 
 @-moz-keyframes added {
-  /* line 260, ../sass/game-ui.scss */
+  /* line 259, ../sass/game-ui.scss */
   from {
     opacity: 0;
   }
 
-  /* line 263, ../sass/game-ui.scss */
+  /* line 262, ../sass/game-ui.scss */
   to {
     opacity: 1;
     -moz-filter: drop-shadow(0 0 3px rgba(0, 255, 255, 0.5));
@@ -545,19 +544,19 @@ aside + div + aside {
 }
 
 @keyframes added {
-  /* line 269, ../sass/game-ui.scss */
+  /* line 268, ../sass/game-ui.scss */
   from {
     opacity: 0;
   }
 
-  /* line 272, ../sass/game-ui.scss */
+  /* line 271, ../sass/game-ui.scss */
   to {
     opacity: 1;
     filter: drop-shadow(0 0 3px rgba(0, 255, 255, 0.5));
   }
 }
 
-/* line 278, ../sass/game-ui.scss */
+/* line 277, ../sass/game-ui.scss */
 .weapon.added {
   opacity: 1;
   -webkit-animation: added .2s ease-out 1;
@@ -568,7 +567,7 @@ aside + div + aside {
   filter: drop-shadow(0 0 3px rgba(0, 255, 255, 0.5));
 }
 
-/* line 287, ../sass/game-ui.scss */
+/* line 286, ../sass/game-ui.scss */
 .special-weapon {
   height: 100px;
   width: 100%;
@@ -607,7 +606,7 @@ aside + div + aside {
   background:url(../images/n/items.svg) no-repeat -1226px -6px;
 }
 */
-/* line 324, ../sass/game-ui.scss */
+/* line 323, ../sass/game-ui.scss */
 .special-weapon div {
   position: fixed;
   top: 0;
@@ -631,13 +630,13 @@ aside + div + aside {
   -webkit-filter:drop-shadow(0 0 10px rgba(255,255,255,0.5));*/
 }
 
-/* line 346, ../sass/game-ui.scss */
+/* line 345, ../sass/game-ui.scss */
 .funnel-wrap {
   height: 540px;
   position: relative;
 }
 
-/* line 350, ../sass/game-ui.scss */
+/* line 349, ../sass/game-ui.scss */
 .funnel {
   height: 100%;
   width: 96px;
@@ -649,7 +648,7 @@ aside + div + aside {
   z-index: 2;
 }
 
-/* line 361, ../sass/game-ui.scss */
+/* line 360, ../sass/game-ui.scss */
 .level {
   position: relative;
   height: 19px;
@@ -659,24 +658,24 @@ aside + div + aside {
   top: 0;
   z-index: 5;
 }
-/* line 369, ../sass/game-ui.scss */
+/* line 368, ../sass/game-ui.scss */
 .level.buzzed {
   top: 407px;
 }
-/* line 372, ../sass/game-ui.scss */
+/* line 371, ../sass/game-ui.scss */
 .level.happy {
   top: 262px;
 }
-/* line 375, ../sass/game-ui.scss */
+/* line 374, ../sass/game-ui.scss */
 .level.drunkkk {
   top: 119px;
 }
-/* line 378, ../sass/game-ui.scss */
+/* line 377, ../sass/game-ui.scss */
 .level.shitty {
   top: -10px;
 }
 
-/* line 383, ../sass/game-ui.scss */
+/* line 382, ../sass/game-ui.scss */
 .beer {
   position: absolute;
   bottom: -468px;
@@ -691,27 +690,27 @@ aside + div + aside {
   transition: all .2s ease-out;
 }
 
-/* line 396, ../sass/game-ui.scss */
+/* line 395, ../sass/game-ui.scss */
 .beer.buzzed {
   bottom: -348px;
 }
 
-/* line 399, ../sass/game-ui.scss */
+/* line 398, ../sass/game-ui.scss */
 .beer.happy {
   bottom: -224px;
 }
 
-/* line 402, ../sass/game-ui.scss */
+/* line 401, ../sass/game-ui.scss */
 .beer.drunkkk, .level.drunkkk {
   bottom: -98px;
 }
 
-/* line 405, ../sass/game-ui.scss */
+/* line 404, ../sass/game-ui.scss */
 .beer.shitty {
   bottom: 0;
 }
 
-/* line 408, ../sass/game-ui.scss */
+/* line 407, ../sass/game-ui.scss */
 .beer-bottom {
   position: absolute;
   bottom: -20px;
@@ -722,7 +721,7 @@ aside + div + aside {
   background: url(../images/n/beer-gauge.svg) no-repeat -202px -696px;
 }
 
-/* line 417, ../sass/game-ui.scss */
+/* line 416, ../sass/game-ui.scss */
 .beer-top {
   position: absolute;
   top: 0;
@@ -775,7 +774,7 @@ aside + div + aside {
   padding:13px 0 0;
 }*/
 /*** terminal ***/
-/* line 469, ../sass/game-ui.scss */
+/* line 468, ../sass/game-ui.scss */
 .terminal {
   padding: 1.25em;
   height: 5.5em;
@@ -784,17 +783,17 @@ aside + div + aside {
   font-size: 85%;
 }
 
-/* line 476, ../sass/game-ui.scss */
+/* line 475, ../sass/game-ui.scss */
 .terminal > div {
   display: none;
 }
 
-/* line 479, ../sass/game-ui.scss */
+/* line 478, ../sass/game-ui.scss */
 .terminal > div:first-child {
   display: block;
 }
 
-/* line 482, ../sass/game-ui.scss */
+/* line 481, ../sass/game-ui.scss */
 .terminal small {
   display: block;
   opacity: .6;
@@ -802,7 +801,7 @@ aside + div + aside {
   padding: 0 0 0 1em;
 }
 
-/* line 488, ../sass/game-ui.scss */
+/* line 487, ../sass/game-ui.scss */
 .terminal small:before {
   content: "\003E";
   position: absolute;
@@ -810,12 +809,12 @@ aside + div + aside {
   top: -.1em;
 }
 
-/* line 495, ../sass/game-ui.scss */
+/* line 494, ../sass/game-ui.scss */
 footer {
   display: none;
 }
 
-/* line 499, ../sass/game-ui.scss */
+/* line 498, ../sass/game-ui.scss */
 .image-wrap {
   position: absolute;
   z-index: 1;
@@ -826,7 +825,7 @@ footer {
   overflow: hidden;
 }
 
-/* line 509, ../sass/game-ui.scss */
+/* line 508, ../sass/game-ui.scss */
 .image-wrap .image {
   height: 110%;
   width: 100%;
@@ -839,7 +838,7 @@ footer {
   background-size: cover;
 }
 
-/* line 521, ../sass/game-ui.scss */
+/* line 520, ../sass/game-ui.scss */
 .lights {
   position: relative;
   height: 100%;
@@ -849,7 +848,7 @@ footer {
   z-index: 2;
 }
 
-/* line 530, ../sass/game-ui.scss */
+/* line 529, ../sass/game-ui.scss */
 .light {
   position: absolute;
   z-index: 2;
@@ -861,14 +860,14 @@ footer {
   left: 0;
 }
 
-/* line 541, ../sass/game-ui.scss */
+/* line 540, ../sass/game-ui.scss */
 .light.one {
   top: 150px;
   left: 20px;
 }
 
 @media screen and (max-height: 900px) {
-  /* line 547, ../sass/game-ui.scss */
+  /* line 546, ../sass/game-ui.scss */
   .holder {
     vertical-align: top;
     padding-top: 1.5em;
