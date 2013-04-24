@@ -1,3 +1,5 @@
+@import 'compass';
+
 /* ==|== non-semantic helper classes ======================================== */
 .ir {
   display: block;
@@ -254,57 +256,47 @@ nav {
 }
 
 .home input[type=submit] {
-  font-family: "Monstrrr-Serif";
-  font-size: 24px;
-  padding: 5px;
-  color: #FFF;
-  background-color: #6BAA36;
-  border: 0 none;
-  text-shadow: -1px 1px black;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+    font-family: "Monstrrr-Serif";
+    font-size: 24px;
+    padding: 5px;
+    color: #FFF;
+    background-color: #6BAA36;
+    border: 0 none;
+    text-shadow: -1px 1px black;
+    @include border-radius(5px);
 }
 
 .splash {
-  height: 100%;
-  background: url(../images/bg-city.jpg) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  -webkit-box-shadow: 0 0 100px 0 black inset;
-  -moz-box-shadow: 0 0 100px 0 black inset;
-  box-shadow: 0 0 100px 0 black inset;
+    height: 100%;
+    background: url(../images/bg-city.jpg) no-repeat center center fixed;
+    @include background-size(cover);
+    @include box-shadow(0 0 100px 0 black inset);
 }
 
 .container {
-  position: relative;
-  margin: 0 auto;
-  min-height: 532px;
-  overflow: hidden;
-  height: 100%;
+    position: relative;
+    margin: 0 auto;
+    min-height: 532px;
+    overflow: hidden;
+    height: 100%;
 }
 
 .home .container {
-  background: url(../images/burst-gradient.svg) no-repeat center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+    background: url(../images/burst-gradient.svg) no-repeat center center;
+    @include background-size(cover);
 }
 
 .splashbg {
-  width: 818px;
-  height: 468px;
-  position: relative;
-  margin: 0 auto;
-  padding: 0;
-  z-index: 8888;
+    width: 818px;
+    height: 468px;
+    position: relative;
+    margin: 0 auto;
+    padding: 0;
+    z-index: 8;
 }
 
 .splash img {
-  max-width: 100%;
+    max-width: 100%;
 }
 
 @-webkit-keyframes in1 {
@@ -318,21 +310,18 @@ nav {
 }
 
 .splash .title {
-  width: 83.6%;
-  height: 31.2%;
-  left: 11%;
-  top: 1.5%;
-  position: absolute;
-  background: url(../images/beercamp.svg) no-repeat left top;
-  -webkit-filter: drop-shadow(-8px 8px 0 rgba(0, 0, 0, 0.5));
-  -webkit-background-size: 100%;
-  -moz-background-size: 100%;
-  -o-background-size: 100%;
-  background-size: 100%;
-  margin: 0;
-  z-index: 9999;
-  -webkit-animation: in1 1s ease-out;
-  -webkit-animation-iteration-count: 1;
+    width: 83.6%;
+    height: 31.2%;
+    left: 11%;
+    top: 1.5%;
+    position: absolute;
+    background: url(../images/beercamp.svg) no-repeat left top;
+    -webkit-filter: drop-shadow(-8px 8px 0 rgba(0, 0, 0, 0.5));
+    @include background-size(100%);
+    margin: 0;
+    z-index: 9999;
+    -webkit-animation: in1 1s ease-out;
+    -webkit-animation-iteration-count: 1;
 }
 
 @-webkit-keyframes in2 {
@@ -345,37 +334,30 @@ nav {
   }
 }
 
-.splash .btn-start {
-  width: 38.8%;
-  height: 16.7%;
-  position: absolute;
-  left: 33.5%;
-  top: 70.1%;
-  background: url(../images/btn-start.svg) no-repeat center center;
-  -webkit-filter: drop-shadow(-8px 8px 0 rgba(0, 0, 0, 0.5));
-  -webkit-background-size: 100%;
-  -moz-background-size: 100%;
-  -o-background-size: 100%;
-  background-size: 100%;
-  z-index: 9999;
-  -webkit-animation: in2 3s ease-out;
-  -webkit-animation-iteration-count: 1;
-  cursor: pointer;
+%button-active-state {
+    @include box-shadow(0 0 10px 0 black inset);
 }
 
-.splash .btn-start:active {
-  -webkit-filter: none;
-  width: 38.3%;
-  height: 15.8%;
-  left: 34%;
-  top: 71%;
-  -webkit-box-shadow: 0 0 10px 0 black inset;
-  -moz-box-shadow: 0 0 10px 0 black inset;
-  box-shadow: 0 0 10px 0 black inset;
-  -webkit-background-size: 102%;
-  -moz-background-size: 102%;
-  -o-background-size: 102%;
-  background-size: 102%;
+.splash .btn-start {
+    width: 38.8%;
+    height: 16.7%;
+    position: absolute;
+    left: 33.5%;
+    top: 70.1%;
+    z-index: 500;
+    background: url(../images/btn-start.svg) no-repeat center center;
+    @include filter(drop-shadow(-8px 8px 0 rgba(0, 0, 0, 0.5)));
+    @include background-size(100%);
+    -webkit-animation: in2 2s ease-out;
+    -webkit-animation-iteration-count: 1;
+    cursor: pointer;
+    &:active {
+        -webkit-filter: none;
+        height: 15.8%;
+        margin: 5px 0 0 -5px;
+        @include background-size(102%);
+        @extend %button-active-state;
+    }
 }
 
 @-webkit-keyframes canFly {
@@ -408,7 +390,6 @@ nav {
   width: 100%;
   height: 100%;
   display: none;
-  z-index: 8001;
 }
 
 .controls {
@@ -448,9 +429,11 @@ nav {
   line-height: 20px;
   margin-right: 10px;
 }
+
 .controls ul li span.space {
   padding: 5px 20px;
 }
+
 .controls p {
   float: left;
   clear: none;
@@ -458,12 +441,14 @@ nav {
   padding: 0;
   text-align: center;
 }
+
 .controls + .charfloat {
   float: right;
   position: relative;
   width: 140px;
   clear: right;
 }
+
 .controls + .charfloat img {
   -webkit-filter: drop-shadow(-2px 2px 2px rgba(0, 0, 0, 0.5));
 }
@@ -477,29 +462,23 @@ nav {
   width: 450px;
   margin: 0px auto;
 }
+
 .instructions a {
   color: #fff;
 }
+
 .instructions a.btn-start {
-  border: 2px solid #fff;
-  text-decoration: none;
-  margin-top: 30px;
-  padding: 5px 9px 0 36px;
-  line-height: 180%;
-  float: left;
-  display: block;
-  background: #83b557 url(../images/btn-arrow.png) no-repeat 10px center;
-  text-align: center;
-  font-size: 120%;
-  position: relative;
-  -webkit-box-shadow: -5px 5px 0 0 rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: -5px 5px 0 0 rgba(0, 0, 0, 0.5);
-  box-shadow: -5px 5px 0 0 rgba(0, 0, 0, 0.5);
-}
-.instructions a.btn-start:active {
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  margin-left: -5px;
-  margin-top: 25px;
+    border: 2px solid #fff;
+    padding: 10px 9px 5px 36px;
+    text-decoration: none;
+    background: #83b557 url(../images/btn-arrow.png) no-repeat 10px center;
+    font-size: 120%;
+    position: relative;
+    display: inline-block;
+    margin-top: 25px;
+    @include box-shadow(-5px 5px 0 0 rgba(0, 0, 0, 0.5));
+    &:active {
+        @extend %button-active-state;
+        border: none;
+    }
 }

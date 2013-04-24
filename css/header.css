@@ -15,86 +15,81 @@
 }
 
 /*** header ***/
-/* line 24, ../sass/header.scss */
-header {
+/* line 26, ../sass/header.scss */
+#meta-banner {
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), 0 2px 1px rgba(0, 0, 0, 0.1), 0 3px 2px rgba(0, 0, 0, 0.07), 0 3px 6px rgba(0, 0, 0, 0.07);
-  z-index: 10;
   color: #eee;
-  width: 96%;
   background: #1a1a1a;
   padding: 0 2%;
   min-width: 960px;
   height: 64px;
-  position: absolute;
+  position: fixed;
   bottom: 0;
-  z-index: 9999;
-}
-
-/* line 38, ../sass/header.scss */
-header.cf {
+  z-index: 10;
   width: 100%;
-  padding: 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -ms-box-orient: horizontal;
+  box-orient: horizontal;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -ms-box-pack: center;
+  box-pack: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -ms-box-align: center;
+  box-align: center;
 }
-
-/* line 43, ../sass/header.scss */
-.header-logos {
-  float: right;
-  margin: 5px 15px 0 0;
-  height: 55px;
+/* line 41, ../sass/header.scss */
+#meta-banner > * {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
 }
-
-/* line 49, ../sass/header.scss */
-header h1 {
-  line-height: 1;
+/* line 44, ../sass/header.scss */
+#meta-banner h1 {
+  line-height: 0.25em;
   font-family: 'Monstrrr-Bold', 'lucida grande', tahoma, verdana, arial, sans-serif;
-  font-size: 250%;
-  position: absolute;
-  left: .5em;
-  top: -.35em;
+  font-size: 40px;
+  text-align: left;
 }
-
-/* line 58, ../sass/header.scss */
-h1 em {
+/* line 49, ../sass/header.scss */
+#meta-banner h1 em {
   font: normal 32.5%/.7 'Monstrrr-Serif', sans-serif;
   display: inline-block;
   border-radius: 4px;
   position: relative;
   top: -.65em;
-  left: -.25em;
+  margin: 0 0 0 10px;
 }
-
-/* line 67, ../sass/header.scss */
-header ul.header-location-meta {
-  margin: 25px 0 0 0;
-  /*text-align: center;
-  top: 1.4em;*/
+/* line 58, ../sass/header.scss */
+#meta-banner .header-location-meta {
+  font-size: 18px;
   padding: 0;
-  font: normal 115%/1 'Monstrrr-Serif', sans-serif;
-  position: absolute;
-  left: 30%;
+  margin: 0;
 }
-
-/* line 77, ../sass/header.scss */
-header li {
+/* line 63, ../sass/header.scss */
+#meta-banner .header-logos {
+  margin: 0;
+  padding: 0;
+  text-align: right;
+}
+/* line 68, ../sass/header.scss */
+#meta-banner li {
   display: inline;
   list-style: none;
 }
-
-/* line 81, ../sass/header.scss */
-header li:first-child {
+/* line 71, ../sass/header.scss */
+#meta-banner li:first-child {
   padding-left: 0;
 }
-
-/* line 84, ../sass/header.scss */
-header li:last-child {
+/* line 74, ../sass/header.scss */
+#meta-banner li:last-child {
   padding-right: 0;
   border: 0;
-}
-
-/* line 88, ../sass/header.scss */
-header img {
-  float: right;
-  position: relative;
-  top: .75em;
-  margin: 0 0 0 1em;
 }

@@ -1,6 +1,7 @@
 .splashchar {
     position: absolute;
 }
+
 #splashchar1 {
     left: 30.6%;
     top: 3.2%;
@@ -9,6 +10,7 @@
     height: 103.4%;
     -webkit-filter:drop-shadow(-5px 5px 5px rgba(0,0,0,0.5));
 }
+
 #splashchar2 {
     left: 4.8%;
     top: 13.2%;
@@ -17,6 +19,7 @@
     height: 90.4%;
     -webkit-filter:drop-shadow(-5px 5px 5px rgba(0,0,0,0.5));
 }
+
 #splashchar3 {
     left: 60.4%;
     top: 33.9%;
@@ -24,6 +27,7 @@
     width: 30.6%;
     height: 80.8%;
 }
+
 #splashchar4 {
     left: 75.6%;
     top: 51.1%;
@@ -31,6 +35,7 @@
     width: 24.4%;
     height: 57.7%;
 }
+
 @keyframes rotate {
     from {
     transform: rotate(3deg);
