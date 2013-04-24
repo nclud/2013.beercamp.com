@@ -99,52 +99,18 @@ module.exports = function(grunt) {
       }
     },
     templatePath: 'html/templates',
-    distPath: 'dist',
     htmlbuild: {
-        charselect: {
-            src: 'html/charselect.html',
-            dest: '<%= distPath %>',
-            options: {
-                sections: {
-                    banner:    '<%= templatePath %>/banner.html',
-                    analytics: '<%= templatePath %>/analytics.html',
-                    styles:    '<%= templatePath %>/styles.html'
-                }
-            }
-        },
-        game: {
-            src: 'html/game.html',
-            dest: '<%= distPath %>',
-            options: {
-                sections: {
-                    banner:    '<%= templatePath %>/banner.html',
-                    analytics: '<%= templatePath %>/analytics.html',
-                    styles:    '<%= templatePath %>/styles.html'
-                }
-            }
-        },
-        index: {
-            src: 'html/index.html',
-            dest: '<%= distPath %>',
-            options: {
-                sections: {
-                    banner:    '<%= templatePath %>/banner.html',
-                    analytics: '<%= templatePath %>/analytics.html',
-                    styles:    '<%= templatePath %>/styles.html'
-                }
-            }
-        },
-        instructions: {
-            src: 'html/instructions.html',
-            dest: '<%= distPath %>',
-            options: {
-                sections: {
-                    banner:    '<%= templatePath %>/banner.html',
-                    analytics: '<%= templatePath %>/analytics.html',
-                    styles:    '<%= templatePath %>/styles.html'
-                }
-            }
-        },
+      main: {
+          src: 'html/*.html',
+          dest: 'dist',
+          options: {
+              sections: {
+                  banner:    '<%= templatePath %>/banner.html',
+                  analytics: '<%= templatePath %>/analytics.html',
+                  styles:    '<%= templatePath %>/styles.html'
+              }
+          }
+      }
     }
   });
 
