@@ -3,7 +3,7 @@
   position: absolute;
 }
 
-/* line 4, ../sass/splash.scss */
+/* line 5, ../sass/splash.scss */
 #splashchar1 {
   left: 30.6%;
   top: 3.2%;
@@ -13,7 +13,7 @@
   -webkit-filter: drop-shadow(-5px 5px 5px rgba(0, 0, 0, 0.5));
 }
 
-/* line 12, ../sass/splash.scss */
+/* line 14, ../sass/splash.scss */
 #splashchar2 {
   left: 4.8%;
   top: 13.2%;
@@ -23,7 +23,7 @@
   -webkit-filter: drop-shadow(-5px 5px 5px rgba(0, 0, 0, 0.5));
 }
 
-/* line 20, ../sass/splash.scss */
+/* line 23, ../sass/splash.scss */
 #splashchar3 {
   left: 60.4%;
   top: 33.9%;
@@ -32,7 +32,7 @@
   height: 80.8%;
 }
 
-/* line 27, ../sass/splash.scss */
+/* line 31, ../sass/splash.scss */
 #splashchar4 {
   left: 75.6%;
   top: 51.1%;
@@ -42,57 +42,57 @@
 }
 
 @keyframes rotate {
-  /* line 35, ../sass/splash.scss */
+  /* line 40, ../sass/splash.scss */
   from {
     transform: rotate(3deg);
   }
 
-  /* line 38, ../sass/splash.scss */
+  /* line 43, ../sass/splash.scss */
   50% {
     transform: rotate(12deg);
   }
 
-  /* line 41, ../sass/splash.scss */
+  /* line 46, ../sass/splash.scss */
   to {
     transform: rotate(3deg);
   }
 }
 
 @-webkit-keyframes rotate {
-  /* line 46, ../sass/splash.scss */
+  /* line 51, ../sass/splash.scss */
   from {
     -webkit-transform: rotate(3deg);
   }
 
-  /* line 49, ../sass/splash.scss */
+  /* line 54, ../sass/splash.scss */
   50% {
     -webkit-transform: rotate(12deg);
   }
 
-  /* line 52, ../sass/splash.scss */
+  /* line 57, ../sass/splash.scss */
   to {
     -webkit-transform: rotate(3deg);
   }
 }
 
 @-moz-keyframes rotate {
-  /* line 57, ../sass/splash.scss */
+  /* line 62, ../sass/splash.scss */
   from {
     -moz-transform: rotate(0deg);
   }
 
-  /* line 60, ../sass/splash.scss */
+  /* line 65, ../sass/splash.scss */
   50% {
     -moz-transform: rotate(12deg);
   }
 
-  /* line 63, ../sass/splash.scss */
+  /* line 68, ../sass/splash.scss */
   to {
     -moz-transform: rotate(0deg);
   }
 }
 
-/* line 67, ../sass/splash.scss */
+/* line 72, ../sass/splash.scss */
 #splashchar5h {
   left: -.2%;
   top: 67.5%;
@@ -117,7 +117,7 @@
   -webkit-animation: rotate 1s ease-in-out infinite alternate;
 }
 
-/* line 87, ../sass/splash.scss */
+/* line 92, ../sass/splash.scss */
 #splashchar5b {
   left: 19.8%;
   top: 82.5%;
@@ -127,18 +127,18 @@
 }
 
 @-webkit-keyframes wipe {
-  /* line 96, ../sass/splash.scss */
+  /* line 101, ../sass/splash.scss */
   0% {
     -webkit-transform: translate(0, -100%);
   }
 
-  /* line 97, ../sass/splash.scss */
+  /* line 102, ../sass/splash.scss */
   100% {
     -webkit-transform: translate(0, 0);
   }
 }
 
-/* line 99, ../sass/splash.scss */
+/* line 104, ../sass/splash.scss */
 #droolmask {
   left: 77.6%;
   top: 73.1%;
@@ -150,7 +150,7 @@
   position: relative;
 }
 
-/* line 109, ../sass/splash.scss */
+/* line 114, ../sass/splash.scss */
 #drool {
   width: 100%;
   height: 100%;
@@ -158,7 +158,7 @@
   -webkit-animation-iteration-count: 1;
 }
 
-/* line 115, ../sass/splash.scss */
+/* line 120, ../sass/splash.scss */
 .splasher {
   position: absolute;
   bottom: 64px;
