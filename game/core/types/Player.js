@@ -107,7 +107,9 @@
 
     // end game when timer expires
     var start = Date.now();
-    var stop = start + 120000; // two minutes
+
+    // set the player's timer / game length
+    var stop = start + 120000;
 
     this.timer = {
       start: start,
@@ -515,6 +517,7 @@
 //    Rectangle.prototype.drawType.call(this, ctx, scale);
     var x = this.x(scale);
     var y = this.y(scale);
+    
     ctx.save();
     if (this.actor) {
       this.actor.draw(ctx, x, y, scale);
