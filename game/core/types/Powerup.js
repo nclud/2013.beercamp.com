@@ -39,6 +39,11 @@
   Powerup.prototype.drawType = function(ctx, scale) {
     // Rectangle.prototype.drawType.call(this, ctx, scale);
 
+    ctx.shadowOffsetX = 5;
+    ctx.shadowOffsetY = 3;
+    ctx.shadowColor   = 'rgba(0, 0, 0, 0.1)';
+    ctx.shadowBlur    = 14;
+
     // round to whole pixel
     // interpolated x and y coords
     var x = (this.state.private.x * scale + 0.5) | 0;
