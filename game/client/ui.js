@@ -67,11 +67,10 @@
 
   var init = function(client) {
     // clicking the timer triggers the end game screen.
-    // TODO: remove this when actual game state can trigger end of game
-    $('.countdown').on('click', (function() {
-      var player = client.entities[client.uuid];
-      this.gameover(client, player);
-    }).bind(this));
+    // $('.countdown').on('click', (function() {
+    //   var player = client.entities[client.uuid];
+    //   this.gameover(client, player);
+    // }).bind(this));
 
     // load twitter widgets (may not be necessary)
     /*
