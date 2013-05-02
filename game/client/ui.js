@@ -67,10 +67,10 @@
 
   var init = function(client) {
     // clicking the timer triggers the end game screen.
-    // $('.countdown').on('click', (function() {
-    //   var player = client.entities[client.uuid];
-    //   this.gameover(client, player);
-    // }).bind(this));
+    $('.countdown').on('click', (function() {
+      var player = client.entities[client.uuid];
+      this.gameover(client, player);
+    }).bind(this));
 
     // load twitter widgets (may not be necessary)
     /*
@@ -119,7 +119,7 @@
       $('.gameover .pic').css('background-image','url(../'+pimage+')');
       $('.gameover .' + player.intoxicationLevel()).show();
 
-      var tweet_message = encodeURIComponent("I " + player.intoxicationLevel(true) + " at #beercamp! http://2013.beercamp.com via @nclud");
+      var tweet_message = encodeURIComponent("I " + player.intoxicationLevel(true) + " at #beercamp! http://2013.beercamp.com");
       var referrer = encodeURIComponent("http://2013.beercamp.com");
       var url = "https://twitter.com/intent/tweet?original_referer=" + referrer + " &text=" + tweet_message;
       $('.tweet').attr("href", url).attr("target", "_blank");
