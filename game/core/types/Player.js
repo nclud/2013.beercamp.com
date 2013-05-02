@@ -520,6 +520,12 @@
     
     ctx.save();
     if (this.actor) {
+
+      ctx.shadowOffsetX = 5;
+      ctx.shadowOffsetY = 3;
+      ctx.shadowColor   = 'rgba(0, 0, 0, 0.1)';
+      ctx.shadowBlur    = 14;
+
       this.actor.draw(ctx, x, y, scale);
     }
     ctx.restore();
