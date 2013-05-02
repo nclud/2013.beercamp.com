@@ -1,0 +1,875 @@
+/* normalize.css v2.1.0 | MIT License | git.io/normalize */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+  display: block;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+audio, canvas, video {
+  display: inline-block;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+[hidden] {
+  display: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+html {
+  font-family: sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+body {
+  margin: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+a:focus {
+  outline: thin dotted;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+a:active, a:hover {
+  outline: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+h1 {
+  font-size: 2em;
+  margin: .67em 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+b, strong {
+  font-weight: bold;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+dfn {
+  font-style: italic;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+mark {
+  background: #ff0;
+  color: #000;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+code, kbd, pre, samp {
+  font-family: monospace,serif;
+  font-size: 1em;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+pre {
+  white-space: pre-wrap;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+q {
+  quotes: "\201C" "\201D" "\2018" "\2019";
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+small {
+  font-size: 80%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+sup {
+  top: -0.5em;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+sub {
+  bottom: -0.25em;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+img {
+  border: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+svg:not(:root) {
+  overflow: hidden;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+figure {
+  margin: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: .35em .625em .75em;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+legend {
+  border: 0;
+  padding: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+button, input {
+  line-height: normal;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+button, select {
+  text-transform: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+button, html input[type="button"], input[type="reset"], input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+button[disabled], html input[disabled] {
+  cursor: default;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+input[type="checkbox"], input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+button::-moz-focus-inner, input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+textarea {
+  overflow: auto;
+  vertical-align: top;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/modules\/_normalize\.scss}line{font-family:\000031}}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\000034}}
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\000037}}
+html {
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  overflow: auto;
+  line-height: 1.5;
+  background: #040407;
+  color: white;
+  letter-spacing: normal;
+  font: 100%/1.5 'lucida grande', tahoma, verdana, arial, sans-serif;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\0000318}}
+body {
+  width: 100%;
+  height: 100%;
+  display: table;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  -webkit-backface-visibility: hidden;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\0000328}}
+::selection {
+  background: red;
+  color: white;
+  text-shadow: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\0000334}}
+::-moz-selection {
+  background: red;
+  color: white;
+  text-shadow: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\0000340}}
+.cf:before, .cf:after {
+  content: "";
+  display: table;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\0000345}}
+.cf:after, .clear {
+  clear: both;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\0000349}}
+.cf {
+  zoom: 1;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\0000353}}
+.timer-wrap {
+  position: relative;
+  top: -5px;
+  width: 100px;
+  margin: 0 auto;
+  z-index: 2;
+  height: 100px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\0000362}}
+.countdown, .countdown-static {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  z-index: 3;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\0000369}}
+.countdown-static {
+  z-index: 2;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\0000373}}
+.user-wrap {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  top: -2px;
+  left: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\0000381}}
+.user {
+  background: white;
+  height: 100px;
+  width: 100px;
+  border-radius: 100%;
+  z-index: 1;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\0000389}}
+.user-face {
+  background: white url(../images/n/faces.svg) no-repeat -47px -156px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\0000393}}
+.user.mohawk.sober {
+  background-position: -47px -156px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\0000397}}
+.user.mohawk.tipsy {
+  background-position: -176px -156px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003101}}
+.user.mohawk.buzzed {
+  background-position: -301px -156px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003105}}
+.user.mohawk.schwasted {
+  background-position: -443px -156px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003109}}
+.user.beardo.sober {
+  background-position: -47px -54px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003112}}
+.user.beardo.tipsy {
+  background-position: -176px -54px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003115}}
+.user.beardo.buzzed {
+  background-position: -301px -54px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003118}}
+.user.beardo.schwasted {
+  background-position: -442px -54px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003122}}
+.user.glasses.sober {
+  background-position: -50px -262px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003125}}
+.user.glasses.tipsy {
+  background-position: -184px -265px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003128}}
+.user.glasses.buzzed {
+  background-position: -306px -265px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003131}}
+.user.glasses.schwasted {
+  background-position: -445px -262px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003135}}
+.user.psy.sober {
+  background-position: -47px -376px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003138}}
+.user.psy.tipsy {
+  background-position: -176px -376px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003141}}
+.user.psy.buzzed {
+  background-position: -301px -376px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003144}}
+.user.psy.schwasted {
+  background-position: -443px -376px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003148}}
+.user.floyd.sober {
+  background-position: -48px -495px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003151}}
+.user.floyd.tipsy {
+  background-position: -178px -495px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003154}}
+.user.floyd.buzzed {
+  background-position: -301px -495px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003157}}
+.user.floyd.schwasted {
+  background-position: -443px -491px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003161}}
+.logo {
+  height: 120px;
+  width: 128px;
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  background: rgba(0, 255, 0, 0.2);
+  text-indent: -9999px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003171}}
+.twitter-share-button {
+  float: right;
+  position: relative;
+  top: 1em;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003177}}
+.main {
+  height: 100%;
+  width: 100%;
+  display: table-row;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003183}}
+aside {
+  background: rgba(0, 0, 0, 0.5);
+  width: 120px;
+  height: 100%;
+  padding: 0 10px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  z-index: 3;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003195}}
+aside + div + aside {
+  left: auto;
+  right: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003200}}
+.holder-wrap {
+  width: 100%;
+  height: 100%;
+  display: table;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003206}}
+.holder {
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003213}}
+.contents {
+  width: 100%;
+  height: 600px;
+}
+
+/*** gameeee ***/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003219}}
+.game-wrap {
+  height: 100%;
+  width: 100%;
+  padding: 0 120px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003225}}
+.score-updates {
+  padding: .25em 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  margin: 0 .5em 1em;
+  font: normal 125%/1 'monstrrr_serifregular', sans-serif;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), 0 2px 1px rgba(0, 0, 0, 0.1), 0 3px 2px rgba(0, 0, 0, 0.07), 0 3px 6px rgba(0, 0, 0, 0.07);
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003233}}
+.weapon-updates {
+  padding: 0;
+  margin: 0;
+  font-size: 90%;
+  height: 630px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003241}}
+.weapon {
+  background: url(../images/n/can.svg) no-repeat 12px 0;
+  height: 49px;
+  margin: 0 0 .75em;
+  position: relative;
+  opacity: .2;
+}
+
+@-webkit-keyframes added {
+  /* line 250, ../../sass/game-ui.scss */
+  from {
+    opacity: 0;
+  }
+
+  /* line 253, ../../sass/game-ui.scss */
+  to {
+    opacity: 1;
+    -webkit-filter: drop-shadow(0 0 3px rgba(0, 255, 255, 0.5));
+  }
+}
+
+@-moz-keyframes added {
+  /* line 259, ../../sass/game-ui.scss */
+  from {
+    opacity: 0;
+  }
+
+  /* line 262, ../../sass/game-ui.scss */
+  to {
+    opacity: 1;
+    -moz-filter: drop-shadow(0 0 3px rgba(0, 255, 255, 0.5));
+  }
+}
+
+@keyframes added {
+  /* line 268, ../../sass/game-ui.scss */
+  from {
+    opacity: 0;
+  }
+
+  /* line 271, ../../sass/game-ui.scss */
+  to {
+    opacity: 1;
+    filter: drop-shadow(0 0 3px rgba(0, 255, 255, 0.5));
+  }
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003277}}
+.weapon.added {
+  opacity: 1;
+  -webkit-animation: added .2s ease-out 1;
+  -moz-animation: added .2s ease-out 1;
+  animation: added .2s ease-out 1;
+  -webkit-filter: drop-shadow(0 0 3px rgba(0, 255, 255, 0.5));
+  -moz-filter: drop-shadow(0 0 3px rgba(0, 255, 255, 0.5));
+  filter: drop-shadow(0 0 3px rgba(0, 255, 255, 0.5));
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003286}}
+.special-weapon {
+  height: 100px;
+  width: 100%;
+  margin: 0 0 1em;
+  /*-webkit-filter:drop-shadow(0 0 10px rgba(255,255,255,0.5));*/
+}
+
+/*.special-weapon.six-pack {
+  background:url(../images/n/items.svg) no-repeat -4px -6px;
+}
+.special-weapon.wine {
+  background:url(../images/n/items.svg) no-repeat -142px -6px;
+}
+.special-weapon.saki {
+  background:url(../images/n/items.svg) no-repeat -287px -6px;
+}
+.special-weapon.whiskey {
+  background:url(../images/n/items.svg) no-repeat -414px -6px;
+}
+.special-weapon.brkn {
+  background:url(../images/n/items.svg) no-repeat -550px -6px;
+}
+.special-weapon.bottle {
+  background:url(../images/n/items.svg) no-repeat -684px -6px;
+}
+.special-weapon.martini {
+  background:url(../images/n/items.svg) no-repeat -814px -6px;
+}
+.special-weapon.gin {
+  background:url(../images/n/items.svg) no-repeat -955px -6px;
+}
+.special-weapon.can {
+  background:url(../images/n/items.svg) no-repeat -1090px -6px;
+}
+.special-weapon.vodka {
+  background:url(../images/n/items.svg) no-repeat -1226px -6px;
+}
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003323}}
+.special-weapon div {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100px;
+  width: 150px;
+  background: red;
+  /*height:30%;
+  width:30%;
+  position:relative;
+  top:35%;
+  left:35%;
+  border-radius:100%;
+  background:none;
+  box-shadow:0 0 20px white, 0 0 50px white;
+  opacity:.75;
+  -webkit-filter:blur(2px);
+  height:100px;
+  width:100%;
+  background:url(../images/n/items.svg) no-repeat -4px -6px;
+  -webkit-filter:drop-shadow(0 0 10px rgba(255,255,255,0.5));*/
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003345}}
+.funnel-wrap {
+  height: 540px;
+  position: relative;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003349}}
+.funnel {
+  height: 100%;
+  width: 96px;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  background: url(../images/n/beer-gauge.svg) no-repeat -17px 0;
+  overflow: hidden;
+  z-index: 2;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003360}}
+.level {
+  position: relative;
+  height: 19px;
+  width: 100%;
+  background: url(../images/n/beer-gauge.svg) no-repeat -209px -102px;
+  left: 0;
+  top: 0;
+  z-index: 5;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003368}}
+.level.buzzed {
+  top: 407px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003371}}
+.level.happy {
+  top: 262px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003374}}
+.level.drunkkk {
+  top: 119px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003377}}
+.level.shitty {
+  top: -10px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003382}}
+.beer {
+  position: absolute;
+  bottom: -468px;
+  right: 0;
+  background: url(../images/n/beer-gauge.svg) no-repeat -596px -10px;
+  height: 515px;
+  width: 100%;
+  z-index: 1;
+  -webkit-transition: all .2s ease-out;
+  -moz-transition: all .2s ease-out;
+  -ms-transition: all .2s ease-out;
+  transition: all .2s ease-out;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003395}}
+.beer.buzzed {
+  bottom: -348px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003398}}
+.beer.happy {
+  bottom: -224px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003401}}
+.beer.drunkkk, .level.drunkkk {
+  bottom: -98px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003404}}
+.beer.shitty {
+  bottom: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003407}}
+.beer-bottom {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  height: 20px;
+  width: 96px;
+  z-index: 2;
+  background: url(../images/n/beer-gauge.svg) no-repeat -202px -696px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003416}}
+.beer-top {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  height: 100%;
+  width: 96px;
+  z-index: 3;
+  background: url(../images/n/beer-gauge.svg) no-repeat -401px 0;
+}
+
+/*.beer-top, .beer-top.sober {
+  height:50px;
+  background:url(../images/beer-top.png) no-repeat 0 0;
+  bottom:0;
+  -webkit-transition:all .2s ease-out;
+  -moz-transition:all .2s ease-out;
+  -ms-transition:all .2s ease-out;
+  transition:all .2s ease-out;
+}
+.beer-top.buzzed {
+  bottom:116px;
+}
+.beer-top.happy {
+  bottom:240px;
+}
+.beer-top.drunkkk {
+  bottom:363px;
+}
+.beer-top.shitty {
+  height:70px;
+  bottom:455px;
+}
+.wtf {
+  display:none;
+  background:#040407;
+  color:white;
+  height:50px;
+  width:50px;
+  margin:40px auto 0;
+  text-align:center;
+  padding:12px 0 0;
+  border-radius:100%;
+  text-decoration:none;
+  position:relative;
+  top:2px;
+}
+.wtf:active {
+  background:rgba(0,0,0,0.5);
+  color:rgba(255,255,255,0.8);
+  padding:13px 0 0;
+}*/
+/*** terminal ***/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003468}}
+.terminal {
+  padding: 1.25em;
+  height: 5.5em;
+  overflow: scroll;
+  background: rgba(0, 0, 0, 0.2);
+  font-size: 85%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003475}}
+.terminal > div {
+  display: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003478}}
+.terminal > div:first-child {
+  display: block;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003481}}
+.terminal small {
+  display: block;
+  opacity: .6;
+  position: relative;
+  padding: 0 0 0 1em;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003487}}
+.terminal small:before {
+  content: "\003E";
+  position: absolute;
+  left: 0;
+  top: -.1em;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003494}}
+footer {
+  display: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003498}}
+.image-wrap {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003508}}
+.image-wrap .image {
+  height: 110%;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  display: block;
+  background: url(../images/back-n2.jpg) no-repeat top center;
+  background-size: cover;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003520}}
+.lights {
+  position: relative;
+  height: 100%;
+  width: 50%;
+  margin: 0 auto;
+  background: rgba(0, 0, 255, 0.2);
+  z-index: 2;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003529}}
+.light {
+  position: absolute;
+  z-index: 2;
+  background: red;
+  height: 10px;
+  width: 10px;
+  border-radius: 100%;
+  top: 0;
+  left: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003540}}
+.light.one {
+  top: 150px;
+  left: 20px;
+}
+
+@media screen and (max-height: 900px) {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/game-ui\.scss}line{font-family:\00003546}}
+  .holder {
+    vertical-align: top;
+    padding-top: 1.5em;
+  }
+}

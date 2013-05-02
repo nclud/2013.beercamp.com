@@ -1,0 +1,54 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/style\.scss}line{font-family:\000031}}
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: #012938;
+  color: #B3D88C;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/style\.scss}line{font-family:\000038}}
+p {
+  margin: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/style\.scss}line{font-family:\0000312}}
+#main {
+  height: 100%;
+  -webkit-perspective: 600;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/style\.scss}line{font-family:\0000317}}
+#action {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-family: Helvetica, sans-serif;
+  font-size: 72px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/style\.scss}line{font-family:\0000325}}
+#panel {
+  width: 50%;
+  height: 50%;
+  margin: 25%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  -webkit-transition: all .1s ease;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/style\.scss}line{font-family:\0000336}}
+#gyroscope {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/style\.scss}line{font-family:\0000342}}
+#accelerometer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  text-align: right;
+}

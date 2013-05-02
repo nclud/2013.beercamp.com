@@ -1,0 +1,166 @@
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/splash\.scss}line{font-family:\000031}}
+.splashchar {
+  position: absolute;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/splash\.scss}line{font-family:\000035}}
+#splashchar1 {
+  left: 30.6%;
+  top: 3.2%;
+  z-index: 400;
+  width: 44.3%;
+  height: 103.4%;
+  -webkit-filter: drop-shadow(-5px 5px 5px rgba(0, 0, 0, 0.5));
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/splash\.scss}line{font-family:\0000314}}
+#splashchar2 {
+  left: 4.8%;
+  top: 13.2%;
+  z-index: 300;
+  width: 39.2%;
+  height: 90.4%;
+  -webkit-filter: drop-shadow(-5px 5px 5px rgba(0, 0, 0, 0.5));
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/splash\.scss}line{font-family:\0000323}}
+#splashchar3 {
+  left: 60.4%;
+  top: 33.9%;
+  z-index: 200;
+  width: 30.6%;
+  height: 80.8%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/splash\.scss}line{font-family:\0000331}}
+#splashchar4 {
+  left: 75.6%;
+  top: 51.1%;
+  z-index: 100;
+  width: 24.4%;
+  height: 57.7%;
+}
+
+@keyframes rotate {
+  /* line 40, ../../sass/splash.scss */
+  from {
+    transform: rotate(3deg);
+  }
+
+  /* line 43, ../../sass/splash.scss */
+  50% {
+    transform: rotate(12deg);
+  }
+
+  /* line 46, ../../sass/splash.scss */
+  to {
+    transform: rotate(3deg);
+  }
+}
+
+@-webkit-keyframes rotate {
+  /* line 51, ../../sass/splash.scss */
+  from {
+    -webkit-transform: rotate(3deg);
+  }
+
+  /* line 54, ../../sass/splash.scss */
+  50% {
+    -webkit-transform: rotate(12deg);
+  }
+
+  /* line 57, ../../sass/splash.scss */
+  to {
+    -webkit-transform: rotate(3deg);
+  }
+}
+
+@-moz-keyframes rotate {
+  /* line 62, ../../sass/splash.scss */
+  from {
+    -moz-transform: rotate(0deg);
+  }
+
+  /* line 65, ../../sass/splash.scss */
+  50% {
+    -moz-transform: rotate(12deg);
+  }
+
+  /* line 68, ../../sass/splash.scss */
+  to {
+    -moz-transform: rotate(0deg);
+  }
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/splash\.scss}line{font-family:\0000372}}
+#splashchar5h {
+  left: -.2%;
+  top: 67.5%;
+  z-index: 100;
+  width: 23.5%;
+  height: 41%;
+  transform-origin: 88.5% 62.5%;
+  animation-name: rotate;
+  animation-iteration-count: infinite;
+  animation: rotate 1s ease-in-out infinite alternate;
+  -webkit-transform-origin: 88.5% 62.5%;
+  /* Safari and Chrome */
+  -moz-transform-origin: 88.5% 62.5%;
+  /* Firefox */
+  -o-transform-origin: 88.5% 62.5%;
+  /* Opera */
+  -moz-animation-name: rotate;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation: rotate 1s ease-in-out infinite alternate;
+  -webkit-animation-name: rotate;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation: rotate 1s ease-in-out infinite alternate;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/splash\.scss}line{font-family:\0000392}}
+#splashchar5b {
+  left: 19.8%;
+  top: 82.5%;
+  z-index: 90;
+  width: 18.2%;
+  height: 27.6%;
+}
+
+@-webkit-keyframes wipe {
+  /* line 101, ../../sass/splash.scss */
+  0% {
+    -webkit-transform: translate(0, -100%);
+  }
+
+  /* line 102, ../../sass/splash.scss */
+  100% {
+    -webkit-transform: translate(0, 0);
+  }
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/splash\.scss}line{font-family:\00003104}}
+#droolmask {
+  left: 77.6%;
+  top: 73.1%;
+  width: 1.1%;
+  height: 7.5%;
+  overflow: hidden;
+  display: block;
+  z-index: 251;
+  position: relative;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/splash\.scss}line{font-family:\00003114}}
+#drool {
+  width: 100%;
+  height: 100%;
+  -webkit-animation: wipe 10s linear;
+  -webkit-animation-iteration-count: 1;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/jaredlaser\/sites\/2013\.beercamp\.com\/sass\/splash\.scss}line{font-family:\00003120}}
+.splasher {
+  position: absolute;
+  bottom: 64px;
+  width: 100%;
+}
