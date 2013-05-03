@@ -1,3 +1,42 @@
+@import "compass";
+
+.warning-modal {
+    display: none;
+}
+
+.is-browser-warning {
+    .warning-modal {
+        display: block;
+        background: #DB4820;
+        width: 55%;
+        padding: 25px;
+        border: 5px solid #fff;
+        font-size: 30px;
+        font-family: Monstrrr-Serif;
+        position: absolute;
+        top: 35%;
+        left: 20%;
+        z-index: 30;
+        box-shadow: 0px 0px 100px 50px rgba(0,0,0, 0.5);
+        @include box-shadow(0, 0, 100px, 50px rgba(0, 0, 0, 0.5));
+        @include transform(rotate(-5deg));
+        a {
+            text-decoration: underline;
+            color: #000;
+        }
+    }
+    .container:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        z-index: 10;
+    }
+}
+
 .splashchar {
     position: absolute;
 }

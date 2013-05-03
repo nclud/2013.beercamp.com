@@ -9,6 +9,11 @@
         <link href="../css/splash.css" type="text/css" rel="stylesheet"/>
     </head>
     <body class="splash">
+
+        <div class="warning-modal">
+            <p>We're going to need you to use a supported browser. Chrome and Safari work nicely. Or, you can <a href="#" id="close-modal">continue</a>.</p>
+        </div>
+
         <div class="container">
             <div class="splasher">
                 <div class="splashbg">
@@ -30,6 +35,21 @@
         </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script>
+
+        var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+        var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
+
+        var browserAlert = function() {
+            $('body').addClass('is-browser-warning');
+            $('#close-modal').on('click', function(e) {
+                e.preventDefault();
+                $('body').removeClass('is-browser-warning');
+            });
+        };
+
+        if ( !(isChrome || isSafari) ) {
+            browserAlert();
+        }
 
         var getResizeRatio = function(startWidth, startHeight, maxWidth, maxHeight){
             var ratioX = maxWidth / startWidth;
