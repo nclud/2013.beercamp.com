@@ -33,6 +33,11 @@
             <div class="coverup"></div>
             <!-- build:section banner --><!-- /build -->
         </div>
+
+        <audio id="intro-sound">
+           <source src="audio/loops/begin.wav" type="audio/wav">
+        </audio>
+        
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script>
 
@@ -89,7 +94,17 @@
         }, function() {
             $('.coverup').fadeOut();
         });
+
         changeWindow();
+
+        // play splash sound
+        var playAudio = function() {
+            var audio = document.getElementById('intro-sound');
+            audio.play();
+        };
+
+        playAudio();
+
     </script>
     <!-- build:section analytics --><!-- /build -->
     </body>
