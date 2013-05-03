@@ -93,8 +93,9 @@ module.exports = function(grunt) {
           cssDir: 'dist/css',
           imagesDir: 'images',
           fontsDir: 'font',
-          noLineComments: true,
-          outputStyle: 'expanded'
+          // noLineComments: true,
+          // outputStyle: 'expanded'
+          debugInfo: true
         }
       }
     },
