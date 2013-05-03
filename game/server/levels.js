@@ -70,10 +70,10 @@
     // TODO: rename this
     var objects = [
       // backgrounds
-      { x: 24, y: 17, width: 48, height: 10, class: 'Background', src: 'images/lights.png' },
-      { x: 24, y: 32, width: 48, height: 10, class: 'Background', src: 'images/lounge.png' },
-      { x: 24, y: 48.8, width: 48, height: 15, class: 'Background', src: 'images/disco.png' },
-      { x: 24, y: 56, width: 48, height: 15, class: 'Background', src: 'images/brick.png' },
+      { x: 24, y: 17, width: 48, height: 10, class: 'Background', src: 'images/arena-lights-dark.png' },
+      { x: 24, y: 32, width: 48, height: 10, class: 'Background', src: 'images/arena-lounge-dark.png' },
+      { x: 24, y: 48.8, width: 48, height: 15, class: 'Background', src: 'images/arena-disco-dark.png' },
+      { x: 24, y: 56, width: 48, height: 15, class: 'Background', src: 'images/arena-brick-dark.png' },
 
       // brick platforms
       { x: 24, y: 62, width: 48, height: 1, class: 'Platform' },  // Level 0
