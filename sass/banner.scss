@@ -62,6 +62,17 @@
         margin: 0;
         @include fontSerif;
     }
+    .social-cont {
+        margin: 0 0 0 70px;
+        > *, .twitter-share-button {
+            float: none;
+            top: 0;
+            width: 75px;
+        }
+        .twitter-share-button {
+            margin: 0 20px;
+        }
+    }
     .header-logos {
         margin: 0;
         padding: 0;
