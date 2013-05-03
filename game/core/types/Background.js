@@ -35,6 +35,7 @@
     };
 
     Background.prototype.drawType = function(ctx, scale) {
+        // the following line will show pink lines, useful for debugging
         // Rectangle.prototype.drawType.call(this, ctx, scale);
 
         // round to whole pixel
