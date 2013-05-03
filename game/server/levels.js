@@ -116,9 +116,6 @@
       { x: 34, y: 20.4, width: 1, height: 14, class: 'Platform',
         perspective: 'left',
         color: { light: '#8b5428', dark: '#624130' }
-      },
-      { x: 41.5, y: 14, width: 12, height: 1, class: 'Platform',
-        color: { light: '#8b5428', dark: '#624130' }
       }
     ];
   
