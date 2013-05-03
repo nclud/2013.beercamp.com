@@ -6,10 +6,24 @@ module.exports = function(grunt) {
     copy: {
       main: {
         files: [
-          {expand: true, cwd: 'html/', src: ['**/*.html'], dest: 'dist/'},
-          {src: ['vendor/**'], dest: 'dist/'},
-          {src: ['font/**'], dest: 'dist/'},
-          {src: ['images/**'], dest: 'dist/'}
+        {
+          expand: true,
+          cwd: 'html/',
+          src: ['**/*.html'],
+          dest: 'dist/'
+        }, {
+          src: ['vendor/**'],
+          dest: 'dist/'
+        }, {
+          src: ['font/**'],
+          dest: 'dist/'
+        }, {
+          src: ['images/**'],
+          dest: 'dist/'
+        }, {
+          src: ['audio/**'],
+          dest: 'dist/'
+        }
         ]
       }
     },
