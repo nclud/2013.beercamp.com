@@ -140,7 +140,7 @@ module.exports = function(grunt) {
   grunt.registerTask('default', [
     'clean',
     'copy',
-    'compass',
+    'compass:prod',
     'htmlbuild',
     'useminPrepare',
     'requirejs',
