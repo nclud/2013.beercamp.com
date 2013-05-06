@@ -86,6 +86,11 @@
         width: 250px;
         height: 120px;
     }
+    .gameover-social-btn, .gameover-option-btn {
+        &:hover {
+            @include transform(translatex(-2px) translatey(2px));
+        }
+    }
     .gameover-option-btn {
         width: 238px;
         height: 90px;
