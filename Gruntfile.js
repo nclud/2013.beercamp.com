@@ -122,7 +122,7 @@ module.exports = function(grunt) {
               sections: {
                   banner:    '<%= templatePath %>/banner.html',
                   analytics: '<%= templatePath %>/analytics.html',
-                  styles:    '<%= templatePath %>/styles.html'
+                  header:    '<%= templatePath %>/header.html'
               }
           }
       }
