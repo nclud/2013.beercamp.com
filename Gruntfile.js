@@ -106,10 +106,10 @@ module.exports = function(grunt) {
           sassDir: 'sass',
           cssDir: 'dist/css',
           imagesDir: 'images',
-          fontsDir: 'font',
+          fontsDir: 'font'
           // noLineComments: true,
           // outputStyle: 'expanded'
-          debugInfo: true
+          // debugInfo: true
         }
       }
     },

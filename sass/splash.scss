@@ -1,11 +1,11 @@
 @import "compass";
 
-.warning-modal {
+.modal {
     display: none;
 }
 
 .is-browser-warning {
-    .warning-modal {
+    .modal.warning {
         display: block;
         background: #DB4820;
         width: 55%;

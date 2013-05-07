@@ -6,162 +6,166 @@
     </head>
 
     <body class="game">
+        <div class="modal volume-controls">
+            <a href="#" id="modal-closer">x</a>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum, unde earum nam vitae illo velit nulla aliquid mollitia!</p>
+            <p><a href="#" id="volume-toggle-btn">toggle volume <span class="volume-status">off</span></a></p>
+        </div>
+        <div id="main"></div>
+        <div class="main cf" role="main" id="hud">
 
-    <div id="main"></div>
-    <div class="main cf" role="main" id="hud">
+            <!-- build:section banner --><!-- /build -->
 
-        <!-- build:section banner --><!-- /build -->
-
-        <aside class="left">
-            <div class="holder-wrap">
-                <div class="holder">
-                    <div class="contents">
-                        <div class="weapon-updates" id="weapon-updates">
-                            <div class="weapon bottle pbr" data-type="bottle" data-count="8"></div>
-                            <div class="weapon bottle pbr" data-type="bottle" data-count="7"></div>
-                            <div class="weapon bottle pbr" data-type="bottle" data-count="6"></div>
-                            <div class="weapon bottle pbr" data-type="bottle" data-count="5"></div>
-                            <div class="weapon bottle pbr" data-type="bottle" data-count="4"></div>
-                            <div class="weapon bottle pbr" data-type="bottle" data-count="3"></div>
-                            <div class="weapon bottle pbr" data-type="bottle" data-count="2"></div>
-                            <div class="weapon bottle pbr" data-type="bottle" data-count="1"></div>
+            <aside class="left">
+                <div class="holder-wrap">
+                    <div class="holder">
+                        <div class="contents">
+                            <div class="weapon-updates" id="weapon-updates">
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="8"></div>
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="7"></div>
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="6"></div>
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="5"></div>
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="4"></div>
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="3"></div>
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="2"></div>
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="1"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </aside>
+            </aside>
 
-        <div class="game-wrap"></div>
+            <div class="game-wrap"></div>
 
-        <aside class="right">
-            <div class="holder-wrap">
-                <div class="holder">
-                    <div class="contents">
-                        <div class="timer-wrap" id="timer-wrap">
-                            <div id="countdown" class="countdown"></div>
-                            <div id="countdown_static" class="countdown-static"></div>
-                            <div class="user-wrap">
-                                <div class="user" id="user"></div>
+            <aside class="right">
+                <div class="holder-wrap">
+                    <div class="holder">
+                        <div class="contents">
+                            <div class="timer-wrap" id="timer-wrap">
+                                <div id="countdown" class="countdown"></div>
+                                <div id="countdown_static" class="countdown-static"></div>
+                                <div class="user-wrap">
+                                    <div class="user" id="user"></div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="funnel-wrap">
-                            <div class="funnel" id="funnel">
-                                <div class="beer sober" id="beer"></div>
-                                <div class="level buzzed"></div>
-                                <div class="level happy"></div>
-                                <div class="level drunkkk"></div>
-                                <div class="level shitty"></div>
+                            <div class="funnel-wrap">
+                                <div class="funnel" id="funnel">
+                                    <div class="beer sober" id="beer"></div>
+                                    <div class="level buzzed"></div>
+                                    <div class="level happy"></div>
+                                    <div class="level drunkkk"></div>
+                                    <div class="level shitty"></div>
+                                </div>
+                                <div class="beer-bottom"></div>
+                                <div class="beer-top" id="beer-top"></div>
                             </div>
-                            <div class="beer-bottom"></div>
-                            <div class="beer-top" id="beer-top"></div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
-        </aside>
+            </aside>
 
-    </div>
+        </div>
 
-    <div class="gameover">
+        <div class="gameover">
 
-        <div class="container blackout">
-            <div class="glass shitty"></div>
-            <div class="burst congrats"></div>
-            <h1>You mutha-f-ing blacked out</h1>
-            <a class="gameover-social-btn tweet" href="#"></a>
-            <a class="gameover-social-btn facebook" href="#"></a>
+            <div class="container blackout">
+                <div class="glass shitty"></div>
+                <div class="burst congrats"></div>
+                <h1>You mutha-f-ing blacked out</h1>
+                <a class="gameover-social-btn tweet" href="#"></a>
+                <a class="gameover-social-btn facebook" href="#"></a>
 
-            <div class="character">
-                <div class="charwrap">
-                    <div class="pic five"></div>
+                <div class="character">
+                    <div class="charwrap">
+                        <div class="pic five"></div>
+                    </div>
+                    <div class="time">
+                        <div class="clock"></div>
+                        <div class="minutes">Minutes</div>
+                    </div>
                 </div>
-                <div class="time">
-                    <div class="clock"></div>
-                    <div class="minutes">Minutes</div>
+
+                <a class="replay gameover-option-btn" href=""></a>
+                <a class="newchar gameover-option-btn" href="/charselect.html"></a>
+            </div>
+
+            <div class="container schwasted">
+                <div class="glass shitty"></div>
+                <div class="burst superb"></div>
+                <h1>You got sooper dooper schwasted</h1>
+                <a class="tweet" href="#"></a>
+                <a class="facebook" href="#"></a>
+
+                <div class="character">
+                    <div class="pic two"></div>
                 </div>
+
+                <a class="replay gameover-option-btn" href=""></a>
+                <a class="newchar gameover-option-btn" href="/charselect.html"></a>
             </div>
 
-            <a class="replay gameover-option-btn" href=""></a>
-            <a class="newchar gameover-option-btn" href="/charselect.html"></a>
-        </div>
+            <div class="container buzzed">
+                <div class="glass shitty"></div>
+                <div class="burst nice"></div>
+                <h1>You got righteously buzzed</h1>
+                <a class="tweet" href="#"></a>
+                <a class="facebook" href="#"></a>
 
-        <div class="container schwasted">
-            <div class="glass shitty"></div>
-            <div class="burst superb"></div>
-            <h1>You got sooper dooper schwasted</h1>
-            <a class="tweet" href="#"></a>
-            <a class="facebook" href="#"></a>
+                <div class="character">
+                    <div class="pic three"></div>
+                </div>
 
-            <div class="character">
-                <div class="pic two"></div>
+                <a class="replay gameover-option-btn" href=""></a>
+                <a class="newchar gameover-option-btn" href="/charselect.html"></a>
             </div>
 
-            <a class="replay gameover-option-btn" href=""></a>
-            <a class="newchar gameover-option-btn" href="/charselect.html"></a>
-        </div>
+            <div class="container tipsy">
+                <div class="glass shitty"></div>
+                <div class="burst ok"></div>
+                <h1>You got slightly tipsy</h1>
+                <a class="tweet" href="#"></a>
+                <a class="facebook" href="#"></a>
 
-        <div class="container buzzed">
-            <div class="glass shitty"></div>
-            <div class="burst nice"></div>
-            <h1>You got righteously buzzed</h1>
-            <a class="tweet" href="#"></a>
-            <a class="facebook" href="#"></a>
+                <div class="character">
+                    <div class="pic four"></div>
+                </div>
 
-            <div class="character">
-                <div class="pic three"></div>
+                <a class="replay gameover-option-btn" href=""></a>
+                <a class="newchar gameover-option-btn" href="/charselect.html"></a>
             </div>
 
-            <a class="replay gameover-option-btn" href=""></a>
-            <a class="newchar gameover-option-btn" href="/charselect.html"></a>
-        </div>
-
-        <div class="container tipsy">
-            <div class="glass shitty"></div>
-            <div class="burst ok"></div>
-            <h1>You got slightly tipsy</h1>
-            <a class="tweet" href="#"></a>
-            <a class="facebook" href="#"></a>
-
-            <div class="character">
-                <div class="pic four"></div>
+            <div class="container sober">
+                <div class="glass shitty"></div>
+                <div class="burst dafuk"></div>
+                <h1>You are stone cold sober</h1>
+                <a class="tweet" href="#"></a>
+                <a class="facebook" href="#"></a>
+                
+                <div class="character">
+                    <div class="pic one"></div>
+                </div>
+                
+                <a class="replay gameover-option-btn" href=""></a>
+                <a class="newchar gameover-option-btn" href="/charselect.html"></a>
             </div>
-
-            <a class="replay gameover-option-btn" href=""></a>
-            <a class="newchar gameover-option-btn" href="/charselect.html"></a>
         </div>
 
-        <div class="container sober">
-            <div class="glass shitty"></div>
-            <div class="burst dafuk"></div>
-            <h1>You are stone cold sober</h1>
-            <a class="tweet" href="#"></a>
-            <a class="facebook" href="#"></a>
-            
-            <div class="character">
-                <div class="pic one"></div>
+        <div id="queue">
+            <div class="container">
+                <h1>You are <span class="number"></span> in queue.</h1>
+                <img src="../images/bouncer.png" />
             </div>
-            
-            <a class="replay gameover-option-btn" href=""></a>
-            <a class="newchar gameover-option-btn" href="/charselect.html"></a>
         </div>
-    </div>
 
-    <div id="queue">
-        <div class="container">
-            <h1>You are <span class="number"></span> in queue.</h1>
-            <img src="../images/bouncer.png" />
-        </div>
-    </div>
+          <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+          <script src="/socket.io/socket.io.js"></script>
+          <script src="../vendor/raphael.js"></script>
 
-      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-      <script src="/socket.io/socket.io.js"></script>
-      <script src="../vendor/raphael.js"></script>
+          <script src="js/beercamp.min.js"></script>
 
-      <script src="js/beercamp.min.js"></script>
+          <!-- build:section analytics --><!-- /build -->
 
-      <!-- build:section analytics --><!-- /build -->
-
-  </body>
+    </body>
 </html>

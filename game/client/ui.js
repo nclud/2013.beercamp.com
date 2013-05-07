@@ -72,17 +72,64 @@
       this.gameover(client, player);
     }).bind(this));
 
-    playAudio();
+    $('#volume-modal-toggle').on('click', function(e) {
+      e.preventDefault();
+      modalToggle();
+      modalEvents();
+    });
+
+    aud = new Audio();
+    aud.src = '/audio/loops/gameplay-loop.wav'
+
+    toggleAudio(aud);
 
     return {
       clock: timer.init()
     }
   };
 
-  var playAudio = function() {
-    var aud = new Audio();
-    aud.src = '/audio/loops/gameplay-loop.wav'
-    // aud.play();
+  var modalToggle = function() {
+    $('.modal').toggleClass('is-active');
+  }
+
+  var modalEvents = function() {
+    $('#modal-closer').one('click', function(e) {
+      e.preventDefault();
+      modalToggle();
+
+      $('body').off ('click', '#volume-toggle-btn');
+
+    });
+
+    $('body').on('click', '#volume-toggle-btn', function(e) {
+      console.log('button clicked');
+      e.preventDefault();
+      toggleAudio();
+      toggleText();
+    });
+  };
+
+  var toggleText = function() {
+    console.log('toggle fired');
+    var $button = $('#volume-toggle-btn');
+    var $buttonText = $('.volume-status');
+    
+    if ( $buttonText.text() === "off" ) {
+      $buttonText.text('on');
+    } else {
+      $buttonText.text('off');
+    }
+
+  };
+
+  var toggleAudio = function() {
+    
+    if ( aud.paused ) {
+      aud.play();
+    } else {
+      aud.pause();
+    }
+
   };
 
   var gameover = function(client, player) {
