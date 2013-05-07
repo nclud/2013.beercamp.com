@@ -72,22 +72,17 @@
       this.gameover(client, player);
     }).bind(this));
 
-    // load twitter widgets (may not be necessary)
-    /*
-    !function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (!d.getElementById(id)) {
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "https://platform.twitter.com/widgets.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }
-    }(document, "script", "twitter-wjs");
-    */
+    playAudio();
 
     return {
       clock: timer.init()
     }
+  };
+
+  var playAudio = function() {
+    var aud = new Audio();
+    aud.src = '/audio/loops/gameplay-loop.wav'
+    // aud.play();
   };
 
   var gameover = function(client, player) {

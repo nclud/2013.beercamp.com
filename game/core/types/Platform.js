@@ -45,7 +45,7 @@
 	};
 
 	Platform.prototype = new Rectangle();
-  Platform.prototype.constructor = Platform;
+    Platform.prototype.constructor = Platform;
 
     // Determines whether this type of object can ever move after the game setup.
     // @override

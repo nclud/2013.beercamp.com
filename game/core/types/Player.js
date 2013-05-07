@@ -30,14 +30,15 @@
     if (properties.name.length > 10) {
       properties.name = properties.name.substring(0, 10);
     }
-    properties.class = properties.class || 'Player';
-    properties.type = properties.type || 'dynamic';
+    
+    properties.class   = properties.class   || 'Player';
+    properties.type    = properties.type    || 'dynamic';
 
-    properties.angle = properties.angle || 0;
-    properties.width = properties.width || 2.5;
-    properties.height = properties.height || 3;
-    properties.fixed = properties.fixed || true;
-    properties.speed = properties.speed || 230;
+    properties.angle   = properties.angle   || 0;
+    properties.width   = properties.width   || 2.5;
+    properties.height  = properties.height  || 3;
+    properties.fixed   = properties.fixed   || true;
+    properties.speed   = properties.speed   || 230;
     properties.gravity = properties.gravity || 50;
 
     properties.sprite = properties.sprite || {
@@ -109,7 +110,7 @@
     var start = Date.now();
 
     // set the player's timer / game length
-    var stop = start + 120000;
+    var stop = start + 1220000;
 
     this.timer = {
       start: start,
@@ -127,6 +128,7 @@
   };
 
   Player.prototype = new Rectangle();
+
   Player.prototype.constructor = Player;
 
   Player.prototype.drink = function() {
@@ -249,7 +251,6 @@
         'owner': this.uuid
       });
     }
-
   };
 
   Player.prototype.hit = function() {
@@ -514,7 +515,7 @@
   };
 
   Player.prototype.drawType = function(ctx, scale) {
-//    Rectangle.prototype.drawType.call(this, ctx, scale);
+    // Rectangle.prototype.drawType.call(this, ctx, scale);
     var x = this.x(scale);
     var y = this.y(scale);
     
@@ -555,12 +556,15 @@
   Player.prototype.halfHeight = function(scale) {
     return ((this.state.private.height * scale / 2) + 0.5) | 0;
   };
+
   Player.prototype.halfWidth = function(scale) {
     return ((this.state.private.width * scale / 2) + 0.5) | 0;
   };
+
   Player.prototype.height = function(scale) {
     return ((this.state.private.height * scale) + 0.5) | 0;
   };
+
   Player.prototype.width = function(scale) {
     return ((this.state.private.height * scale) + 0.5) | 0;
   };
