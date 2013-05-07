@@ -10,24 +10,20 @@ Here are the steps required to run this project locally on a Mac. This assumes y
 2. `git submodule update --init`
 3. Install Node.js (Use the installer at http://nodejs.org/)
 4. `npm install`
-5. `node server.js`
-6. Open http://localhost:4000
-7. Play!
+5. `bundle`
+6. `grunt`
+7. `node server.js`
+8. Open http://localhost:4000
+9. Play!
 
-## Redis
-
-Redis has been removed as a dependency for now, but here is how you can set that up if you need it.
-
-1. Install Redis `brew install redis`
-2. Start the redis server `redis-server /usr/local/etc/redis.conf`
+The first time through, you may need to run `grunt compass` then `grunt`. 
 
 ## Deploying to production
 
 Deploy using Capistrano, so Ruby must be installed.
 
-1. `bundle install` This will install capistrano and it's dependencies.
-2. `cap deploy`
-3. Open http://affric.browsermedia.com
+1. `cap deploy`
+2. Open http://affric.browsermedia.com
 
 ## Generate optimized client dist
 ### Concatenated, minified and versioned assets
