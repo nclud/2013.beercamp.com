@@ -110,7 +110,7 @@
     var start = Date.now();
 
     // set the player's timer / game length
-    var stop = start + 1220000;
+    var stop = start + 120000; // two minutes
 
     this.timer = {
       start: start,

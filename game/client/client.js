@@ -22,25 +22,6 @@
 
   var init = function(client) {
 
-    // init physics worker
-    /*
-    var worker = new Worker('js/game/core/worker.js');
-
-    // update predicted state from worker
-    worker.onmessage = function(event) {
-      debugger;
-      var data = event.data;
-
-      for (var id in data) {
-        var entity = entities[id];
-
-        if (entity) {
-          entity.update(data[id]);
-        }
-      }
-    };
-    */
-
     var clock = ui.init(client).clock;
 
     // set methods to run every frame
