@@ -94,6 +94,14 @@
     this.world.SetContactListener(listener);
   }
 
+  // Determine whether or not a player was last moving left/right, but was prematurely stopped by an obstacle.
+  // @param [b2Body] body A player objects
+  bTest.prototype.ranIntoObstacle = function(body){
+    var xSpeed = Math.round(body.GetLinearVelocity().x * 100) / 100
+    var direction = body.GetUserData().lastDegrees;
+    return xSpeed == 0 && (direction == 0 || direction == 180);
+  };
+
   bTest.prototype.update = function() {
     // iterate over bodies to destroy
     var body;
@@ -124,11 +132,16 @@
         }
 
         if (b.GetFixtureList()) {
-          // Log velocity if a body is moving.
-          // if(b.GetLinearVelocity().x != 0 || b.GetLinearVelocity().y != 0){
-          //   console.log(b.GetLinearVelocity());
-          // }
-          // console.log(b.GetUserData());
+
+          // Reset horizontal velocity if a body is supposed to be moving, but isn't.
+          // This will simulate where a user is holding right/left to try to jump over an obstacle.
+          if(this.ranIntoObstacle(b)){
+            this.impulse(
+              b.GetUserData().uuid,
+              b.GetUserData().lastDegrees,
+              b.GetUserData().lastPower
+            );
+          }
           var aabb = b.GetFixtureList().GetAABB();
           var width = aabb.lowerBound.x - aabb.upperBound.x;
           var height = aabb.lowerBound.y - aabb.upperBound.y;
@@ -252,7 +265,6 @@
 
     this.bodyDef.fixedRotation = entity.fixed;
 
-    console.log(entity);
     this.bodyDef.userData = {
       uuid: uuid,
       class: entity.class,
@@ -352,6 +364,11 @@
   bTest.prototype.impulse = function(uuid, degrees, power) {
     var body = this.bodies[uuid];
 
+    // Record last direction a player was going in. (So we can determine if they were stopped by obstacles)
+    if(degrees == 0 || degrees == 180){
+      body.GetUserData().lastDegrees = degrees;
+      body.GetUserData().lastPower = power;
+    }
     // translate degrees to radians
     body.ApplyImpulse(
       new b2Vec2(
@@ -359,14 +376,18 @@
         Math.sin(degrees * (Math.PI / 180)) * power
       ),
       body.GetWorldCenter()
-    );
+    );    
   }
 
   bTest.prototype.setZero = function(uuid) {
     // only set velocity.x to zero
     // TODO: only call this while body in contact with ground?
-    var velocity = this.bodies[uuid].GetLinearVelocity();
-    this.bodies[uuid].SetLinearVelocity({x: 0, y: velocity.y}, 0);
+    var body = this.bodies[uuid];
+    var velocity = body.GetLinearVelocity();
+    body.SetLinearVelocity({x: 0, y: velocity.y}, 0);
+    body.GetUserData().lastDegrees = null;
+    body.GetUserData().lastPower = null;
+
   }
    
   var box = new bTest(15, false);
