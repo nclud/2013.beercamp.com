@@ -279,11 +279,11 @@
     body.CreateFixture(this.fixDef);
 
     // add foot sensor fixture
-    this.fixDef.isSensor = true;
+    //this.fixDef.isSensor = true;
     this.fixDef.shape = new b2PolygonShape;
     this.fixDef.shape.SetAsOrientedBox((entity.width / 2) * 0.9, 0.1, new b2Vec2(0, entity.height / 2), 0);
     this.fixDef.userData = 'feet';
-    body.CreateFixture(this.fixDef);
+    //body.CreateFixture(this.fixDef);
 
     // reset fixDef
     this.fixDef.filter.groupIndex = 0;
