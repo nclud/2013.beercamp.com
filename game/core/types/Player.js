@@ -281,6 +281,8 @@
     });
   };
 
+  // Handles responding to user input on the client.
+  //
   // TODO: refactor respondToInput and processInput core into a shared function
   // TODO: pass in Web Worker to process input
   Player.prototype.respondToInput = function(pressed, callback) {
@@ -289,16 +291,7 @@
 
     // prevent movement if blacked out
     if (this.state.public['isBlackout']) {
-      /*
-       // stop player movement
-       worker.send({
-       'cmd': 'setZero',
-       'uuid': this.uuid
-       });
-       */
-
       this.gameover = true;
-
       return;
     }
 
@@ -317,22 +310,16 @@
       }
     }
 
-    // calculate delta time vector
-    var vector = core.getVelocity(pressed);
-
     var length = delta.length;
     var deltaKey;
 
     for (var i = 0; i < length; i++) {
       deltaKey = delta[i];
 
-      // TODO: disable movement on isBlackout
       switch(deltaKey) {
-
         case 'up':
           if (pressed['up'] && !this.state.public.isJumping) {
             this.state.public.isJumping = true;
-            // sendImpulse(worker, vector['vy']);
           }
           break;
 
@@ -341,17 +328,8 @@
           if (pressed['left'] !== pressed['right']) {
             this.state.public.isMoving = true;
             this.state.public.direction = pressed['left'] ? 'left' : 'right';
-
-            // sendImpulse(worker, vector['vx']);
           } else {
             this.state.public.isMoving = false;
-
-            /*
-             worker.send({
-             'cmd': 'setZero',
-             'uuid': this.uuid
-             });
-             */
           }
           break;
 
@@ -365,13 +343,6 @@
 
       }
     }
-
-    // sendImpulse if key pressed but no velocity (from wall collision)
-    /*
-     if (!pressed['left'] !== !pressed['right'] && this.state.public.velocity.x === 0) {
-     // this.sendImpulse(worker, vector['vx']);
-     }
-     */
 
     if (delta.length) {
       input = {
@@ -387,6 +358,7 @@
 
   };
 
+  // Handles responding to input on the server. 
   Player.prototype.processInput = function(move, worker) {
 
     process.nextTick((function() {
@@ -466,13 +438,6 @@
 
         }
       }
-
-      // sendImpulse if key pressed but no velocity (from wall collision)
-      /*
-       if (!pressed['left'] !== !pressed['right'] && this.state.public.velocity.x === 0) {
-       this.sendImpulse(worker, vector['vx']);
-       }
-       */
 
       // if queue empty, stop looping
       if (!this.queue.input.length) return;

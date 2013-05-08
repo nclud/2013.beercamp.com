@@ -8,6 +8,10 @@
   var pressed = {};
 
   var history = [];
+
+  // See https://github.com/kevinselwyn/konami/blob/master/README.md for some explaination on what this is doing.
+  // Easter egg for recording a specific set of key presses to trigger some special behavior.
+  // This the only reason we are storing a history of key presses.
   var konami = '38,38,40,40,37,39,37,39,66,65';
 
   var keys = {
@@ -23,22 +27,10 @@
   };
 
   var keyInteraction = function(event) {
+    recordAndCheckLastTenKeystrokes(event);
+    toggleStatsDisplay(event);
+
     var code = event.keyCode;
-
-    if (event.type === 'keydown') {
-      // store last 10 keypresses
-      history = history.slice(-10);
-      history.push(code);
-      if (history.toString().indexOf(konami) === 0) {
-        document.dispatchEvent(new CustomEvent('konami'));
-      }
-    }
-
-    // toggle stats on ctrl-r
-    if (code === 82 && event.ctrlKey && (event.type === 'keydown')) {
-      $('#stats').toggle();
-    }
-
     if(keys[code]) {
       event.preventDefault();
       pressed[keys[code]] = (event.type === 'keydown') ? true : false;
@@ -53,6 +45,25 @@
   var init = function() {
     window.addEventListener('keyup', keyInteraction);
     window.addEventListener('keydown', keyInteraction);
+  };
+
+  // On Ctrl-r
+  var toggleStatsDisplay = function(event){
+    if (event.keyCode === 82 && event.ctrlKey && (event.type === 'keydown')) {
+      $('#stats').toggle();
+    }
+
+  };
+
+  var recordAndCheckLastTenKeystrokes = function(event){
+    var code = event.keyCode;
+    if (event.type === 'keydown') {
+      history = history.slice(-10);
+      history.push(code);
+      if (history.toString().indexOf(konami) === 0) {
+        document.dispatchEvent(new CustomEvent('konami'));
+      }
+    }
   };
 
   return {

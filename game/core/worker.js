@@ -95,7 +95,6 @@
   }
 
   bTest.prototype.update = function() {
-
     // iterate over bodies to destroy
     var body;
     var uuid;
@@ -112,6 +111,7 @@
 
     // wraparound world
     for (var b = this.world.GetBodyList(); b; b = b.GetNext()) {
+
       if (b.GetType() === b2Body.b2_dynamicBody) {
         var gravity = b.GetUserData().gravity;
 
@@ -124,6 +124,11 @@
         }
 
         if (b.GetFixtureList()) {
+          // Log velocity if a body is moving.
+          // if(b.GetLinearVelocity().x != 0 || b.GetLinearVelocity().y != 0){
+          //   console.log(b.GetLinearVelocity());
+          // }
+          // console.log(b.GetUserData());
           var aabb = b.GetFixtureList().GetAABB();
           var width = aabb.lowerBound.x - aabb.upperBound.x;
           var height = aabb.lowerBound.y - aabb.upperBound.y;
@@ -247,6 +252,7 @@
 
     this.bodyDef.fixedRotation = entity.fixed;
 
+    console.log(entity);
     this.bodyDef.userData = {
       uuid: uuid,
       class: entity.class,
@@ -272,6 +278,7 @@
     this.fixDef.isSensor = false;
   }
 
+  // Firing a projectile.
   bTest.prototype.fire = function(uuid, entity, owner) {
     switch(entity.type) {
       case 'dynamic':
