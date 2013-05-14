@@ -1,7 +1,7 @@
 require "capistrano/node-deploy"
 
 set :application, "beercamp"
-set :repository,  "git@github.com:mikemorris/beercamp.git"
+set :repository,  "git@github.com:nclud/2013.beercamp.com.git"
 set :scm, :git
 set :deploy_to, "/var/www/vhosts/beercamp"
 role :app, "affric.browsermedia.com"
