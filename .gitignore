@@ -6,7 +6,3 @@ node_modules
 
 # cache
 public/.sass-cache
-
-# things to generate on the server
-dist
-css

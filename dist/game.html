@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Beercamp 2013</title>
+    <meta name="description" property="og:description" content="Can you black out in 3 minutes? Put yourself to the test & knock your friends out of the running in the real-time multi-player Beercamp Simulator!">
+    <meta property="og:image" content="images/meta-image.png">
+
+    <link rel="icon" type="image/png" href="images/favicon.png">
+
+    <link rel="stylesheet" href="css/8a84b49d.beercamp.css">
+
+    </head>
+
+    <body class="game">
+        <div class="modal volume-controls">
+            <a href="#" id="modal-closer">x</a>
+            <p>Music courtesy of <a href="https://www.facebook.com/thegreyareadc/">The Grey Area</a>.</p>
+            <p><a href="#" id="volume-toggle-btn">toggle volume <span class="volume-status">off</span></a></p>
+        </div>
+        <div id="main"></div>
+        <div class="main cf" role="main" id="hud">
+
+    <header class="cf clearfix" role="banner" id="meta-banner">
+        <h1>BEeRCAMP<em>SxSW</em></h1>
+        <ul class="social-cont">
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://2013.beercamp.com" data-count="none">Tweet</a>
+            <div class="fb-like" data-href="http://2013.beercamp.com" data-send="false" data-width="90" data-show-faces="false" data-layout="button_count"></div>
+            <a href="#" id="volume-modal-toggle" class="ir">Toggle Volume controls</a>
+        </ul>
+        <ul class="header-logos">
+            <li>
+                <a href="http://www.bpong.com/" target="_blank">
+                    <img src="images/logo-bpong.png" style="margin-top: 8px;">
+                </a>
+            </li>
+            <li>
+                <a href="http://tech.co/" target="_blank">
+                    <img src="images/logo-techcocktail.png">
+                </a>
+            </li>
+            <li>
+                <a href="http://taximagic.com/" target="_blank">
+                    <img src="images/logo-taximagic.png">
+                </a>
+            </li>
+            <li>
+                <a href="http://nclud.com/" target="_blank">
+                    <img alt="nclud logo" src="images/logo-nclud.png">
+                </a>
+            </li>
+        </ul>
+    </header>
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+            <aside class="left">
+                <div class="holder-wrap">
+                    <div class="holder">
+                        <div class="contents">
+                            <div class="weapon-updates" id="weapon-updates">
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="8"></div>
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="7"></div>
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="6"></div>
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="5"></div>
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="4"></div>
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="3"></div>
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="2"></div>
+                                <div class="weapon bottle pbr" data-type="bottle" data-count="1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="game-wrap"></div>
+
+            <aside class="right">
+                <div class="holder-wrap">
+                    <div class="holder">
+                        <div class="contents">
+                            <div class="timer-wrap" id="timer-wrap">
+                                <div id="countdown" class="countdown"></div>
+                                <div id="countdown_static" class="countdown-static"></div>
+                                <div class="user-wrap">
+                                    <div class="user" id="user"></div>
+                                </div>
+                            </div>
+
+                            <div class="funnel-wrap">
+                                <div class="funnel" id="funnel">
+                                    <div class="beer sober" id="beer"></div>
+                                    <div class="level buzzed"></div>
+                                    <div class="level happy"></div>
+                                    <div class="level drunkkk"></div>
+                                    <div class="level shitty"></div>
+                                </div>
+                                <div class="beer-bottom"></div>
+                                <div class="beer-top" id="beer-top"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+
+        <div class="gameover">
+
+            <div class="container blackout">
+                <div class="glass shitty"></div>
+                <div class="burst congrats"></div>
+                <h1>You mutha-f-ing blacked out</h1>
+                <a class="gameover-social-btn tweet" href="#"></a>
+                <a class="gameover-social-btn facebook" href="#"></a>
+
+                <div class="character">
+                    <div class="charwrap">
+                        <div class="pic five"></div>
+                    </div>
+                    <div class="time">
+                        <div class="clock"></div>
+                        <div class="minutes">Minutes</div>
+                    </div>
+                </div>
+
+                <a class="replay gameover-option-btn" href=""></a>
+                <a class="newchar gameover-option-btn" href="/charselect.html"></a>
+            </div>
+
+            <div class="container schwasted">
+                <div class="glass shitty"></div>
+                <div class="burst superb"></div>
+                <h1>You got sooper dooper schwasted</h1>
+                <a class="tweet" href="#"></a>
+                <a class="facebook" href="#"></a>
+
+                <div class="character">
+                    <div class="pic two"></div>
+                </div>
+
+                <a class="replay gameover-option-btn" href=""></a>
+                <a class="newchar gameover-option-btn" href="/charselect.html"></a>
+            </div>
+
+            <div class="container buzzed">
+                <div class="glass shitty"></div>
+                <div class="burst nice"></div>
+                <h1>You got righteously buzzed</h1>
+                <a class="tweet" href="#"></a>
+                <a class="facebook" href="#"></a>
+
+                <div class="character">
+                    <div class="pic three"></div>
+                </div>
+
+                <a class="replay gameover-option-btn" href=""></a>
+                <a class="newchar gameover-option-btn" href="/charselect.html"></a>
+            </div>
+
+            <div class="container tipsy">
+                <div class="glass shitty"></div>
+                <div class="burst ok"></div>
+                <h1>You got slightly tipsy</h1>
+                <a class="tweet" href="#"></a>
+                <a class="facebook" href="#"></a>
+
+                <div class="character">
+                    <div class="pic four"></div>
+                </div>
+
+                <a class="replay gameover-option-btn" href=""></a>
+                <a class="newchar gameover-option-btn" href="/charselect.html"></a>
+            </div>
+
+            <div class="container sober">
+                <div class="glass shitty"></div>
+                <div class="burst dafuk"></div>
+                <h1>You are stone cold sober</h1>
+                <a class="tweet" href="#"></a>
+                <a class="facebook" href="#"></a>
+                
+                <div class="character">
+                    <div class="pic one"></div>
+                </div>
+                
+                <a class="replay gameover-option-btn" href=""></a>
+                <a class="newchar gameover-option-btn" href="/charselect.html"></a>
+            </div>
+        </div>
+
+        <div id="queue">
+            <div class="container">
+                <h1>You are <span class="number"></span> in queue.</h1>
+                <img src="../images/bouncer.png" />
+            </div>
+        </div>
+
+          <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+          <script src="/socket.io/socket.io.js"></script>
+          <script src="../vendor/170c1196.raphael.js"></script>
+
+          <script src="js/4942f974.beercamp.min.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1267683-3']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+</script>
+
+
+    </body>
+</html>
