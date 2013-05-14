@@ -928,7 +928,7 @@ footer {
 /* line 587, ../../sass/game-ui.scss */
 .modal #volume-toggle-btn:before {
   content: '';
-  background: url('/images/icon-volume.png?1367944198') no-repeat -5px -6px;
+  background: url('/images/icon-volume.png?1368558530') no-repeat -5px -6px;
   height: 25px;
   width: 27px;
   margin-right: 0;
