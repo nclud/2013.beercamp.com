@@ -79,12 +79,20 @@
         background: transparent url(../images/Button_Tweet.svg) no-repeat center center;
         width: 250px;
         height: 120px;
+        &:hover {
+            margin-left: -2px;
+            margin-top: 2px
+        }
     }
     .facebook {
         float: right;
         background: transparent url(../images/Button_Share.svg) no-repeat center center;
         width: 250px;
         height: 120px;
+        &:hover {
+            margin-right: -2px;
+            margin-top: 2px
+        }
     }
     .gameover-social-btn, .gameover-option-btn {
         &:hover {
