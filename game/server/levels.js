@@ -81,11 +81,11 @@
       { x: 40, y: 55, width: 16, height: 1, class: 'Platform' },
 
       // disco platforms
-      { x: 0, y: 48, width: 11, height: 1, class: 'Platform' },  // Level 2
-      { x: 47, y: 48, width: 9, height: 1, class: 'Platform' },
-      { x: 24, y: 48, width: 18, height: 1, class: 'Platform' },
-      { x: 24, y: 41.7, width: 6, height: 1, class: 'Platform' }, // Level 3
-      { x: 0, y: 41.7, width: 18, height: 1, class: 'Platform' },
+      { x: 0,  y: 48.525,   width: 11, height: 1, class: 'Platform' },  // Level 2
+      { x: 47, y: 48.525,   width: 9,  height: 1, class: 'Platform' },
+      { x: 24, y: 48.525,   width: 18, height: 1, class: 'Platform' },
+      { x: 24, y: 41.7, width: 6,  height: 1, class: 'Platform' }, // Level 3
+      { x: 0,  y: 41.7, width: 18, height: 1, class: 'Platform' },
       { x: 44, y: 41.7, width: 10, height: 1, class: 'Platform' },
 
       // lounge
