@@ -4,6 +4,7 @@
 * {
     @include box-sizing(border-box);
 }
+
 html {
     height: 100%;
     min-height: 100%;
@@ -15,6 +16,7 @@ html {
     letter-spacing: normal;
     font:100%/1.5 'lucida grande', tahoma, verdana, arial, sans-serif;
 }
+
 body {
     width: 100%;
     height: 100%;

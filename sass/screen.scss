@@ -22,8 +22,9 @@ body {
   @include transition-timing-function(ease-in);
   -webkit-font-smoothing: antialiased;
 }
+
 body.game {
-  background-image: url("../images/background.jpg");
+  background: url('../images/background.jpg') center center;
   background-size: cover;
 }
 
