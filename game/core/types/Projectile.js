@@ -67,7 +67,7 @@
 
     ctx.shadowOffsetX = 5;
     ctx.shadowOffsetY = 3;
-    ctx.shadowColor   = 'rgba(0, 0, 0, 0.1)';
+    ctx.shadowColor   = 'rgba(0, 0, 0, 0.25)';
     ctx.shadowBlur    = 14;
 
     // round to whole pixel
