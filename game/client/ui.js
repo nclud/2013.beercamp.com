@@ -66,6 +66,7 @@
   })();
 
   var init = function(client) {
+    
     // clicking the timer triggers the end game screen.
     $('.countdown').on('click', (function() {
       var player = client.entities[client.uuid];
@@ -78,10 +79,9 @@
       modalEvents();
     });
 
-    aud = new Audio();
-    aud.src = '/audio/loops/gameplay-loop.wav'
-
-    toggleAudio(aud);
+    // aud = new Audio();
+    // aud.src = '/audio/loops/gameplay-loop.wav'
+    // toggleAudio(aud);
 
     return {
       clock: timer.init()

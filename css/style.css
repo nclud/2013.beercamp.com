@@ -35,7 +35,7 @@ p {
   top: 0;
   left: 0;
   background-color: #fff;
-  -webkit-transition: all 0.1s ease;
+  -webkit-transition: all .1s ease;
 }
 
 /* line 36, ../sass/style.scss */
