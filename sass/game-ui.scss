@@ -289,39 +289,8 @@ aside + div + aside {
     height:100px;
     width:100%;
     margin:0 0 1em;
-  /*-webkit-filter:drop-shadow(0 0 10px rgba(255,255,255,0.5));*/
 }
-/*.special-weapon.six-pack {
-  background:url(../images/n/items.svg) no-repeat -4px -6px;
-}
-.special-weapon.wine {
-  background:url(../images/n/items.svg) no-repeat -142px -6px;
-}
-.special-weapon.saki {
-  background:url(../images/n/items.svg) no-repeat -287px -6px;
-}
-.special-weapon.whiskey {
-  background:url(../images/n/items.svg) no-repeat -414px -6px;
-}
-.special-weapon.brkn {
-  background:url(../images/n/items.svg) no-repeat -550px -6px;
-}
-.special-weapon.bottle {
-  background:url(../images/n/items.svg) no-repeat -684px -6px;
-}
-.special-weapon.martini {
-  background:url(../images/n/items.svg) no-repeat -814px -6px;
-}
-.special-weapon.gin {
-  background:url(../images/n/items.svg) no-repeat -955px -6px;
-}
-.special-weapon.can {
-  background:url(../images/n/items.svg) no-repeat -1090px -6px;
-}
-.special-weapon.vodka {
-  background:url(../images/n/items.svg) no-repeat -1226px -6px;
-}
-*/
+
 .special-weapon div {
   position:fixed;
   top:0;
@@ -329,25 +298,13 @@ aside + div + aside {
   height:100px;
   width:150px;
   background:red;
-  /*height:30%;
-  width:30%;
-  position:relative;
-  top:35%;
-  left:35%;
-  border-radius:100%;
-  background:none;
-  box-shadow:0 0 20px white, 0 0 50px white;
-  opacity:.75;
-  -webkit-filter:blur(2px);
-  height:100px;
-  width:100%;
-  background:url(../images/n/items.svg) no-repeat -4px -6px;
-  -webkit-filter:drop-shadow(0 0 10px rgba(255,255,255,0.5));*/
 }
+
 .funnel-wrap {
   height:540px;
   position:relative;
 }
+
 .funnel {
     height:100%;
     width:96px;
@@ -424,47 +381,6 @@ aside + div + aside {
   z-index:3;
   background:url(../images/n/beer-gauge.svg) no-repeat -401px 0;
 }
-/*.beer-top, .beer-top.sober {
-  height:50px;
-  background:url(../images/beer-top.png) no-repeat 0 0;
-  bottom:0;
-  -webkit-transition:all .2s ease-out;
-  -moz-transition:all .2s ease-out;
-  -ms-transition:all .2s ease-out;
-  transition:all .2s ease-out;
-}
-.beer-top.buzzed {
-  bottom:116px;
-}
-.beer-top.happy {
-  bottom:240px;
-}
-.beer-top.drunkkk {
-  bottom:363px;
-}
-.beer-top.shitty {
-  height:70px;
-  bottom:455px;
-}
-.wtf {
-  display:none;
-  background:#040407;
-  color:white;
-  height:50px;
-  width:50px;
-  margin:40px auto 0;
-  text-align:center;
-  padding:12px 0 0;
-  border-radius:100%;
-  text-decoration:none;
-  position:relative;
-  top:2px;
-}
-.wtf:active {
-  background:rgba(0,0,0,0.5);
-  color:rgba(255,255,255,0.8);
-  padding:13px 0 0;
-}*/
 
 /*** terminal ***/
 .terminal {
@@ -544,29 +460,35 @@ footer {
   left: 20px;
 }
 
-.modal {
-    display: none;
-    &.is-active {
-        display: block;
+%modal-button-styles {
+    color: #ccc;
+    background: #333;
+    border: 2px solid #fff;
+    text-decoration: none;
+    @include transition(all 0.3s ease-out);
+    &:hover {
+        color: darken(#ccc, 20%);
+        background: darken(#333, 20%);
     }
+}
+
+.modal {
     background: #83b557;
-    width: 35%;
-    padding: 25px;
     border: 5px solid #fff;
     font-size: 20px;
     font-family: Monstrrr-Serif;
     position: absolute;
-    top: 35%;
-    left: 30%;
-    z-index: 30;
-    box-shadow: 0px 0px 100px 50px rgba(0,0,0, 0.5);
+    width: 400px;
+    left: 40%;
+    bottom: -100px;
+    z-index: 10;
     @include box-shadow(0, 0, 100px, 50px rgba(0, 0, 0, 0.5));
+    @include transition(bottom, 0.3s, ease-out);
+    &.is-active {
+        bottom: 59px;
+    }
     a {
-        text-decoration: none;
-        color: #ccc;
-        background: #333;
-        border: 2px solid #fff;
-        text-decoration: none;
+        color: #fff;
     }
     #modal-closer {
         position: absolute;
@@ -576,16 +498,14 @@ footer {
         @include border-radius(100px);
         @include transition-property(all);
         @include transition-duration(0.3s);
-        &:hover {
-            color: #000;
-            background: #fff;
-        }
+        @extend %modal-button-styles;
     }
     #volume-toggle-btn {
         padding: 10px 15px 7px 45px;
         display: inline-block;
         position: relative;
         @include border-radius(3px);
+        @extend %modal-button-styles;
         &:before {
             content: '';
             background: image-url('icon-volume.png') no-repeat -5px -6px;
