@@ -79,9 +79,9 @@
       modalEvents();
     });
 
-    // aud = new Audio();
-    // aud.src = '/audio/loops/gameplay-loop.wav'
-    // toggleAudio(aud);
+    aud = new Audio();
+    aud.src = '/audio/loops/gameplay-loop.wav'
+    toggleAudio(aud);
 
     return {
       clock: timer.init()
