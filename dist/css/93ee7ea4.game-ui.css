@@ -800,23 +800,25 @@ footer {
   left: 40%;
   bottom: -100px;
   z-index: 10;
+  opacity: 0;
   -webkit-box-shadow: 0, 0, 100px, 50px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 0, 0, 100px, 50px rgba(0, 0, 0, 0.5);
   box-shadow: 0, 0, 100px, 50px rgba(0, 0, 0, 0.5);
-  -webkit-transition: bottom, 0.3s, ease-out;
-  -moz-transition: bottom, 0.3s, ease-out;
-  -o-transition: bottom, 0.3s, ease-out;
-  transition: bottom, 0.3s, ease-out;
+  -webkit-transition: all, 0.3s, ease-out;
+  -moz-transition: all, 0.3s, ease-out;
+  -o-transition: all, 0.3s, ease-out;
+  transition: all, 0.3s, ease-out;
 }
-/* line 487, ../../sass/game-ui.scss */
+/* line 488, ../../sass/game-ui.scss */
 .modal.is-active {
   bottom: 59px;
+  opacity: 1;
 }
-/* line 490, ../../sass/game-ui.scss */
+/* line 492, ../../sass/game-ui.scss */
 .modal a {
   color: #fff;
 }
-/* line 493, ../../sass/game-ui.scss */
+/* line 495, ../../sass/game-ui.scss */
 .modal #modal-closer {
   position: absolute;
   top: -15px;
@@ -836,7 +838,7 @@ footer {
   -o-transition-duration: 0.3s;
   transition-duration: 0.3s;
 }
-/* line 503, ../../sass/game-ui.scss */
+/* line 505, ../../sass/game-ui.scss */
 .modal #volume-toggle-btn {
   padding: 10px 15px 7px 45px;
   display: inline-block;
@@ -847,7 +849,7 @@ footer {
   -o-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 509, ../../sass/game-ui.scss */
+/* line 511, ../../sass/game-ui.scss */
 .modal #volume-toggle-btn:before {
   content: '';
   background: url('/images/icon-volume.png?1368558530') no-repeat -5px -6px;
@@ -860,7 +862,7 @@ footer {
 }
 
 @media screen and (max-height: 900px) {
-  /* line 523, ../../sass/game-ui.scss */
+  /* line 525, ../../sass/game-ui.scss */
   .holder {
     vertical-align: top;
     padding-top: 1.5em;

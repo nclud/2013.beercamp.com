@@ -482,10 +482,12 @@ footer {
     left: 40%;
     bottom: -100px;
     z-index: 10;
+    opacity: 0;
     @include box-shadow(0, 0, 100px, 50px rgba(0, 0, 0, 0.5));
-    @include transition(bottom, 0.3s, ease-out);
+    @include transition(all, 0.3s, ease-out);
     &.is-active {
         bottom: 59px;
+        opacity: 1;
     }
     a {
         color: #fff;
