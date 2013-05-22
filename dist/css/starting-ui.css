@@ -1,0 +1,606 @@
+/* ==|== non-semantic helper classes ======================================== */
+/* line 4, ../../sass/starting-ui.scss */
+.ir {
+  display: block;
+  border: 0;
+  text-indent: -999em;
+  overflow: hidden;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  text-align: left;
+  direction: ltr;
+  line-height: 0;
+}
+
+/* line 16, ../../sass/starting-ui.scss */
+.ir br {
+  display: none;
+}
+
+/* line 20, ../../sass/starting-ui.scss */
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+/* line 25, ../../sass/starting-ui.scss */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+/* line 36, ../../sass/starting-ui.scss */
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+/* line 45, ../../sass/starting-ui.scss */
+.invisible {
+  visibility: hidden;
+}
+
+/* line 49, ../../sass/starting-ui.scss */
+.required {
+  color: red;
+}
+
+/* line 53, ../../sass/starting-ui.scss */
+.floatl {
+  float: left;
+  margin: 0;
+  padding: 0 10px 10px 0;
+}
+
+/* line 59, ../../sass/starting-ui.scss */
+.floatr {
+  float: right;
+  margin: 0;
+  padding: 0 0 10px 10px;
+}
+
+/* line 65, ../../sass/starting-ui.scss */
+.clearfix:before, .clearfix:after {
+  content: "";
+  display: table;
+}
+
+/* line 70, ../../sass/starting-ui.scss */
+.clearfix:after {
+  clear: both;
+}
+
+/* line 74, ../../sass/starting-ui.scss */
+.clearfix {
+  zoom: 1;
+}
+
+/* line 78, ../../sass/starting-ui.scss */
+::-moz-selection {
+  background: #1fb9e7;
+  color: #fff;
+  text-shadow: none;
+}
+
+/* line 84, ../../sass/starting-ui.scss */
+::selection {
+  background: #1fb9e7;
+  color: #fff;
+  text-shadow: none;
+}
+
+/* line 90, ../../sass/starting-ui.scss */
+html {
+  height: 100%;
+}
+
+/* line 94, ../../sass/starting-ui.scss */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* line 99, ../../sass/starting-ui.scss */
+body.home {
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #10193d), color-stop(100%, #313976));
+  background: -webkit-linear-gradient(top, #10193d, #313976);
+  background: -moz-linear-gradient(top, #10193d, #313976);
+  background: -o-linear-gradient(top, #10193d, #313976);
+  background: linear-gradient(top, #10193d, #313976);
+  color: #FFF;
+  font-family: "Monstrrr-Serif";
+  min-width: 960px;
+}
+
+/* line 110, ../../sass/starting-ui.scss */
+.logo {
+  height: 120px;
+  width: 128px;
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  background: rgba(0, 255, 0, 0.2);
+  text-indent: -9999px;
+}
+
+/* line 126, ../../sass/starting-ui.scss */
+h2 {
+  font-size: 350%;
+  font-weight: normal;
+  text-align: center;
+}
+
+/* line 132, ../../sass/starting-ui.scss */
+nav {
+  height: 50%;
+  position: relative;
+  margin: 0 auto;
+  padding: 0;
+  z-index: 8888;
+  width: 1000px;
+}
+
+/* line 141, ../../sass/starting-ui.scss */
+.char {
+  width: 200px;
+  height: 220px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  display: block;
+  float: left;
+  clear: none;
+}
+
+@-webkit-keyframes play {
+  /* line 155, ../../sass/starting-ui.scss */
+  from {
+    background-position: 1%;
+  }
+
+  /* line 156, ../../sass/starting-ui.scss */
+  to {
+    background-position: 38%;
+  }
+}
+
+@-moz-keyframes play {
+  /* line 160, ../../sass/starting-ui.scss */
+  from {
+    background-position: 1%;
+  }
+
+  /* line 161, ../../sass/starting-ui.scss */
+  to {
+    background-position: 38%;
+  }
+}
+
+@-ms-keyframes play {
+  /* line 165, ../../sass/starting-ui.scss */
+  from {
+    background-position: 1%;
+  }
+
+  /* line 166, ../../sass/starting-ui.scss */
+  to {
+    background-position: 38%;
+  }
+}
+
+@-o-keyframes play {
+  /* line 170, ../../sass/starting-ui.scss */
+  from {
+    background-position: 1%;
+  }
+
+  /* line 171, ../../sass/starting-ui.scss */
+  to {
+    background-position: 38%;
+  }
+}
+
+@keyframes play {
+  /* line 175, ../../sass/starting-ui.scss */
+  from {
+    background-position: 1%;
+  }
+
+  /* line 176, ../../sass/starting-ui.scss */
+  to {
+    background-position: 38%;
+  }
+}
+
+/* line 179, ../../sass/starting-ui.scss */
+#char1 {
+  background-image: url(../images/char1.png);
+}
+
+/* line 183, ../../sass/starting-ui.scss */
+#char2 {
+  background-image: url(../images/char2.png);
+}
+
+/* line 187, ../../sass/starting-ui.scss */
+#char3 {
+  background-image: url(../images/char3.png);
+}
+
+/* line 191, ../../sass/starting-ui.scss */
+#char4 {
+  background-image: url(../images/char4.png);
+}
+
+/* line 195, ../../sass/starting-ui.scss */
+#char5 {
+  background-image: url(../images/char5.png);
+}
+
+/* line 199, ../../sass/starting-ui.scss */
+.char:hover {
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #001134), color-stop(50%, #001134), color-stop(100%, rgba(0, 17, 52, 0)));
+  background: -webkit-linear-gradient(top, #001134 0%, #001134 50%, rgba(0, 17, 52, 0) 100%);
+  background: -moz-linear-gradient(top, #001134 0%, #001134 50%, rgba(0, 17, 52, 0) 100%);
+  background: -o-linear-gradient(top, #001134 0%, #001134 50%, rgba(0, 17, 52, 0) 100%);
+  background: linear-gradient(top, #001134 0%, #001134 50%, rgba(0, 17, 52, 0) 100%);
+}
+
+/* line 207, ../../sass/starting-ui.scss */
+.char div {
+  -webkit-filter: grayscale(100%);
+  /* Chrome 19+, Safari 6+, Safari 6+ iOS */
+  width: 80%;
+  height: 90%;
+  margin: 0 auto;
+  background-position: 1%;
+}
+
+/* line 215, ../../sass/starting-ui.scss */
+.char:hover div:before, .controls + div:before {
+  content: '';
+  position: absolute;
+  bottom: 14px;
+  left: 30px;
+  width: 100px;
+  height: 8px;
+  background: transparent;
+  border-radius: 100px/5px;
+  box-shadow: 0 25px 25px #000000;
+}
+
+/* line 227, ../../sass/starting-ui.scss */
+.char:hover div {
+  -webkit-filter: grayscale(0%);
+  -webkit-animation: play 0.6s steps(3, start) infinite;
+  -moz-animation: play 0.6s steps(3, start) infinite;
+  -ms-animation: play 0.6s steps(3, start) infinite;
+  -o-animation: play 0.6s steps(3, start) infinite;
+  animation: play 0.6s steps(3, start) infinite;
+}
+
+/* line 236, ../../sass/starting-ui.scss */
+.home form {
+  margin-bottom: 3em;
+  text-align: center;
+}
+
+/* line 241, ../../sass/starting-ui.scss */
+.home input[type=text] {
+  background-color: #223359;
+  border: 0 none;
+  color: #FFF;
+  font-family: "Monstrrr-Serif";
+  font-size: 24px;
+  padding: 10px 15px 5px;
+  text-shadow: -1px 1px black;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+/* line 254, ../../sass/starting-ui.scss */
+.home input[type=text]:focus {
+  outline: none;
+}
+
+/* line 258, ../../sass/starting-ui.scss */
+.home input[type=submit] {
+  font-family: "Monstrrr-Serif";
+  font-size: 24px;
+  padding: 5px;
+  color: #FFF;
+  background-color: #6BAA36;
+  border: 0 none;
+  text-shadow: -1px 1px black;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+
+/* line 269, ../../sass/starting-ui.scss */
+.splash {
+  height: 100%;
+  background: url(../images/bg-city.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  -webkit-box-shadow: 0 0 100px 0 black inset;
+  -moz-box-shadow: 0 0 100px 0 black inset;
+  box-shadow: 0 0 100px 0 black inset;
+}
+
+/* line 276, ../../sass/starting-ui.scss */
+.container {
+  position: relative;
+  margin: 0 auto;
+  min-height: 532px;
+  overflow: hidden;
+  height: 100%;
+}
+
+/* line 284, ../../sass/starting-ui.scss */
+.home .container {
+  background: url(../images/burst-gradient.svg) no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/* line 289, ../../sass/starting-ui.scss */
+.splashbg {
+  width: 818px;
+  height: 468px;
+  position: relative;
+  margin: 0 auto;
+  padding: 0;
+  z-index: 8;
+}
+
+/* line 298, ../../sass/starting-ui.scss */
+.splash img {
+  max-width: 100%;
+}
+
+@-webkit-keyframes in1 {
+  /* line 303, ../../sass/starting-ui.scss */
+  0% {
+    -webkit-transform: translate(0, -1000%);
+  }
+
+  /* line 307, ../../sass/starting-ui.scss */
+  100% {
+    -webkit-transform: translate(0, 0);
+  }
+}
+
+/* line 312, ../../sass/starting-ui.scss */
+.splash .title {
+  width: 83.6%;
+  height: 31.2%;
+  left: 11%;
+  top: 1.5%;
+  position: absolute;
+  background: url(../images/beercamp.svg) no-repeat left top;
+  -webkit-filter: drop-shadow(-8px 8px 0 rgba(0, 0, 0, 0.5));
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  -o-background-size: 100%;
+  background-size: 100%;
+  margin: 0;
+  z-index: 9999;
+  -webkit-animation: in1 1s ease-out;
+  -webkit-animation-iteration-count: 1;
+}
+
+@-webkit-keyframes in2 {
+  /* line 328, ../../sass/starting-ui.scss */
+  0% {
+    -webkit-transform: translate(0, 300%);
+  }
+
+  /* line 332, ../../sass/starting-ui.scss */
+  100% {
+    -webkit-transform: translate(0, 0);
+  }
+}
+
+/* line 337, ../../sass/starting-ui.scss */
+.splash .btn-start:active, .instructions a.btn-start:active {
+  -webkit-box-shadow: 0 0 10px 0 black inset;
+  -moz-box-shadow: 0 0 10px 0 black inset;
+  box-shadow: 0 0 10px 0 black inset;
+}
+
+/* line 341, ../../sass/starting-ui.scss */
+.splash .btn-start {
+  width: 38.8%;
+  height: 16.7%;
+  position: absolute;
+  left: 33.5%;
+  top: 70.1%;
+  z-index: 500;
+  background: url(../images/btn-start.svg) no-repeat center center;
+  -webkit-filter: drop-shadow(-8px 8px 0 rgba(0, 0, 0, 0.5));
+  -moz-filter: drop-shadow(-8px 8px 0 rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(-8px 8px 0 rgba(0, 0, 0, 0.5));
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  -o-background-size: 100%;
+  background-size: 100%;
+  -webkit-animation: in2 2s ease-out;
+  -webkit-animation-iteration-count: 1;
+  cursor: pointer;
+}
+/* line 354, ../../sass/starting-ui.scss */
+.splash .btn-start:active {
+  -webkit-filter: none;
+  height: 15.8%;
+  margin: 5px 0 0 -5px;
+  -webkit-background-size: 102%;
+  -moz-background-size: 102%;
+  -o-background-size: 102%;
+  background-size: 102%;
+}
+
+@-webkit-keyframes canFly {
+  /* line 364, ../../sass/starting-ui.scss */
+  0% {
+    -webkit-transform: translate(0, 0);
+  }
+
+  /* line 368, ../../sass/starting-ui.scss */
+  100% {
+    -webkit-transform: translate(400%, -40%);
+  }
+}
+
+/* line 373, ../../sass/starting-ui.scss */
+#splashcan {
+  left: 55%;
+  top: 40%;
+  -webkit-animation: canFly 4s linear;
+  -webkit-animation-iteration-count: infinite;
+  position: absolute;
+  z-index: 0;
+  width: 15%;
+  height: 15%;
+  display: block;
+}
+
+/* line 385, ../../sass/starting-ui.scss */
+.coverup {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+/* line 395, ../../sass/starting-ui.scss */
+.controls {
+  background-color: #21496c;
+  border-radius: 10px;
+  padding: 20px;
+  float: left;
+}
+
+/* line 401, ../../sass/starting-ui.scss */
+.controls ul {
+  margin: 0;
+  padding: 0 20px 0 0;
+  list-style: none;
+  float: left;
+  clear: none;
+}
+
+/* line 408, ../../sass/starting-ui.scss */
+.controls ul li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  float: left;
+  clear: both;
+  display: block;
+  line-height: 28px;
+}
+
+/* line 417, ../../sass/starting-ui.scss */
+.controls ul li + li {
+  margin-top: 10px;
+}
+
+/* line 421, ../../sass/starting-ui.scss */
+.controls ul li .col span {
+  display: inline-block;
+  border-radius: 5px;
+  padding: 7px 6px 1px 7px;
+  background-color: #0c1b44;
+  min-width: 20px;
+  min-height: 20px;
+  text-align: center;
+  line-height: 20px;
+  margin-right: 10px;
+}
+
+/* line 433, ../../sass/starting-ui.scss */
+.controls ul li span.space {
+  padding: 5px 20px;
+}
+
+/* line 437, ../../sass/starting-ui.scss */
+.controls p {
+  float: left;
+  clear: none;
+  margin: 0 0 0 20px;
+  padding: 0;
+  text-align: center;
+}
+
+/* line 445, ../../sass/starting-ui.scss */
+.controls + .charfloat {
+  float: right;
+  position: relative;
+  width: 140px;
+  clear: right;
+}
+
+/* line 452, ../../sass/starting-ui.scss */
+.controls + .charfloat img {
+  -webkit-filter: drop-shadow(-2px 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+/* line 456, ../../sass/starting-ui.scss */
+.charfloat + div {
+  width: 200px;
+  margin: 0 auto;
+}
+
+/* line 461, ../../sass/starting-ui.scss */
+.instructions {
+  width: 450px;
+  margin: 0px auto;
+}
+
+/* line 466, ../../sass/starting-ui.scss */
+.instructions a {
+  color: #fff;
+}
+
+/* line 470, ../../sass/starting-ui.scss */
+.instructions a.btn-start {
+  border: 2px solid #fff;
+  padding: 10px 9px 5px 36px;
+  text-decoration: none;
+  background: #83b557 url(../images/btn-arrow.png) no-repeat 10px center;
+  font-size: 120%;
+  position: relative;
+  display: inline-block;
+  margin-top: 25px;
+  -webkit-box-shadow: -5px 5px 0 0 rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: -5px 5px 0 0 rgba(0, 0, 0, 0.5);
+  box-shadow: -5px 5px 0 0 rgba(0, 0, 0, 0.5);
+}
+/* line 480, ../../sass/starting-ui.scss */
+.instructions a.btn-start:active {
+  border: none;
+}
