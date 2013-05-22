@@ -98,14 +98,24 @@
   width: 250px;
   height: 120px;
 }
-/* line 83, ../sass/gameover.scss */
+/* line 82, ../sass/gameover.scss */
+.gameover .tweet:hover {
+  margin-left: -2px;
+  margin-top: 2px;
+}
+/* line 87, ../sass/gameover.scss */
 .gameover .facebook {
   float: right;
   background: transparent url(../images/Button_Share.svg) no-repeat center center;
   width: 250px;
   height: 120px;
 }
-/* line 90, ../sass/gameover.scss */
+/* line 92, ../sass/gameover.scss */
+.gameover .facebook:hover {
+  margin-right: -2px;
+  margin-top: 2px;
+}
+/* line 98, ../sass/gameover.scss */
 .gameover .gameover-social-btn:hover, .gameover .gameover-option-btn:hover {
   -webkit-transform: translatex(-2px) translatey(2px);
   -moz-transform: translatex(-2px) translatey(2px);
@@ -113,22 +123,22 @@
   -o-transform: translatex(-2px) translatey(2px);
   transform: translatex(-2px) translatey(2px);
 }
-/* line 94, ../sass/gameover.scss */
+/* line 102, ../sass/gameover.scss */
 .gameover .gameover-option-btn {
   width: 238px;
   height: 90px;
 }
-/* line 98, ../sass/gameover.scss */
+/* line 106, ../sass/gameover.scss */
 .gameover .replay {
   float: left;
   background: transparent url(../images/Button_Replay.svg) no-repeat center center;
 }
-/* line 102, ../sass/gameover.scss */
+/* line 110, ../sass/gameover.scss */
 .gameover .newchar {
   float: right;
   background: transparent url(../images/Button_CharacterSelect.svg) no-repeat center center;
 }
-/* line 107, ../sass/gameover.scss */
+/* line 115, ../sass/gameover.scss */
 .gameover .glass {
   width: 60px;
   height: 340px;
@@ -142,16 +152,16 @@
   margin-left: 20px;
 }
 @media only screen and (max-height: 800px) {
-  /* line 107, ../sass/gameover.scss */
+  /* line 115, ../sass/gameover.scss */
   .gameover .glass {
     display: none;
   }
 }
-/* line 117, ../sass/gameover.scss */
+/* line 125, ../sass/gameover.scss */
 .gameover .glass.shitty {
   background: transparent url(../images/gameover-blackout.png) no-repeat center center;
 }
-/* line 122, ../sass/gameover.scss */
+/* line 130, ../sass/gameover.scss */
 .gameover .burst {
   width: 100px;
   height: 100px;
@@ -162,85 +172,85 @@
   background-repeat: no-repeat;
 }
 @media only screen and (max-height: 800px) {
-  /* line 122, ../sass/gameover.scss */
+  /* line 130, ../sass/gameover.scss */
   .gameover .burst {
     display: none;
   }
 }
-/* line 133, ../sass/gameover.scss */
+/* line 141, ../sass/gameover.scss */
 .gameover .burst.congrats {
   background-image: url(../images/Pin_Congrats.svg);
   background-size: 100%;
 }
 @media only screen and (max-height: 800px) {
-  /* line 133, ../sass/gameover.scss */
+  /* line 141, ../sass/gameover.scss */
   .gameover .burst.congrats {
     background-size: 75%;
   }
 }
-/* line 140, ../sass/gameover.scss */
+/* line 148, ../sass/gameover.scss */
 .gameover .burst.superb {
   background-image: url(../images/Pin_Superb.svg);
   background-size: 100%;
 }
 @media only screen and (max-height: 800px) {
-  /* line 140, ../sass/gameover.scss */
+  /* line 148, ../sass/gameover.scss */
   .gameover .burst.superb {
     background-size: 75%;
   }
 }
-/* line 147, ../sass/gameover.scss */
+/* line 155, ../sass/gameover.scss */
 .gameover .burst.nice {
   background-image: url(../images/Pin_Nice.svg);
   background-size: 100%;
 }
 @media only screen and (max-height: 800px) {
-  /* line 147, ../sass/gameover.scss */
+  /* line 155, ../sass/gameover.scss */
   .gameover .burst.nice {
     background-size: 75%;
   }
 }
-/* line 154, ../sass/gameover.scss */
+/* line 162, ../sass/gameover.scss */
 .gameover .burst.ok {
   background-image: url(../images/Pin_Ok.svg);
   background-size: 100%;
 }
 @media only screen and (max-height: 800px) {
-  /* line 154, ../sass/gameover.scss */
+  /* line 162, ../sass/gameover.scss */
   .gameover .burst.ok {
     background-size: 75%;
   }
 }
-/* line 161, ../sass/gameover.scss */
+/* line 169, ../sass/gameover.scss */
 .gameover .burst.dafuk {
   background-image: url(../images/Pin_Dafuk.svg);
   background-size: 100%;
 }
 @media only screen and (max-height: 800px) {
-  /* line 161, ../sass/gameover.scss */
+  /* line 169, ../sass/gameover.scss */
   .gameover .burst.dafuk {
     background-size: 75%;
   }
 }
-/* line 169, ../sass/gameover.scss */
+/* line 177, ../sass/gameover.scss */
 .gameover .character {
   margin: 20px 0 50px;
   clear: both;
   overflow: hidden;
 }
 @media only screen and (max-height: 800px) {
-  /* line 169, ../sass/gameover.scss */
+  /* line 177, ../sass/gameover.scss */
   .gameover .character {
     margin-bottom: 30px;
   }
 }
-/* line 176, ../sass/gameover.scss */
+/* line 184, ../sass/gameover.scss */
 .gameover .character .charwrap {
   width: 50%;
   float: left;
 }
 
-/* line 183, ../sass/gameover.scss */
+/* line 191, ../sass/gameover.scss */
 .gameover .pic {
   width: 200px;
   height: 200px;
@@ -250,33 +260,33 @@
   clear: both;
 }
 
-/* line 192, ../sass/gameover.scss */
+/* line 200, ../sass/gameover.scss */
 .gameover .pic.one {
   background-position: left top;
 }
 
-/* line 196, ../sass/gameover.scss */
+/* line 204, ../sass/gameover.scss */
 .gameover .pic.two {
   background-position: left -600px;
 }
 
-/* line 200, ../sass/gameover.scss */
+/* line 208, ../sass/gameover.scss */
 .gameover .pic.three {
   background-position: left -400px;
 }
 
-/* line 204, ../sass/gameover.scss */
+/* line 212, ../sass/gameover.scss */
 .gameover .pic.four {
   background-position: left -200px;
 }
 
-/* line 208, ../sass/gameover.scss */
+/* line 216, ../sass/gameover.scss */
 .gameover .pic.five {
   margin-top: -60px;
   background-position: left bottom;
 }
 
-/* line 213, ../sass/gameover.scss */
+/* line 221, ../sass/gameover.scss */
 .gameover .time {
   width: 50%;
   margin-top: 20px;
@@ -286,13 +296,13 @@
   font-weight: normal;
 }
 
-/* line 222, ../sass/gameover.scss */
+/* line 230, ../sass/gameover.scss */
 .gameover .time .clock {
   font-size: 99px;
   line-height: 1em;
 }
 
-/* line 227, ../sass/gameover.scss */
+/* line 235, ../sass/gameover.scss */
 .gameover .time .minutes {
   font-size: 20px;
   text-transform: uppercase;

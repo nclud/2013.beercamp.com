@@ -35,7 +35,7 @@ body {
 
 /* line 26, ../sass/screen.scss */
 body.game {
-  background: url("../images/background.jpg") bottom center;
+  background: url("../images/background.jpg") center center;
   background-size: cover;
 }
 
