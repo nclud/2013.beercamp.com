@@ -80,7 +80,7 @@
     });
 
     aud = new Audio();
-    aud.src = '/audio/loops/gameplay-loop.wav'
+    aud.src = '/audio/loops/beercamp.mp3'
     toggleAudio(aud);
 
     return {
