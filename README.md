@@ -6,8 +6,7 @@ Realtime multiplayer game written in Node.js and JavaScript using Socket.IO and 
 
 Here are the steps required to run this project locally on a Mac. This assumes you have `brew` installed.
 
-1. Clone this repo
-2. `git submodule update --init`
+1. Clone this repo: `git clone --recursive git@github.com:nclud/2013.beercamp.com.git`
 3. Install Node.js (Use the installer at http://nodejs.org/)
 4. `npm install`
 5. `bundle`
